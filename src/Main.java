@@ -6,8 +6,15 @@ import java.awt.*;
 import java.util.*;
 import Tema1.*;
 
+/**
+ * Main class to contain all setup and main running.
+ */
 public class Main {
 
+    /**
+     * Main function to run the program.
+     * Sets up relevant variables and objects to be run in the simulation.
+     */
     public static void main(String[] args) {
         // Setup variables
         int size = 15;
@@ -21,9 +28,10 @@ public class Main {
         // Create entities for world
         world.setTile(new Location(0,0), new Rabbit());
 
-        // Setup DisplayInfo
-        DisplayInformation di = new DisplayInformation(Color.red);
-        p.setDisplayInformation(Rabbit.class, di);
+        // Setup DisplayInfo for individual classes
+        p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
+        p.setDisplayInformation(RabbitHole.class, new DisplayInformation(Color.orange, "hole", false));
+        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
 
         // Run simulation
         p.show();
