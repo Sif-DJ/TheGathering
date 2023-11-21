@@ -31,7 +31,7 @@ Græs skal blot tilfældigt placeres.
 >>- **K1-1b.** Græs kan nedbrydes og forsvinde.
 >>- **K1-1c.** Græs kan sprede sig.
 >>- **k1-1d.** Dyr kan stå på græs uden der sker noget med græsset
->>(Her kan interfacet NonBlocking udny&es).
+>>(Her kan interfacet NonBlocking udnyttes).
 >
 >>### Kaniner
 >>- **K1-2a.** Kaniner kan placeres på kortet når input filerne beskriver dette.
@@ -42,8 +42,8 @@ uden mad dør en kanin.
 >>- **k1-2d.** Kaniners alder bestemmer hvor meget energi de har.
 >>- **K1-2e.** Kaniner kan reproducere.
 >>- **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
-med andre kaniner. Kaniner kan kun være kny&et til et hul.
->>- **K1-2g.** Kaniner søger mod deres huller2 når det bliver aTen, hvor de sover.
+med andre kaniner. Kaniner kan kun være knyttet til et hul.
+>>- **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.
 >
 >>### Kaninhuller
 >>- **K1-3a.** Huller kan enten blive indsat når input filerne beskriver dette,
