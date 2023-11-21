@@ -18,7 +18,8 @@
 > Da kaniner dør uden mad, valgte vi at implementere en variabel "energy", der symboliserer hvor meget energi mad eller et dyr indeholder. Hvis en kanins energy rammer 0 dør den af sult. Da både kaniner og mad indeholder energi, laver vi en abstract class kaldet "Organism", der bliver videre indelt i abstracts "Animal" og "Food". Grunden til vi gør dette, er for at undgå kodedublikering så meget som muligt. \
 > Vi tænker også en kanin kommer til at kunne dø af andet end sult, så vi tilføjer også en "age" og en "health" variabel. Hvis kaninens helbred rammer 0 dør den også. Derudover vil en kanin også dø af alderdom over nok tid. 
 >
-> Da kaninhuller burde kunne indeholde flere forskellige kaniner, tilføjer vi en arraylist<Rabbit>, der holder styr på, hvilke kaniner der er inde i hvert kaninhul. \
-> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. 
-> **INSÆT DIAGRAM** \
+> Da kaninhuller burde kunne indeholde flere forskellige kaniner, tilføjer vi en arraylist<Rabbit>, der holder styr på, hvilke kaniner der er inde i hvert kaninhul.
+>
+> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. \
+> ![Image](https://app.diagrams.net/#G1O1TFY2ohtaMNDG-GT8BkuJ7Aod_FafdJ)
 >
