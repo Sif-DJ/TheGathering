@@ -3,8 +3,9 @@ package Tema1;
 import itumulator.world.World;
 
 public class Rabbit extends Animal{
-
+    //Rabbit konstrukter
     public Rabbit(){}
+    //override functions
     @Override
     public void die(World world) {
 
@@ -21,11 +22,11 @@ public class Rabbit extends Animal{
     public void act(World world) {
 
     }
-
+    //function for the digging of rabbit holes
     public void digHole(){
 
     }
-
+    //function to assing rabbit specific hole
     public void assingHole(){
 
     }
