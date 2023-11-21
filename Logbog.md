@@ -5,7 +5,4 @@
 > individuelt uden nogen relation til vores Repository.
 ---
 ># 2023-11-21
-> Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, \
-> ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi \
-> gerne ville have ud af projektet, vores rollefordeling, mødestruktur, \
-> kommunikation og konflikthåndtering.
+> Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi gerne ville have ud af projektet, vores rollefordeling, mødestruktur, kommunikation og konflikthåndtering.
