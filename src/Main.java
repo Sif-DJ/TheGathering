@@ -1,8 +1,6 @@
 import itumulator.executable.Program;
 import itumulator.world.World;
 
-import Tema1.*;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -17,7 +15,7 @@ public class Main {
 
         // Run simulation
         p.show();
-        while(true){
+        while(true) {
             p.simulate();
         }
     }
