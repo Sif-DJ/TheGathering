@@ -5,14 +5,14 @@
 > individuelt uden nogen relation til vores Repository.
 ---
 ># 2023-11-21
-> Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi gerne ville have ud af projektet, vores rollefordeling, mødestruktur, kommunikation og konflikthåndtering.
-> Da vi alle var tilfredse med gruppekontrakten, gik vi videre til at læse ugens tema. Her kom vi frem til en liste af classes vi ville skulle implementere, samt en liste af variabler og funktioner til disse classes:
+> Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi gerne ville have ud af projektet, vores rollefordeling, mødestruktur, kommunikation og konflikthåndtering. \
+> Da vi alle var tilfredse med gruppekontrakten, gik vi videre til at læse ugens tema. Her kom vi frem til en liste af classes vi ville skulle implementere, samt en liste af variabler og funktioner til disse classes: \
 >
-> abstract class Animal implements Actor
-> class Rabbit extends Animal
-> abstract class Food implements Actor, Nonblocking
-> class Grass extends Actor, Nonblocking
-> class RabbitHole implements Nonblocking
+> abstract class Animal implements Actor \
+> class Rabbit extends Animal \
+> abstract class Food implements Actor, Nonblocking \
+> class Grass extends Actor, Nonblocking \
+> class RabbitHole implements Nonblocking \
 >
-> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne.
+> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. \
 > 
