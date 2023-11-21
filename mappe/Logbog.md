@@ -21,5 +21,5 @@
 > Da kaninhuller burde kunne indeholde flere forskellige kaniner, tilføjer vi en arraylist<Rabbit>, der holder styr på, hvilke kaniner der er inde i hvert kaninhul.
 >
 > For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. \
-> ![Image](https://app.diagrams.net/#G1O1TFY2ohtaMNDG-GT8BkuJ7Aod_FafdJ)
+> ![Image](https://github.com/Sif-DJ/TheGathering/edit/main/mappe/magicV1.drawio.png)
 >
