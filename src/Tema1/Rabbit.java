@@ -26,7 +26,7 @@ public class Rabbit extends Animal{
 
     }
 
-    public void assingHole(RabbitHole hole){
+    public void assingHole(){
 
     }
 
