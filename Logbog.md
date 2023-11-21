@@ -12,7 +12,12 @@
 > class Rabbit extends Animal \
 > abstract class Food implements Actor, Nonblocking \
 > class Grass extends Food \
-> class RabbitHole implements Nonblocking 
+> class RabbitHole implements, Nonblocking 
 >
+> Da kaniner dør uden mad, valgte vi at implementere en variabel "energy", der symboliserer hvor meget energi mad eller et dyr indeholder. Hvis en kanins energy rammer 0 dør den af sult. Da både kaniner og mad har energi, har begge objekter, hver deres "energy" variabel. Der er en smule kodedublikering her, hvilket måske burde ændres senere. \
+> Vi tænker også en kanin kommer til at kunne dø af andet end sult, så vi tilføjer også en "age" og en "health" variabel. Hvis kaninens helbred rammer 0 dør den også. Derudover vil en kanin også dø af alderdom over nok tid. 
+>
+> Da kaninhuller burde kunne indeholde flere forskellige kaniner, tilføjer vi en arraylist<Rabbit>, der holder styr på, hvilke kaniner der er inde i hvert kaninhul. \
 > For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. 
-> 
+> **INSÆT DIAGRAM** \
+>
