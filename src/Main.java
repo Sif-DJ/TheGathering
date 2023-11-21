@@ -1,6 +1,8 @@
 import itumulator.executable.Program;
 import itumulator.world.World;
 
+import Tema1.*;
+
 public class Main {
 
     public static void main(String[] args) {
