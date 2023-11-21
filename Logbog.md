@@ -11,7 +11,7 @@
 > abstract class Animal implements Actor \
 > class Rabbit extends Animal \
 > abstract class Food implements Actor, Nonblocking \
-> class Grass extends Actor, Nonblocking \
+> class Grass extends Food \
 > class RabbitHole implements Nonblocking 
 >
 > For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. 
