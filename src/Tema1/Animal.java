@@ -7,7 +7,6 @@ public abstract class Animal implements Actor {
     protected int age;
     protected int health;
     protected int energy;
-    protected int hunger;
 
     public abstract void die(World world);
 
