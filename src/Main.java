@@ -36,7 +36,7 @@ public class Main {
         // creating grass in random positions
         for (int i = 0; i < amountOfGrass; i++) {
             Location l = new Location(r.nextInt(size), r.nextInt(size));
-            while (world.containsNonBlocking(l)) {
+            while (!world.isTileEmpty(l)) {
                 l = new Location(r.nextInt(size), r.nextInt(size));
             }
             world.setTile(l, new Grass());
@@ -45,7 +45,7 @@ public class Main {
         // creating rabbits in random positions
         for (int i = 0; i < amountOfRabbits; i++) {
             Location l = new Location(r.nextInt(size), r.nextInt(size));
-            while (world.containsNonBlocking(l)) {
+            while (!world.isTileEmpty(l)) {
                 l = new Location(r.nextInt(size), r.nextInt(size));
             }
             world.setTile(l, new Rabbit());
@@ -69,6 +69,17 @@ public class Main {
         p.show();
         while (true) {
             p.simulate();
+        }
+    }
+
+    private static void createEntities(World world, int size, Object type, int amount){
+        Random r = new Random();
+        for (int i = 0; i < amount; i++) {
+            Location l = new Location(r.nextInt(size), r.nextInt(size));
+            while (world.isTileEmpty(l)) {
+                l = new Location(r.nextInt(size), r.nextInt(size));
+            }
+            world.setTile(l, new Burrow());
         }
     }
 

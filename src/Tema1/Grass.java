@@ -8,7 +8,7 @@ import java.util.*;
 public class Grass extends Food {
     //variables for grass
     int spreadchance = 5; // There is a 1:spreadchance chance of spreading.
-    int grassLifeTimer = 8;
+    final int maxEnergy = 80;
     Random r = new Random();
     //Grass konstrukter
     public Grass(){
@@ -41,10 +41,12 @@ public class Grass extends Food {
      */
     @Override
     public void act(World world) {
-        grassLifeTimer--;
-        if (grassLifeTimer <= 0 || energy <= 0){
+        if (energy <= 0){
             die(world);
         }
+        energy++;
+        if(energy > maxEnergy)
+            energy = maxEnergy;
         if(spreadchance == r.nextInt(spreadchance+1)){
             spread(world);
         }
@@ -56,8 +58,7 @@ public class Grass extends Food {
 
     //function for grass to spread
     public void spread(World world){
-        Set<Location> neighbours  = world.getSurroundingTiles();
-        List<Location> list = new ArrayList<>(neighbours);
+        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
         Iterator<Location> it = list.iterator();
         while (it.hasNext()) {
             Location tile = it.next();
