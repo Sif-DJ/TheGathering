@@ -1,18 +1,31 @@
 package Tema1;
 
+import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 public class Rabbit extends Animal{
+
+
+    Random r = new Random();
+
     //Rabbit konstrukter
-    public Rabbit(){}
+    public Rabbit(){
+        maxEnergy = 50;
+        energy = maxEnergy;
+    }
     //override functions
     @Override
     public void die(World world) {
-
+        world.delete(this);
     }
     @Override
-    public void eat(Food food) {
-
+    public void eat(Food food, World world) {
+        energy += food.eat(25);
     }
     @Override
     public void reproduce(World world) {
@@ -20,8 +33,20 @@ public class Rabbit extends Animal{
     }
     @Override
     public void act(World world) {
-
+        move(world);
+        eat(world);
     }
+
+    @Override
+    public void move(World world) {
+        Set<Location> neighbours  = world.getEmptySurroundingTiles();
+        List<Location> list = new ArrayList<>(neighbours);
+        if(list.isEmpty()) return;
+        Location l = list.get(r.nextInt(list.size()));
+        world.move(this,l);
+        energy -= 2;
+    }
+
     //function for the digging of rabbit holes
     public void digHole(){
 
@@ -30,5 +55,8 @@ public class Rabbit extends Animal{
     public void assingHole(){
 
     }
+
+
+
 
 }

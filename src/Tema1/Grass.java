@@ -11,18 +11,30 @@ public class Grass extends Food {
     int grassLifeTimer = 8;
     Random r = new Random();
     //Grass konstrukter
-    public Grass(){}
+    public Grass(){
+        energy = 40;
+    }
     //override function
     @Override
     public int eat(int amount) {
-        return 0;
+        int energyToReturn;
+        if(amount <= energy){
+            energyToReturn = amount;
+            energy -= energyToReturn;
+            return energyToReturn;
+        }else{
+            energyToReturn  = energy;
+            energy = 0;
+            return energyToReturn;
+        }
+
     }
 
     @Override
     public void act(World world) {
         grassLifeTimer--;
-        if (grassLifeTimer <= 0){
-            world.delete(this);
+        if (grassLifeTimer <= 0 || energy <= 0){
+            die(world);
         }
         if(spreadchance == r.nextInt(spreadchance+1)){
             spread(world);
@@ -46,18 +58,6 @@ public class Grass extends Food {
         Location l = list.get(r.nextInt(list.size()));
         world.setTile(l, new Grass());
     }
-    public void spreadFunny(World world){
-        Set<Location> neighbours  = world.getEmptySurroundingTiles();
-        List<Location> list = new ArrayList<>(neighbours);
-        if(list.isEmpty()) return;
-        Location l = list.get(r.nextInt(list.size()));
-        if(!world.isTileEmpty(l)) return;
-        try{
-            world.setTile(l, new Grass());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            world.setTile(l, new Rabbit());
-        }
 
     }
 
