@@ -4,6 +4,8 @@
 > Til næste gang skal vi have lavet "'Kom i gang'-guiden"
 > individuelt uden nogen relation til vores Repository.
 ---
+
+># Tema 1
 ># 2023-11-21
 > Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi gerne ville have ud af projektet, vores rollefordeling, mødestruktur, kommunikation og konflikthåndtering. \
 > Da vi alle var tilfredse med gruppekontrakten, gik vi videre til at læse ugens tema. Her kom vi frem til en liste af classes vi ville skulle implementere, samt en liste af variabler og funktioner til disse classes: 
@@ -20,6 +22,10 @@
 >
 > Da kaninhuller burde kunne indeholde flere forskellige kaniner, tilføjer vi en arraylist<Rabbit>, der holder styr på, hvilke kaniner der er inde i hvert kaninhul.
 >
-> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. \
-> ![Image](https://github.com/Sif-DJ/TheGathering/blob/main/Meta/magicV1.drawio.png)
+> Vi kom også frem til at flere af vores classes, skulle nedarve fra nogle af de indbyggede interfaces fra biblioteket. Vi valgte at gøre brug af interfacet "Actor" til alle de classes, der skulle gøre et eller andet under hvert iteration af programmet. Dette er f.eks. classet "Rabbit", der hvert iteration går rundt i verdenen og leder efter/spiser mad, eller classet "grass", der har en chance for at sprede sig til nye felter i verdenen. Vi gør også brug af interfacet "Nonblocking" til de classes, hvor det giver mening man kan stå ovenpå dem. F.eks. nedarver "grass" og "Rabbithole" fra "Nonblocking" eftersom kaninerne burde kunne gå over græsset og hullerne.
 >
+> For at gøre det mere overskueligt for os selv og andre, lavede vi samtidigt et UML diagram over vores classes, og hvordan vi tænkte, de ville interagere med hinanden. Dette var en stor hjælp, når det kom til at skrive koden senere, da vi hurtigt kunne tjekke, hvad hver class skulle kunne. \
+> ![Image](https://github.com/Sif-DJ/TheGathering/blob/main/Meta/magicV1.drawio.png) 
+>
+># 2023-11-23
+> Nu når vi har fået styr på, hvad der skal implementeres, kan vi begynde med at tilføje funktionaliteterne. 
