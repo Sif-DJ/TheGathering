@@ -25,7 +25,9 @@ public class Rabbit extends Animal{
     }
     @Override
     public void eat(Food food, World world) {
-        energy += food.eat(25);
+        energy += food.eat(15);
+        if(energy > maxEnergy) energy=maxEnergy;
+        System.out.println("i have eaten");
     }
     @Override
     public void reproduce(World world) {
@@ -34,7 +36,13 @@ public class Rabbit extends Animal{
     @Override
     public void act(World world) {
         move(world);
-        eat(world);
+        if(world.containsNonBlocking(world.getLocation(this))){
+            if(world.getNonBlocking(world.getLocation(this)) instanceof Grass){
+                Grass grass = (Grass)world.getNonBlocking(world.getLocation(this)) ;
+                eat(grass, world);
+            }
+        }
+
     }
 
     @Override
