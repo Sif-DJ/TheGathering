@@ -10,7 +10,7 @@
 > Vi startede ud med at få helt styr på, hvordan vores gruppe ville fungere, ved at lave en gruppekontrakt. Her markerede vi vores målsætning, hvad vi gerne ville have ud af projektet, vores rollefordeling, mødestruktur, kommunikation og konflikthåndtering. \
 > Da vi alle var tilfredse med gruppekontrakten, gik vi videre til at læse ugens tema. Her kom vi frem til en liste af classes vi ville skulle implementere, samt en liste af variabler og funktioner til disse classes: 
 >
-> abstract class Organism implements Actor
+> abstract class Organism implements Actor \
 > abstract class Animal implements Organism \
 > class Rabbit extends Animal \
 > abstract class Food implements Organism, Nonblocking \
