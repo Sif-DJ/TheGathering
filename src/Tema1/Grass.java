@@ -10,7 +10,8 @@ public class Grass extends Food {
     int spreadchance = 5; // There is a 1:spreadchance chance of spreading.
     final int maxEnergy = 80;
     Random r = new Random();
-    //Grass konstrukter
+
+    //Grass constructor
     public Grass(){
         energy = 40;
     }
@@ -51,14 +52,22 @@ public class Grass extends Food {
             spread(world);
         }
     }
+
+    /**
+     * Deletes the grass instance.
+     * @param world the world the grass is in.
+     */
     @Override
     public void die(World world) {
         world.delete(this);
     }
 
-    //function for grass to spread
+    /**
+     * Finds a random surrounding tile with no Nonblocking entities and creates a new grass instance.
+     * @param world the world the grass is in.
+     */
     public void spread(World world){
-        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        List<Location> list = new ArrayList<>(world.getSurroundingTiles());
         Iterator<Location> it = list.iterator();
         while (it.hasNext()) {
             Location tile = it.next();
@@ -71,7 +80,3 @@ public class Grass extends Food {
     }
 
 }
-
-
-
-

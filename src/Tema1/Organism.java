@@ -3,9 +3,9 @@ package Tema1;
 import itumulator.world.World;
 
 public abstract class Organism {
-    //variables for tings extending this class
+    //Variables for things extending this class
     protected int energy;
-    // function for deleting things
+    //Function for deleting instances
     public abstract void die(World world);
 
 }
