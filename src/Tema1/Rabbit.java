@@ -59,8 +59,8 @@ public class Rabbit extends Animal{
     public void digHole(){
 
     }
-    //function to assing rabbit specific hole
-    public void assingHole(){
+    //function to assign rabbit specific hole
+    public void assignHole(){
 
     }
 

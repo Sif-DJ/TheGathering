@@ -72,14 +72,44 @@ public class Main {
         }
     }
 
-    private static void createEntities(World world, int size, Object type, int amount){
+    private static void createBlockingEntities(World world, int size, Object type, int amount) throws Exception{
         Random r = new Random();
+        Object entity;
+
+        if(type instanceof Rabbit){
+            entity = new Rabbit();
+        }
+        else{
+            throw new Exception("Cannot recognize entity");
+        }
+
         for (int i = 0; i < amount; i++) {
             Location l = new Location(r.nextInt(size), r.nextInt(size));
             while (world.isTileEmpty(l)) {
                 l = new Location(r.nextInt(size), r.nextInt(size));
             }
-            world.setTile(l, new Burrow());
+            world.setTile(l, entity);
+        }
+    }
+
+    private static void createNonBlockingEntities(World world, int size, Object type, int amount) throws Exception{
+        Random r = new Random();
+        Object entity;
+
+        if(type instanceof Grass){
+            entity = new Grass();
+        } else if (type instanceof Burrow) {
+            entity = new Burrow();
+        } else{
+            throw new Exception("Cannot recognize entity");
+        }
+
+        for (int i = 0; i < amount; i++) {
+            Location l = new Location(r.nextInt(size), r.nextInt(size));
+            while (world.containsNonBlocking(l)) {
+                l = new Location(r.nextInt(size), r.nextInt(size));
+            }
+            world.setTile(l, entity);
         }
     }
 
