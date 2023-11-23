@@ -14,7 +14,12 @@ public class Grass extends Food {
     public Grass(){
         energy = 40;
     }
-    //override function
+
+    /**
+     * Returns an amount of energy back and removes that amount from itself in energy.
+     * @param amount how much energy you want to deduct.
+     * @return int in energy.
+     */
     @Override
     public int eat(int amount) {
         int energyToReturn;
@@ -30,6 +35,10 @@ public class Grass extends Food {
 
     }
 
+    /**
+     * All actions taken during a call to simulate the program.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) {
         grassLifeTimer--;
@@ -42,8 +51,9 @@ public class Grass extends Food {
     }
     @Override
     public void die(World world) {
-
+        world.delete(this);
     }
+
     //function for grass to spread
     public void spread(World world){
         Set<Location> neighbours  = world.getSurroundingTiles();

@@ -73,13 +73,13 @@ public class Main {
     }
 
     /**
-     * Reads files from directory "./InputFiles/fileName".
+     * Reads files from directory "./data/fileName".
      * @param fileName name of the file to be read.
      * @return String[] each line has own index.
      * @exception FileNotFoundException if the file does not exist.
      */
     private static String[] readFile(String fileName) throws FileNotFoundException {
-        File file = new File("./src/InputFiles/"+fileName);
+        File file = new File("./data/"+fileName);
         Scanner s = new Scanner(file);
         ArrayList<String> list = new ArrayList<>();
         while(s.hasNextLine()){
