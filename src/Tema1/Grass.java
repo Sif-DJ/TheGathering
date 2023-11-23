@@ -7,8 +7,8 @@ import java.util.*;
 
 public class Grass extends Food {
     //variables for grass
-    int spreadchance = 5; //this number will set the likelyhood og grass spereading with 1/spreadchance so higer is less
-    int grassLifeTimer  = 8;
+    int spreadchance = 5; // There is a 1:spreadchance chance of spreading.
+    int grassLifeTimer = 8;
     Random r = new Random();
     //Grass konstrukter
     public Grass(){}

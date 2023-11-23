@@ -14,6 +14,7 @@ public class Main {
     /**
      * Main function to run the program.
      * Sets up relevant variables and objects to be run in the simulation.
+     * @param args exists out of necessity, leave an empty array here.
      */
     public static void main(String[] args) {
         // Setup variables
@@ -31,37 +32,27 @@ public class Main {
         // Create entities for world
         // creating grass in random pos
         for(int i = 0; i < amountOfGrass; i++){
-            int x = r.nextInt(size);
-            int y = r.nextInt(size);
-            Location l = new Location(x,y);
+            Location l = new Location(r.nextInt(size),r.nextInt(size));
             while(world.containsNonBlocking(l)) {
-                x = r.nextInt(size);
-                y = r.nextInt(size);
-                l = new Location(x,y);
+                l = new Location(r.nextInt(size),r.nextInt(size));
             }
             world.setTile(l, new Grass());
         }
-        // creating rabbit in random pos
+
+        // creating rabbits in random positions
         for(int i = 0; i < amountOfRabbits; i++){
-            int x = r.nextInt(size);
-            int y = r.nextInt(size);
-            Location l = new Location(x,y);
-            while(!world.isTileEmpty(l)) {
-                x = r.nextInt(size);
-                y = r.nextInt(size);
-                l = new Location(x,y);
+            Location l = new Location(r.nextInt(size),r.nextInt(size));
+            while(world.containsNonBlocking(l)) {
+                l = new Location(r.nextInt(size),r.nextInt(size));
             }
             world.setTile(l, new Rabbit());
         }
+
         // creating Burrows in random pos
         for(int i = 0; i < amountOfBurrows; i++){
-            int x = r.nextInt(size);
-            int y = r.nextInt(size);
-            Location l = new Location(x,y);
+            Location l = new Location(r.nextInt(size),r.nextInt(size));
             while(world.containsNonBlocking(l)) {
-                x = r.nextInt(size);
-                y = r.nextInt(size);
-                l = new Location(x,y);
+                l = new Location(r.nextInt(size),r.nextInt(size));
             }
             world.setTile(l, new Burrow());
         }
