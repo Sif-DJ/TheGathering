@@ -31,10 +31,14 @@
 > Nu når vi har fået styr på, hvad der skal implementeres, kan vi begynde med at tilføje funktionaliteterne.
 >
 > Vi startede ud med at prøve at få plantet græsset ordentligt i verdenen. \
-> Vores grass class har en konstruktør der instantiere dens variabler. Her nedarver den varibler fra vores abstracts, "food" og "organism", samt "act()" funktionen fra "Actor" interfacet. \
+> Vores grass class har en konstruktør der instantiere dens variabler. Her nedarver den varibler fra vores abstracts, "Food" og "Organism", samt "act()" funktionen fra "Actor" interfacet. \
 > Den første funktion grass har er "eat(int amount)", der tager et input "amount", der symboliserer hvor meget græs et dyr vil spise af den. Dette trækker den fra sit sit total af "energy" græsset har tilgængelig og returner den mængde energy der blev spist. \
 > Græsset har en "die" funktion, den nedarver fra vores abstract "organism", der sletter græsset. \
 > Da græsset skal kunne sprede sig selv, har vi en "spread()" funktion, der lader græsset gro til tomme felter rundt om sig selv. Her gør vi brug af "getEmptySorrundingTiles()" funktionen fra biblioteket. Herefter vælger den et tilfældigt tomt felt, hvis der er nogen, og tilføjer et nyt instans af græs. \
 > Til sidst har vi dens "act()" funktion den implementerer fra "Actor". Her overrider vi funktionen, og går igennem alle de ting, et instans af grass skal tage stilling til hver iteration. Her tjekker græsset om den er løbet tør for energy. Hvis ja kalder den die(). Udover det increaser den sin energy (til et maksimum), der symboliserer at græsset gror. Til sidst vælger den et random tal, baseret på dens "spreadchance" variabel. Hvis tallet rammer dens spreadchance, kalder den "spread()" funktionen.
+>
+> "Rabbit" har også en konstruktør der nedarver fra forskellige absctracts. Kaniner nedarver fra vores abstracts "Organism", "Animal" og interfacet "Actor". \
+> Da kaniner nedarver fra "Organism" har de også en "die()" funktion og energy. \
+> Kaniner nedarver evnen til at bruge "move()" funktionen fra "Animal" abstracten, der lader den bevæge sig til nonblocking felter rundt om den. Dog bruger den lidt energi hver gang den gør dette. \
 >
 > Vi tjekkede også testfilerne ud, og kom frem til at vi havde brug for en funktion der kunne læse testfilen og konvertere den til et string array, vi senere kan bruge til at læse inputne.
