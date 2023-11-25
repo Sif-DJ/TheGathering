@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 import Tema1.*;
 import java.io.*;
+import javax.swing.JOptionPane;
 
 /**
  * Main class to contain all setup and main running.
@@ -16,10 +17,22 @@ public class Main {
      * @param args exists out of necessity, leave an empty array here.
      */
     public static void main(String[] args) {
+        // Reads all input files in ./data/* and creates dropdown to select.
+        String fileInput;
+        try {
+            String[] allInputFiles = new File("./data/").list();
+            fileInput = (String) JOptionPane.showInputDialog(
+                    null, "Choose a file: ", "Choose file to load",
+                    JOptionPane.QUESTION_MESSAGE, null, allInputFiles, allInputFiles[0]);
+        }catch(NullPointerException e){
+            System.out.println("You have no files in the data folder.\nMake sure you have all files placed correctly.");
+            return;
+        }
+
         // Setup variables
         String[] input;
         try {
-            input = readFile("t1-1a.txt");
+            input = readFile(fileInput);
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
             return;
@@ -107,6 +120,7 @@ public class Main {
                 throw new Exception("Cannot recognize entity");
             }
 
+            // Gets and saves a location depending on if the entity is Blocking or NonBlocking
             Location l = new Location(r.nextInt(size), r.nextInt(size));
             if(entity instanceof NonBlocking){
                 while (world.containsNonBlocking(l)) {

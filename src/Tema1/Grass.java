@@ -8,12 +8,12 @@ import java.util.*;
 public class Grass extends Food {
     //variables for grass
     int spreadchance = 5; // There is a 1:spreadchance chance of spreading.
-    final int maxEnergy = 80;
+    final int maxEnergy = 20;
     Random r = new Random();
 
     //Grass constructor
     public Grass(){
-        energy = 40;
+        energy = 10;
     }
 
     /**

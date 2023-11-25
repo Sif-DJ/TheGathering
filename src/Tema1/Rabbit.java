@@ -36,7 +36,7 @@ public class Rabbit extends Animal{
      */
     @Override
     public void eat(Food food, World world) {
-        energy += food.eat(15);
+        energy += food.eat(8);
         if(energy > maxEnergy) energy=maxEnergy;
     }
 
@@ -65,6 +65,7 @@ public class Rabbit extends Animal{
                 eat(grass, world);
             }
         }
+        if(energy <= 0 ) die(world);
     }
 
     /**
