@@ -2,7 +2,6 @@ package Tema1;
 
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
-import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
 import java.util.*;
@@ -13,11 +12,26 @@ public abstract class Animal extends Organism implements Actor {
     protected int ageMax;
     protected int health;
 
+    @Override
+    public void act(World world) throws DeathException{
+        if(world.getCurrentTime() % 20 == 0)
+            age(world);
+
+        tryReproduce(world);
+
+        if(energy <= 0){
+            die(world);
+        }
+    }
+
+    public abstract void tryReproduce(World world);
+
     /**
      * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
      * @param world
      */
-    public void reproduce(World world){
+    public void reproduce(World world, Animal animal){
+        if(energy < 50 || age < 2)return;
         Random r = new Random();
         int size = world.getSize();
         Animal entity = this.createNewSelf();
@@ -86,13 +100,12 @@ public abstract class Animal extends Organism implements Actor {
             }
         }
         if(list.isEmpty()){
-            System.out.println("empty list");
             wandering(world);
             return;
         }
         Location nl = list.get(r.nextInt(list.size()));
-        System.out.println("going to: "+nl.getX()+" "+nl.getY());
         world.move(this, nl);
+        energy -= 2;
     }
 
     /**
@@ -112,14 +125,14 @@ public abstract class Animal extends Organism implements Actor {
      * Creatures age and loose a maximum energy for every time it ages.
      * At one point it dies when its age can no longer sustain itself.
      * @param world the world object
-     * @throws DiedOfOldAgeException throws an exception to intervene nested checks.
+     * @throws DeathException throws an exception to intervene nested checks.
      */
-    public void age(World world) throws DiedOfOldAgeException{
+    public void age(World world) throws DeathException{
         this.age += 1;
-        this.maxEnergy -= 1;
+        this.maxEnergy -= 5;
         if(this.age >= this.ageMax) {
             die(world);
-            throw new DiedOfOldAgeException(this);
+            throw new DeathException(this);
         }
     }
 

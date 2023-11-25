@@ -17,8 +17,8 @@ public class Rabbit extends Animal{
      public Rabbit(){
         maxEnergy = 100;
         energy = maxEnergy;
-        age  = 0;
-        ageMax = 70;
+        age = 0;
+        ageMax = 12;
     }
 
     @Override
@@ -39,12 +39,11 @@ public class Rabbit extends Animal{
     @Override
     public void act(World world) {
         try{
-            if(world.getCurrentTime() % 20 == 0) {
-                    age(world);
-            }
-        }catch (DiedOfOldAgeException e){
+            super.act(world);
+        }catch (DeathException e){
             return;
         }
+
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
             if(world.isDay()){
@@ -73,8 +72,37 @@ public class Rabbit extends Animal{
                     enterHole(world);
                 }
             }
-            if (energy <= 0) die(world);
         }
+    }
+
+    @Override
+    public void tryReproduce(World world){
+        Set<Object> objs = world.getEntities().keySet();
+        double rabbitCounter = 0.0;
+        for(Object obj : objs){
+            if(obj instanceof Rabbit) rabbitCounter += 1.0;
+        }
+        if(4.0 / rabbitCounter < r.nextDouble() * 2.0) return;
+        if(isInHole() && burrow != null){
+            Random r = new Random();
+            ArrayList<Rabbit> rabbits = new ArrayList<>(burrow.getRabbits());
+            rabbits.remove(this);
+            if(!rabbits.isEmpty()){
+                reproduce(world, rabbits.get(r.nextInt(rabbits.size())));
+            }
+        }
+    }
+
+    @Override
+    public void reproduce(World world, Animal animal) {
+        if(energy < 50 || age < 4 || animal.energy < 50 || animal.age < 4) return;
+        for(int i = 0; i <= r.nextInt(3); i++){
+            Rabbit rabbit = (Rabbit) this.createNewSelf();
+            world.add(rabbit);
+            burrow.enter(rabbit);
+        }
+        energy -= 50;
+        animal.energy -= 50;
     }
 
 

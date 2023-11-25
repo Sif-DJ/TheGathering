@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Grass extends Food {
     //variables for grass
-    private final int spreadchance = 7; // There is a 1:spreadchance chance of spreading.
+    private final int spreadchance = 10; // There is a 1:spreadchance chance of spreading.
 
 
     //Grass constructor
@@ -22,10 +22,17 @@ public class Grass extends Food {
      */
     @Override
     public void act(World world) {
-        if (energy <= 0){
-            die(world);
+        try{
+            if (energy <= 0){
+                die(world);// We don't know why by this only sometime throws an Exception with the message "No such object in the world"
+            }
+        }catch(DeathException e){
+            return;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
             return;
         }
+
         energy++;
         if(energy > maxEnergy)
             energy = maxEnergy;

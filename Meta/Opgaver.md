@@ -40,7 +40,7 @@ Kaniner skal blot tilfældigt placeres.
 >>- [x] **K1-2c.** Kaniner lever af græs som de spiser i løbet af dagen,
 uden mad dør en kanin.
 >>- [x] **k1-2d.** Kaniners alder bestemmer hvor meget energi de har.
->>- [ ] **K1-2e.** Kaniner kan reproducere.
+>>- [x] **K1-2e.** Kaniner kan reproducere.
 >>- [x] **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
 med andre kaniner. Kaniner kan kun være knyttet til et hul.
 >>- [x] **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.

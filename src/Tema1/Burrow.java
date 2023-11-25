@@ -19,7 +19,6 @@ public class Burrow implements NonBlocking, Actor {
         if(world.isDay() && world.isTileEmpty(world.getLocation(this))){
             exit(world);
         }
-        System.out.println(world.getCurrentLocation());
     }
     public void enter(Rabbit rabbit){
         this.rabbits.add(rabbit);
@@ -34,4 +33,6 @@ public class Burrow implements NonBlocking, Actor {
     public boolean isRabbitInHole(Rabbit rabbit){
         return (rabbits.contains(rabbit));
     }
+
+    public ArrayList<Rabbit> getRabbits(){return rabbits;}
 }

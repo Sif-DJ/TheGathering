@@ -34,11 +34,6 @@ public class Main {
             return;
         }
 
-
-
-
-
-
         // Setup variables
         String[] input;
         try{
@@ -49,7 +44,7 @@ public class Main {
         }
 
         int size = Integer.parseInt(input[0]); // Get the integer from the first line of the
-        int delay = 1000;
+        int delay = 200;
         int display_size = 800;
 
         // Setup objects

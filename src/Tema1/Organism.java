@@ -11,11 +11,13 @@ public abstract class Organism {
     protected Random r = new Random();
 
     /**
-     * Deletes this object when called
-     * @param world
+     * Deletes this object when called.
+     * @param world the world object.
+     * @throws DeathException this indicates that the this has died.
      */
-    public void die(World world){
+    public void die(World world) throws DeathException{
         world.delete(this);
+        throw new DeathException(this);
     }
 
 }
