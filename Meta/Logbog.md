@@ -1,4 +1,5 @@
 ># Link til Github: https://github.com/Sif-DJ/TheGathering/
+---
 ># 2023-11-16
 > Vi brugte denne dag på at opsætte vores projekt og GitHub repo.\
 > Der blev downloadet alle relevante programmer og læst igennem alle filer.\
