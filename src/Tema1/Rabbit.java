@@ -54,7 +54,12 @@ public class Rabbit extends Animal{
             return;
         }
         if(!isInHole()) {
-            wandering(world);
+            if(world.isDay()){
+                wandering(world);
+            }else if(burrow != null){
+                determineNextMovement(world, world.getLocation(burrow));
+            }
+
 
             if (world.containsNonBlocking(world.getLocation(this))) {
                 if (world.getNonBlocking(world.getLocation(this)) instanceof Grass) {
