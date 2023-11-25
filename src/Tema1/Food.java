@@ -5,5 +5,21 @@ import itumulator.world.NonBlocking;
 
 public abstract class Food extends Organism implements Actor, NonBlocking {
     //function for taking away from the amount of energy food has;
-    public abstract int eat(int amount);
+    /**
+     * Returns an amount of energy back and removes that amount from itself in energy.
+     * @param amount how much energy you want to deduct.
+     * @return int in energy.
+     */
+    public int eat(int amount) {
+        int energyToReturn;
+        if(amount <= energy){
+            energyToReturn = amount;
+            energy -= energyToReturn;
+            return energyToReturn;
+        }else{
+            energyToReturn  = energy;
+            energy = 0;
+            return energyToReturn;
+        }
+    }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Burrow implements NonBlocking {
 
     //Rabbits in hole
-    ArrayList<Rabbit> rabbits;
+    private ArrayList<Rabbit> rabbits;
     //RabbitHole konstrukter
     public Burrow(){}
 

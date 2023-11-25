@@ -7,33 +7,15 @@ import java.util.*;
 
 public class Grass extends Food {
     //variables for grass
-    int spreadchance = 5; // There is a 1:spreadchance chance of spreading.
-    final int maxEnergy = 20;
-    Random r = new Random();
+    private int spreadchance = 7; // There is a 1:spreadchance chance of spreading.
+    private final int maxEnergy = 20;
+    private Random r = new Random();
 
     //Grass constructor
     public Grass(){
         energy = 10;
     }
 
-    /**
-     * Returns an amount of energy back and removes that amount from itself in energy.
-     * @param amount how much energy you want to deduct.
-     * @return int in energy.
-     */
-    @Override
-    public int eat(int amount) {
-        int energyToReturn;
-        if(amount <= energy){
-            energyToReturn = amount;
-            energy -= energyToReturn;
-            return energyToReturn;
-        }else{
-            energyToReturn  = energy;
-            energy = 0;
-            return energyToReturn;
-        }
-    }
 
     /**
      * All actions taken during a call to simulate the program.

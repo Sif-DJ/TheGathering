@@ -28,8 +28,8 @@
 >>### Græs
 >>- [x] **K1-1a.** Græs kan blive plantet når input filerne beskriver dette.
 Græs skal blot tilfældigt placeres.
->>- [ ] **K1-1b.** Græs kan nedbrydes og forsvinde.
->>- [ ] **K1-1c.** Græs kan sprede sig.
+>>- [x] **K1-1b.** Græs kan nedbrydes og forsvinde.
+>>- [x] **K1-1c.** Græs kan sprede sig.
 >>- [x] **k1-1d.** Dyr kan stå på græs uden der sker noget med græsset
 (Her kan interfacet NonBlocking udnyttes).
 >
@@ -39,7 +39,7 @@ Kaniner skal blot tilfældigt placeres.
 >>- [x] **k1-2b.** Kaniner kan dø, hvilket resulterer I at de fjernes fra verdenen.
 >>- [x] **K1-2c.** Kaniner lever af græs som de spiser i løbet af dagen,
 uden mad dør en kanin.
->>- [ ] **k1-2d.** Kaniners alder bestemmer hvor meget energi de har.
+>>- [x] **k1-2d.** Kaniners alder bestemmer hvor meget energi de har.
 >>- [ ] **K1-2e.** Kaniner kan reproducere.
 >>- [ ] **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
 med andre kaniner. Kaniner kan kun være knyttet til et hul.
@@ -49,7 +49,7 @@ med andre kaniner. Kaniner kan kun være knyttet til et hul.
 >>- [x] **K1-3a.** Huller kan enten blive indsat når input filerne beskriver dette,
 eller graves af kaniner. Huller skal blot blive tillfældigt placeret
 når de indgår i en input fil.
->>- [ ] **K1-3b.** Dyr kan stå på et kaninhul uden der sker noget.
+>>- [x] **K1-3b.** Dyr kan stå på et kaninhul uden der sker noget.
 >
 >>### Frivillige krav
 >>- [ ] **KF1-1.** Huller består altid minimum af en indgang,
