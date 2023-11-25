@@ -84,13 +84,7 @@ public class Main {
 
         // Run simulation
         p.show();
-        try{
-            while(true){
-                p.simulate();
-            }
-        }catch(Exception e){
-            System.out.println("Something went wrong: " + e.getMessage());
-        }
+        while(true){p.simulate();}
     }
 
     /**

@@ -5,8 +5,7 @@ import itumulator.world.Location;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public abstract class Animal extends Organism implements Actor {
     //variables for tings extending this class
@@ -14,7 +13,12 @@ public abstract class Animal extends Organism implements Actor {
     protected int ageMax;
     protected int health;
     protected int maxEnergy;
-    //function for animal to make more animals
+    private Random r = new Random();
+
+    /**
+     * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
+     * @param world
+     */
     public void reproduce(World world){
         Random r = new Random();
         int size = world.getSize();
@@ -22,11 +26,66 @@ public abstract class Animal extends Organism implements Actor {
         ArrayList<Location> locations = new ArrayList<>(world.getEmptySurroundingTiles(world.getLocation(this)));
         Location l = locations.get(r.nextInt(locations.size()));
         world.setTile(l, entity);
+        this.energy -= 50;
     }
 
+    /**
+     * Empty method for instantiating new animals on demand in this abstract class. Can mainly be seen in function reproduce().
+     * @return
+     */
     public abstract Animal createNewSelf();
 
-    public abstract void move(World world);
+    public abstract void move(World world,Location location);
+
+    /**
+     * This is here for the future, when hunting becomes relevant.
+     * @param world the world object
+     * @param food the food type this Animal can eat
+     */
+    public void searchForFood(World world, Class food){
+        List<Location> list = new ArrayList<>(world.getSurroundingTiles());
+        if(world.containsNonBlocking(world.getLocation(this))) {
+            if (food.isInstance(world.getNonBlocking(world.getLocation(this)))) {
+            }
+        }
+    }
+
+    /**
+     *
+     * @param world
+     * @param locationToReach
+     */
+    public void determineNextMovement(World world, Location locationToReach){
+        Location l = world.getCurrentLocation();
+        if(locationToReach == l) return;
+        int currentXLength = locationToReach.getX()-l.getX();
+        int currentYLength = locationToReach.getY()-l.getY();
+        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        Iterator<Location> it = list.iterator();
+        while (it.hasNext()) {
+            Location tile = it.next();
+            if(locationToReach.getX() - tile.getX() > currentXLength || locationToReach.getY() - tile.getY() > currentYLength){
+                it.remove();
+            }
+        }
+        if(list.isEmpty()) wandering(world);
+        Location nl = list.get(r.nextInt(list.size()));
+        world.move(this, nl);
+        determineNextMovement(world, locationToReach);
+    }
+
+    /**
+     * Default wandering for animals.
+     * @param world
+     */
+    public void wandering(World world){
+        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        List<Location> list = new ArrayList<>(neighbours);
+        if(list.isEmpty()) return;
+        Location l = list.get(r.nextInt(list.size()));
+        world.move(this,l);
+        energy -= 2;
+    }
 
     /**
      * Creatures age and loose a maximum energy for every time it ages.
@@ -51,5 +110,13 @@ public abstract class Animal extends Organism implements Actor {
     public void eat(Food food, World world) {
         energy += food.eat(8);
         if(energy > maxEnergy) energy=maxEnergy;
+    }
+
+    /**
+     * Method to determine if it is hungry.
+     * @return boolean
+     */
+    public boolean isHungry(){
+        return (energy < maxEnergy * 3.0 / 4.0);
     }
 }

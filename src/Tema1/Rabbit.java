@@ -9,9 +9,9 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Animal{
-    Random r = new Random();
+    private Random r = new Random();
 
-    Burrow burrow;
+    private Burrow burrow;
 
     //Rabbit constructor
     public Rabbit(){
@@ -44,20 +44,34 @@ public class Rabbit extends Animal{
         try{
             if(world.getCurrentTime() % 20 == 0) {
                     age(world);
-
             }
         }catch (DiedOfOldAgeException e){
             return;
         }
-        System.out.println(age);
-        move(world);
-        if(world.containsNonBlocking(world.getLocation(this))){
-            if(world.getNonBlocking(world.getLocation(this)) instanceof Grass){
-                Grass grass = (Grass) world.getNonBlocking(world.getLocation(this)) ;
-                eat(grass, world);
+        if(!isInHole()) {
+            wandering(world);
+
+            if (world.containsNonBlocking(world.getLocation(this))) {
+                if (world.getNonBlocking(world.getLocation(this)) instanceof Grass) {
+                    Grass grass = (Grass) world.getNonBlocking(world.getLocation(this));
+                    eat(grass, world);
+                }
+                // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
+                if (world.getNonBlocking(world.getLocation(this)) instanceof Burrow) {
+                    assignHole(world);
+                }
             }
+
+            // All nighttime calculations
+            if (world.isNight()) {
+                if (burrow == null)
+                    digHole(world);
+                if (world.getLocation(burrow).equals(world.getLocation(this))) {
+                    enterHole(world);
+                }
+            }
+            if (energy <= 0) die(world);
         }
-        if(energy <= 0 ) die(world);
     }
 
     /**
@@ -65,7 +79,7 @@ public class Rabbit extends Animal{
      * @param world The world the rabbit is in.
      */
     @Override
-    public void move(World world) {
+    public void move(World world,Location location) {
         Set<Location> neighbours  = world.getEmptySurroundingTiles();
         List<Location> list = new ArrayList<>(neighbours);
         if(list.isEmpty()) return;
@@ -86,6 +100,7 @@ public class Rabbit extends Animal{
             if(world.getNonBlocking(l) instanceof Grass){
                  world.delete(world.getNonBlocking(l));
             }else if (world.getNonBlocking(l) instanceof Burrow){
+                assignHole(world);
                 return;
             }
         }
@@ -105,5 +120,20 @@ public class Rabbit extends Animal{
                 burrow = (Burrow) world.getNonBlocking(l);
             }
         }
+    }
+
+    /**
+     * Enters a hole it is assigned to, afterwards it deletes itself.
+     * @param world
+     */
+    public void enterHole(World world){
+        burrow.enter(this);
+        world.remove(this);
+    }
+
+    public boolean isInHole(){
+        if(burrow == null)
+            return false;
+        return (burrow.isRabbitInHole(this));
     }
 }

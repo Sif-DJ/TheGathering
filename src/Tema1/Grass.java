@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Grass extends Food {
     //variables for grass
-    private int spreadchance = 7; // There is a 1:spreadchance chance of spreading.
+    private final int spreadchance = 7; // There is a 1:spreadchance chance of spreading.
     private final int maxEnergy = 20;
     private Random r = new Random();
 
@@ -25,6 +25,7 @@ public class Grass extends Food {
     public void act(World world) {
         if (energy <= 0){
             die(world);
+            return;
         }
         energy++;
         if(energy > maxEnergy)
