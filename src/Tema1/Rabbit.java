@@ -14,7 +14,7 @@ public class Rabbit extends Animal{
     private Burrow burrow;
 
     //Rabbit constructor
-    public Rabbit(){
+     public Rabbit(){
         maxEnergy = 100;
         energy = maxEnergy;
         age  = 0;
@@ -31,14 +31,6 @@ public class Rabbit extends Animal{
         return new Rabbit();
     }
 
-    /**
-     *
-     * @param world The world the rabbit is in.
-     */
-    @Override
-    public void reproduce(World world) {
-
-    }
 
     /**
      * All actions taken during a call to simulate the program.
