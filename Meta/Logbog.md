@@ -51,5 +51,5 @@
 >
 > Vi har også lavet en ny funktion kaldet "determine next movement" til "Animal" abstracten, som den bruger til at bevæge sig hen imod dens "locationToReach". Dette fungerer ved at vi trækker dens current lokations x og y koordinater fra dens targets x og y. Herefter finder den feltet der bevæger sig længst imod sin "locationToReach", som samtidigt er et valid move. 
 >
-> Da vi har lavet en del ændringer siden sidst i hvordan vores program fungerer, har vi opdateret vores UML diagram, så den indeholder alle de nye funktioner og varibler, der er blevet tilføjet. \
+> Da vi har lavet en del ændringer siden sidst i hvordan vores program fungerer, har vi opdateret vores UML diagram, så den indeholder alle de nye funktioner og varibler, der er blevet tilføjet. Vi fandt også ud af hvordan syntaxen i UML diagrammer fungerede, og fik omskrevet dem korrekt. \
 > ![Image](https://github.com/Sif-DJ/TheGathering/blob/main/Meta/magicV2.drawio.png)
