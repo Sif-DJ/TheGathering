@@ -26,7 +26,7 @@ public class Burrow implements NonBlocking, Actor {
 
     public void exit(World world){
         if(rabbits.isEmpty())return;
-        world.setTile(new Location(1,1), rabbits.get(0));
+        world.setTile(world.getLocation(this), rabbits.get(0));
         rabbits.remove(0);
     }
 

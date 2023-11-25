@@ -22,6 +22,11 @@ public class Rabbit extends Animal{
     }
 
     @Override
+    public void move(World world, Location location) {
+
+    }
+
+    @Override
     public Animal createNewSelf(){
         return new Rabbit();
     }
@@ -74,19 +79,6 @@ public class Rabbit extends Animal{
         }
     }
 
-    /**
-     * Tries to move to an empty surrounding tile, loosing energy in the progress.
-     * @param world The world the rabbit is in.
-     */
-    @Override
-    public void move(World world,Location location) {
-        Set<Location> neighbours  = world.getEmptySurroundingTiles();
-        List<Location> list = new ArrayList<>(neighbours);
-        if(list.isEmpty()) return;
-        Location l = list.get(r.nextInt(list.size()));
-        world.move(this,l);
-        energy -= 2;
-    }
 
     /**
      * Checks if the current tile contains Nonblocking entities.
