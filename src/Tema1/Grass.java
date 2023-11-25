@@ -33,7 +33,6 @@ public class Grass extends Food {
             energy = 0;
             return energyToReturn;
         }
-
     }
 
     /**
@@ -51,15 +50,6 @@ public class Grass extends Food {
         if(spreadchance == r.nextInt(spreadchance+1)){
             spread(world);
         }
-    }
-
-    /**
-     * Deletes the grass instance.
-     * @param world the world the grass is in.
-     */
-    @Override
-    public void die(World world) {
-        world.delete(this);
     }
 
     /**

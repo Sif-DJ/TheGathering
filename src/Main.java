@@ -19,6 +19,11 @@ public class Main {
     public static void main(String[] args) {
         // Reads all input files in ./data/* and creates dropdown to select.
         String fileInput;
+
+        /*  This section is dedicated to loading any file in the ./data/ folder.
+            It does this by first creating a list of all files in said folder.
+            Then it creates a JOptionPane that has a dropdown with the aforementioned list that the user can select.
+            This it saves to load during proper setup. */
         try {
             String[] allInputFiles = new File("./data/").list();
             fileInput = (String) JOptionPane.showInputDialog(
@@ -31,15 +36,14 @@ public class Main {
 
         // Setup variables
         String[] input;
-        try {
+        try{
             input = readFile(fileInput);
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
             return;
         }
 
-        int size = Integer.parseInt(input[0]); // Get the integer from the first line
-
+        int size = Integer.parseInt(input[0]); // Get the integer from the first line of the
         int delay = 1000;
         int display_size = 800;
 
@@ -80,8 +84,12 @@ public class Main {
 
         // Run simulation
         p.show();
-        while (true) {
-            p.simulate();
+        try{
+            while(true){
+                p.simulate();
+            }
+        }catch(Exception e){
+            System.out.println("Something went wrong: " + e.getMessage());
         }
     }
 

@@ -15,20 +15,10 @@ public class Rabbit extends Animal{
 
     //Rabbit constructor
     public Rabbit(){
-        maxEnergy = 50;
+        maxEnergy = 100;
         energy = maxEnergy;
         age  = 0;
     }
-
-    /**
-     * Deletes the rabbit instance.
-     * @param world The world the rabbit is in.
-     */
-    @Override
-    public void die(World world) {
-        world.delete(this);
-    }
-
     /**
      * consumes an amount of energy from a food instance, refilling its own energy.
      * @param food The food the rabbit is trying to eat.
@@ -55,9 +45,14 @@ public class Rabbit extends Animal{
      */
     @Override
     public void act(World world) {
-        if(world.getCurrentTime() == 20) age++;
+        try{
+            if(world.getCurrentTime() % 20 == 0) {
+                    age(world);
+            }
+        }catch (DiedOfOldAgeException e){
+            return;
+        }
         System.out.println(age);
-        if(age >= 70) die(world);
         move(world);
         if(world.containsNonBlocking(world.getLocation(this))){
             if(world.getNonBlocking(world.getLocation(this)) instanceof Grass){

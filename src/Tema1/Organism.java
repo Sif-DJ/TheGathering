@@ -5,7 +5,15 @@ import itumulator.world.World;
 public abstract class Organism {
     //Variables for things extending this class
     protected int energy;
-    //Function for deleting instances
-    public abstract void die(World world);
+
+
+    /**
+     * Deletes this object when called and throws a DiedOfOldAgeException
+     * @param world
+     * @throws DiedOfOldAgeException
+     */
+    public void die(World world){
+        world.delete(this);
+    }
 
 }
