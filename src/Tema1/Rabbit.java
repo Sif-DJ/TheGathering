@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Animal{
-    private Random r = new Random();
+
 
     private Burrow burrow;
 
@@ -53,6 +53,7 @@ public class Rabbit extends Animal{
         }catch (DiedOfOldAgeException e){
             return;
         }
+        if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
             if(world.isDay()){
                 wandering(world);

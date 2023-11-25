@@ -43,7 +43,7 @@ uden mad dør en kanin.
 >>- [ ] **K1-2e.** Kaniner kan reproducere.
 >>- [x] **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
 med andre kaniner. Kaniner kan kun være knyttet til et hul.
->>- [ ] **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.
+>>- [x] **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.
 >
 >>### Kaninhuller
 >>- [x] **K1-3a.** Huller kan enten blive indsat når input filerne beskriver dette,

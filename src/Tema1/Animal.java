@@ -12,8 +12,6 @@ public abstract class Animal extends Organism implements Actor {
     protected int age;
     protected int ageMax;
     protected int health;
-    protected int maxEnergy;
-    private Random r = new Random();
 
     /**
      * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
@@ -58,20 +56,43 @@ public abstract class Animal extends Organism implements Actor {
     public void determineNextMovement(World world, Location locationToReach){
         Location l = world.getCurrentLocation();
         if(locationToReach == l) return;
-        int currentXLength = locationToReach.getX()-l.getX();
-        int currentYLength = locationToReach.getY()-l.getY();
+        int currentXLength = 0;
+        int currentYLength = 0;
+        if(locationToReach.getX() > l.getX())
+            currentXLength = locationToReach.getX() - l.getX();
+        else
+            currentXLength = l.getX() - locationToReach.getX();
+        if(locationToReach.getY() > l.getY())
+            currentYLength = locationToReach.getY() - l.getY();
+        else
+            currentYLength = l.getY() - locationToReach.getY();
+
         List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
         Iterator<Location> it = list.iterator();
+        int tileXlength = 0;
+        int tileYlength = 0;
         while (it.hasNext()) {
             Location tile = it.next();
-            if(locationToReach.getX() - tile.getX() > currentXLength || locationToReach.getY() - tile.getY() > currentYLength){
+            if(locationToReach.getX() > tile.getX())
+                tileXlength = locationToReach.getX() - tile.getX();
+            else
+                tileXlength = tile.getX() - locationToReach.getX();
+            if(locationToReach.getY() > tile.getY())
+                tileYlength = locationToReach.getY() - tile.getY();
+            else
+                tileYlength = tile.getY() - locationToReach.getY();
+            if(tileXlength > currentXLength || tileYlength > currentYLength){
                 it.remove();
             }
         }
-        if(list.isEmpty()) wandering(world);
+        if(list.isEmpty()){
+            System.out.println("empty list");
+            wandering(world);
+            return;
+        }
         Location nl = list.get(r.nextInt(list.size()));
+        System.out.println("going to: "+nl.getX()+" "+nl.getY());
         world.move(this, nl);
-        determineNextMovement(world, locationToReach);
     }
 
     /**

@@ -8,14 +8,13 @@ import java.util.*;
 public class Grass extends Food {
     //variables for grass
     private final int spreadchance = 7; // There is a 1:spreadchance chance of spreading.
-    private final int maxEnergy = 20;
-    private Random r = new Random();
+
 
     //Grass constructor
     public Grass(){
+        maxEnergy = 20;
         energy = 10;
     }
-
 
     /**
      * All actions taken during a call to simulate the program.
