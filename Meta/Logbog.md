@@ -44,3 +44,8 @@
 > 
 ># 2023-11-25
 > Vi tjekkede testfilerne ud, og kom frem til at vi havde brug for en funktion der kunne læse testfilen og konvertere den til et string array, som vi kan bruge til at læse inputne. Vi gør dette ved brug af en indbygget dropdown menu kaldet "JOptionPane", hvilket gør det super nemt at vælge, hvilken testfil man gerne vil simulere.
+>
+> Vi fik også implementeret "Burrow", hvilket er en ny class, der implementerer "Nonblocking" og "Actor". Vi valgte at ændre navnet "RabbitHole" til "Burrow" pga. biologens kommentar i bunden af dokumentet. burrows bliver lavet af kaniner med deres "digHole()", der skaber et nyt kaninhul indenfor de sorrounding tiles. Denne funktion kan erstatte græs med huller, men kan ikke placere huller ovenpå andre huller. Burrows har en variabel af typen ArrayList, der indeholder alle de kaniner, der er i kaninhullet. Derudover har den funktionerne "enter()" og "exit()". Enter tilføjer kaninen til hullets arrayList, mens exit fjerner kaninen fra arrayListen, og derefter finder hullets location og placerer kaninen der. Her har vi nogle checks, der forhindrer kaninen i at blive placeret, hvis der står en anden kanin på hullet. \
+> "Rabbit" classet har også fået en ny funktion der hedder "enterHole", der kalder "Burrow.enter()", samt temporarilly fjerner kaninen fra world med den indbyggede "remove()" funktion. Her laver vi også nogle ekstra upkeep ting, så som at sørge for kaninen ikke prøver at bevæge sig rundt mens den ikke er i "world".
+>
+> Da vi har lavet en del ændringer siden sidst i hvordan vores program fungerer, har vi opdateret vores UML diagram, så den indeholder alle de nye funktioner og varibler, der er blevet tilføjet. \
