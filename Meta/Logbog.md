@@ -31,7 +31,8 @@
 > Nu når vi har fået styr på, hvad der skal implementeres, kan vi begynde med at tilføje funktionaliteterne.
 >
 > Vi startede ud med at prøve at få plantet græsset ordentligt i verdenen. \
-> Vores grass class har en konstruktør der instantiere dens variabler. Her nedarver den varibler fra vores abstracts, "Food" og "Organism", samt "act()" funktionen fra "Actor" interfacet. \
+> Vores grass class har en konstruktør der instantiere dens variabler. Her nedarver den varibler fra vores abstracts, "Food" og "Organism", samt "act()" funktionen fra "Actor" interfacet.
+>
 > Den første funktion grass har er "eat(int amount)", der tager et input "amount", der symboliserer hvor meget græs et dyr vil spise af den. Dette trækker den fra sit sit total af "energy" græsset har tilgængelig og returner den mængde energy der blev spist. \
 > Græsset har en "die()" funktion, den nedarver fra vores abstract "organism", der sletter græsset. Vi har valgt at gøre så græs kun kan dø, hvis det bliver spist. Grunden til dette er at græs i virkeligheden spreder sig selv så hurtigt, at græs aldrig rigtig forsvinder. Derfor er det kun objekter der nedarver fra "Animal" abstracten, der har en age variabel. \
 > Da græsset skal kunne sprede sig selv, har vi en "spread()" funktion, der lader græsset gro til tomme felter rundt om sig selv. Her gør vi brug af "getEmptySorrundingTiles()" funktionen fra biblioteket. \
@@ -39,7 +40,7 @@
 >
 > "Rabbit" har også en konstruktør der nedarver fra forskellige absctracts. Kaniner nedarver fra vores abstracts "Organism", "Animal" og interfacet "Actor". \
 > Da kaniner nedarver fra "Organism" har de også en "die()" funktion og energy. \
-> Kaniner nedarver evnen til at bruge "move()", "age()", "reproduce()" og "eat()" funktionerne fra "Animal" abstracten, der lader den bevæge sig til nonblocking felter, blive ældre, hvilket reducere dyrets "maxEnergy", reproduce, hvilket skaber nye dyr, og til sidst spise mad, hvilket giver dyret energi. Vi har gjort så dyret mister energy af at bevæge sig rundt, hvilket giver den en grund til at søge efter mad, så den ikke dør af sult. \
+> Kaniner nedarver evnen til at bruge "move()", "age()", "reproduce()" og "eat()" funktionerne fra "Animal" abstracten, der lader den bevæge sig til nonblocking felter, blive ældre, hvilket reducere dyrets "maxEnergy", reproduce, hvilket skaber nye dyr, og til sidst spise mad, hvilket giver dyret energi. Vi har gjort så dyret mister energy af at bevæge sig rundt, hvilket giver den en grund til at søge efter mad, så den ikke dør af sult. 
 > 
 ># 2023-11-25
 > Vi tjekkede testfilerne ud, og kom frem til at vi havde brug for en funktion der kunne læse testfilen og konvertere den til et string array, som vi kan bruge til at læse inputne. Vi gør dette ved brug af en indbygget dropdown menu kaldet "JOptionPane", hvilket gør det super nemt at vælge, hvilken testfil man gerne vil simulere.
