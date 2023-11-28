@@ -13,12 +13,6 @@ public class BerryBush extends Food {
     @Override
     public void act(World world) {
         if(world.getCurrentTime() % 20 == 0) this.energy += 25;
-        if(energy >= 0){
-
-        }else{
-
-        }
+        if(energy > maxEnergy)energy = maxEnergy;
     }
-
-
 }

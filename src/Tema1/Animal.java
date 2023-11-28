@@ -1,5 +1,6 @@
 package Tema1;
 
+import Tema2.*;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -11,6 +12,14 @@ public abstract class Animal extends Organism {
     protected int age;
     protected int ageMax;
     protected int health;
+
+    @Override
+    public void die(World world){
+        Location l = world.getLocation(this);
+        world.remove(this);
+        world.setTile(l, new Carcass(energy));
+        super.die(world);
+    }
 
     @Override
     public void act(World world) throws DeathException{

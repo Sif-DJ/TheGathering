@@ -10,7 +10,6 @@ public class Carcass extends Food {
         this.energy = energy;
     }
 
-
     @Override
     public void act(World world) {
         if(world.getCurrentTime() % 20 == 0) rotTimer-=1;
