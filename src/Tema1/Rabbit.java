@@ -1,5 +1,6 @@
 package Tema1;
 
+import Tema2.BurrowRabbit;
 import itumulator.world.Location;
 import itumulator.world.World;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 public class Rabbit extends Animal{
 
 
-    private Burrow burrow;
+    private BurrowRabbit burrow;
 
     //Rabbit constructor
      public Rabbit(){
@@ -59,7 +60,7 @@ public class Rabbit extends Animal{
                     eat(grass, world);
                 }
                 // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
-                if (world.getNonBlocking(world.getLocation(this)) instanceof Burrow) {
+                if (world.getNonBlocking(world.getLocation(this)) instanceof BurrowRabbit) {
                     assignHole(world);
                 }
             }
@@ -85,7 +86,7 @@ public class Rabbit extends Animal{
         if(4.0 / rabbitCounter < r.nextDouble() * 2.0) return;
         if(isInHole() && burrow != null){
             Random r = new Random();
-            ArrayList<Rabbit> rabbits = new ArrayList<>(burrow.getRabbits());
+            ArrayList<Animal> rabbits = burrow.getAnimals();
             rabbits.remove(this);
             if(!rabbits.isEmpty()){
                 reproduce(world, rabbits.get(r.nextInt(rabbits.size())));
@@ -122,7 +123,7 @@ public class Rabbit extends Animal{
                 return;
             }
         }
-        world.setTile(l, new Burrow());
+        world.setTile(l, new BurrowRabbit());
         assignHole(world);
     }
 
@@ -134,8 +135,8 @@ public class Rabbit extends Animal{
     public void assignHole(World world){
         Location l = world.getLocation(this);
         if(world.containsNonBlocking(l)) {
-            if (world.getNonBlocking(l) instanceof Burrow) {
-                burrow = (Burrow) world.getNonBlocking(l);
+            if (world.getNonBlocking(l) instanceof BurrowRabbit) {
+                burrow = (BurrowRabbit) world.getNonBlocking(l);
             }
         }
     }
@@ -152,6 +153,6 @@ public class Rabbit extends Animal{
     public boolean isInHole(){
         if(burrow == null)
             return false;
-        return (burrow.isRabbitInHole(this));
+        return (burrow.isInHole(this));
     }
 }

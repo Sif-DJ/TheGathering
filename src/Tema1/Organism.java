@@ -1,10 +1,11 @@
 package Tema1;
 
+import itumulator.simulator.Actor;
 import itumulator.world.World;
 
 import java.util.Random;
 
-public abstract class Organism {
+public abstract class Organism implements Actor {
     //Variables for things extending this class
     protected int energy;
     protected int maxEnergy;

@@ -1,3 +1,4 @@
+import Tema2.BurrowRabbit;
 import itumulator.executable.*;
 import itumulator.world.*;
 import java.awt.*;
@@ -70,7 +71,7 @@ public class Main {
 
                 if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
                 if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
-                if(type.equals("burrow"))createEntities(world, new Burrow(), nums); // Burrows in random positions
+                if(type.equals("burrow"))createEntities(world, new BurrowRabbit(), nums); // Burrows in random positions
 
             }
         }catch(Exception e){
@@ -79,7 +80,7 @@ public class Main {
 
         // Setup DisplayInfo for individual classes
         p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
-        p.setDisplayInformation(Burrow.class, new DisplayInformation(Color.orange, "hole", false));
+        p.setDisplayInformation(BurrowRabbit.class, new DisplayInformation(Color.orange, "hole-small", false));
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
 
         // Run simulation
@@ -115,7 +116,7 @@ public class Main {
             if(type instanceof Rabbit){
                 entity = new Rabbit();
             }else if(type instanceof Burrow){
-                entity = new Burrow();
+                entity = new BurrowRabbit();
             }else if(type instanceof Grass){
                 entity = new Grass();
             }else{

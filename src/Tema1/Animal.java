@@ -6,7 +6,7 @@ import itumulator.world.World;
 
 import java.util.*;
 
-public abstract class Animal extends Organism implements Actor {
+public abstract class Animal extends Organism {
     //variables for tings extending this class
     protected int age;
     protected int ageMax;

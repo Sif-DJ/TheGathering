@@ -7,12 +7,12 @@ import itumulator.simulator.*;
 
 import java.util.ArrayList;
 
-public class Burrow implements NonBlocking, Actor {
+public abstract class Burrow implements NonBlocking, Actor {
 
-    // Rabbits in hole
-    private ArrayList<Rabbit> rabbits;
-    // RabbitHole konstruktere en liste af rabbits
-    public Burrow(){rabbits = new ArrayList<>();}
+    // creates
+    protected ArrayList<Animal> animals = new ArrayList<>();
+    //
+
 
     @Override
     public void act(World world){
@@ -20,19 +20,19 @@ public class Burrow implements NonBlocking, Actor {
             exit(world);
         }
     }
-    public void enter(Rabbit rabbit){
-        this.rabbits.add(rabbit);
+    public void enter(Animal animal){
+        this.animals.add(animal);
     }
 
     public void exit(World world){
-        if(rabbits.isEmpty())return;
-        world.setTile(world.getCurrentLocation(), rabbits.get(0));
-        rabbits.remove(0);
+        if(animals.isEmpty())return;
+        world.setTile(world.getCurrentLocation(), animals.get(0));
+        animals.remove(0);
     }
 
-    public boolean isRabbitInHole(Rabbit rabbit){
-        return (rabbits.contains(rabbit));
+    public boolean isInHole(Animal animal){
+        return (animals.contains(animal));
     }
 
-    public ArrayList<Rabbit> getRabbits(){return rabbits;}
+    public ArrayList<Animal> getAnimals(){return new ArrayList<Animal>(animals);}
 }
