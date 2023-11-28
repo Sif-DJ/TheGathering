@@ -1,9 +1,11 @@
 package Tema1;
 
 import Tema2.BurrowRabbit;
+import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,10 +24,6 @@ public class Rabbit extends Animal{
         ageMax = 12;
     }
 
-    @Override
-    public void move(World world, Location location) {
-
-    }
 
     @Override
     public Animal createNewSelf(){
@@ -154,5 +152,11 @@ public class Rabbit extends Animal{
         if(burrow == null)
             return false;
         return (burrow.isInHole(this));
+    }
+
+    @Override
+    public void age(World world) throws DeathException {
+        super.age(world);
+
     }
 }

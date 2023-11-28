@@ -1,4 +1,7 @@
 package Tema2;
 
-public class Predator {
+import Tema1.Animal;
+
+public abstract class Predator extends Animal {
+
 }

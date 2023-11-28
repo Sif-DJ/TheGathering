@@ -1,9 +1,9 @@
-import Tema2.BurrowRabbit;
+import Tema1.*;
+import Tema2.*;
 import itumulator.executable.*;
 import itumulator.world.*;
 import java.awt.*;
 import java.util.*;
-import Tema1.*;
 import java.io.*;
 import javax.swing.JOptionPane;
 
@@ -57,21 +57,31 @@ public class Main {
             // Read all entities from file
             for(int i = 1; i < input.length; i++){
                 System.out.println(input[i]);
-                String type = input[i].split(" ")[0];
-                int[] nums;
-                String possibleRange = input[i].split(" ")[1];
-                if(possibleRange.indexOf('-') > 0){
-                    nums = new int[2];
-                    nums[0] = Integer.parseInt(possibleRange.split("-")[0]);
-                    nums[1] = Integer.parseInt(possibleRange.split("-")[1]);
-                }else{
-                    nums = new int[1];
-                    nums[0] = Integer.parseInt(possibleRange);
-                }
+                String[] line = input[i].split(" ");
+                String type = line[0];
 
-                if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
-                if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
-                if(type.equals("burrow"))createEntities(world, new BurrowRabbit(), nums); // Burrows in random positions
+                if(line.length > 1){
+                    Location l = new Location(
+                            Integer.parseInt(line[2].split(",")[0].substring(1)),
+                            Integer.parseInt(line[2].split(",")[1].substring(0,1)));
+                    if(type.equals("bear"))createEntityAtLocation(world, new Bear(), l);
+                } else {
+                    int[] nums;
+                    String possibleRange = line[1];
+                    if(possibleRange.indexOf('-') > 0){
+                        nums = new int[2];
+                        nums[0] = Integer.parseInt(possibleRange.split("-")[0]);
+                        nums[1] = Integer.parseInt(possibleRange.split("-")[1]);
+                    }else{
+                        nums = new int[1];
+                        nums[0] = Integer.parseInt(possibleRange);
+                    }
+
+                    if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
+                    if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
+                    if(type.equals("burrow"))createEntities(world, new BurrowRabbit(), nums); // Burrows in random positions
+                    if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Burrows in random positions
+                }
 
             }
         }catch(Exception e){
@@ -82,17 +92,19 @@ public class Main {
         p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
         p.setDisplayInformation(BurrowRabbit.class, new DisplayInformation(Color.orange, "hole-small", false));
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
-
+        p.setDisplayInformation(Carcass.class, new DisplayInformation(Color.pink,"carcass",false));
+        p.setDisplayInformation(BerryBush.class, new DisplayInformation(Color.red,"bush-berries",false));
+        p.setDisplayInformation(Wolf.class, new DisplayInformation(Color.blue,"wolf",false));
+        p.setDisplayInformation(Bear.class, new DisplayInformation(Color.GRAY,"bear",false));
         // Run simulation
         p.show();
-        while(true){p.simulate();}
+        while(true){
+            p.simulate();
+        }
     }
 
     /**
-     * Creates a specified amount of objects in a world object. Currently registered entities include:
-     * * Rabbit
-     * * Burrow
-     * * Grass
+     * Creates a specified amount of objects in a world object.
      * @param world The world to apply the entity to.
      * @param type Insert an empty of the object type you want multiple of.
      * @param amounts The amount of entities to be created. Only reads the first and second index as min and max.
@@ -109,19 +121,13 @@ public class Main {
             amount = amounts[0];
         }
 
+        // Some animals are part pack
+        Pack pack = new Pack();
+
         // Instantiate an amount of entities.
         for (int i = 0; i < amount; i++) {
 
-            // Apply the right object type to entity
-            if(type instanceof Rabbit){
-                entity = new Rabbit();
-            }else if(type instanceof Burrow){
-                entity = new BurrowRabbit();
-            }else if(type instanceof Grass){
-                entity = new Grass();
-            }else{
-                throw new Exception("Cannot recognize entity");
-            }
+            entity = instantiateCorrectEntity(type, pack);
 
             // Gets and saves a location depending on if the entity is Blocking or NonBlocking
             Location l = new Location(r.nextInt(size), r.nextInt(size));
@@ -137,6 +143,46 @@ public class Main {
 
             world.setTile(l, entity);
         }
+    }
+
+    /**
+     * Is designed to take in any object that is placeable within the world and returns a new object of that type.
+     * @param entity the entity to create a new instance of.
+     * @param pack if it has a pack, such as a wolfpack, then place here.
+     * @return returns an object of the same type as the one input.
+     * @throws Exception if the type could not be recognized. Don't wanna place anything that should exist.
+     */
+    public static Object instantiateCorrectEntity(Object entity, Pack pack) throws Exception{
+        // Apply the right object type to entity
+        if (entity instanceof Rabbit) {
+            return new Rabbit();
+        } else if (entity instanceof Burrow) {
+            return new BurrowRabbit();
+        } else if (entity instanceof Grass) {
+            return new Grass();
+        } else if (entity instanceof Wolf) {
+            Wolf wolf = new Wolf(pack);
+            pack.add(wolf);
+            return wolf;
+        } else if (entity instanceof Bear) {
+            return new Bear();
+        }else{
+            throw new Exception("Cannot recognize entity");
+        }
+    }
+
+    /**
+     * Creates an object in world at a specific location.
+     * @param world za worldo
+     * @param type of object to place.
+     * @param location the location to place the entity at.
+     * @throws Exception if the location is already occupied by a Blocking entity.
+     */
+    public static void createEntityAtLocation(World world, Object type, Location location) throws Exception{
+        if(!(world.getTile(location) instanceof NonBlocking))throw new Exception("Cannot create an object here, since it has been taken.");
+        Pack pack = new Pack();
+        Object entity = instantiateCorrectEntity(type, pack);
+        world.setTile(location, entity);
     }
 
     /**

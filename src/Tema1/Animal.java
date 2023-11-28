@@ -47,7 +47,6 @@ public abstract class Animal extends Organism {
      */
     public abstract Animal createNewSelf();
 
-    public abstract void move(World world,Location location);
 
     /**
      * This is here for the future, when hunting becomes relevant.
@@ -153,4 +152,6 @@ public abstract class Animal extends Organism {
     public boolean isHungry(){
         return (energy < maxEnergy * 3.0 / 4.0);
     }
+
+
 }
