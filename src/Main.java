@@ -77,7 +77,7 @@ public class Main {
 
                     if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
                     if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
-                    if(type.equals("burrow"))createEntities(world, new BurrowRabbit(), nums); // Burrows in random positions
+                    if(type.equals("burrow"))createEntities(world, new RabbitBurrow(), nums); // Burrows in random positions
                     if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Burrows in random positions
                     if(type.equals("bear"))createEntities(world, new Bear(), nums); // Burrows in random positions
                 }
@@ -89,13 +89,7 @@ public class Main {
         }
 
         // Setup DisplayInfo for individual classes
-        p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
-        p.setDisplayInformation(BurrowRabbit.class, new DisplayInformation(Color.orange, "hole-small", false));
-        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
-        p.setDisplayInformation(Carcass.class, new DisplayInformation(Color.pink,"carcass",false));
-        p.setDisplayInformation(BerryBush.class, new DisplayInformation(Color.red,"bush-berries",false));
-        p.setDisplayInformation(Wolf.class, new DisplayInformation(Color.blue,"wolf",false));
-        p.setDisplayInformation(Bear.class, new DisplayInformation(Color.GRAY,"bear",false));
+        setDisplay(p);
 
         // Run simulation
         p.show();
@@ -106,6 +100,20 @@ public class Main {
                 return;
             }
         }
+    }
+
+    /**
+     * Sets the display information of the different classes
+     * @param p the program object
+     */
+    public static void setDisplay(Program p) {
+        p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
+        p.setDisplayInformation(RabbitBurrow.class, new DisplayInformation(Color.orange, "hole-small", false));
+        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
+        p.setDisplayInformation(Carcass.class, new DisplayInformation(Color.pink,"carcass",false));
+        p.setDisplayInformation(BerryBush.class, new DisplayInformation(Color.red,"bush-berries",false));
+        p.setDisplayInformation(Wolf.class, new DisplayInformation(Color.blue,"wolf",false));
+        p.setDisplayInformation(Bear.class, new DisplayInformation(Color.gray,"bear",false));
     }
 
     /**
@@ -162,7 +170,7 @@ public class Main {
         if (entity instanceof Rabbit) {
             return new Rabbit();
         } else if (entity instanceof Burrow) {
-            return new BurrowRabbit();
+            return new RabbitBurrow();
         } else if (entity instanceof Grass) {
             return new Grass();
         } else if (entity instanceof Wolf) {

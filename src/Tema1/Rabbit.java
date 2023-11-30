@@ -1,9 +1,12 @@
 package Tema1;
 
-import Tema2.BurrowRabbit;
+import Tema2.RabbitBurrow;
 import Tema2.Carcass;
+import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
@@ -11,7 +14,7 @@ import java.util.Set;
 public class Rabbit extends Animal{
 
 
-    private BurrowRabbit burrow;
+    private RabbitBurrow burrow;
 
     //Rabbit constructor
      public Rabbit(){
@@ -39,7 +42,6 @@ public class Rabbit extends Animal{
         }catch (DeathException e){
             return;
         }
-
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
             if(world.isDay()){
@@ -55,7 +57,7 @@ public class Rabbit extends Animal{
                     eat(grass);
                 }
                 // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
-                if (world.getNonBlocking(world.getLocation(this)) instanceof BurrowRabbit) {
+                if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
                     assignHole(world);
                 }
             }
@@ -67,7 +69,7 @@ public class Rabbit extends Animal{
                 } else if (world.getLocation(burrow).equals(world.getLocation(this))) {
                     enterHole(world);
                 } else if (burrow == null && world.containsNonBlocking(world.getLocation(this))) {
-                    if (world.getNonBlocking(world.getLocation(this)) instanceof BurrowRabbit) {
+                    if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
                         wandering(world);
                     }
                 }
@@ -120,14 +122,14 @@ public class Rabbit extends Animal{
         if(world.containsNonBlocking(l)){
             if(world.getNonBlocking(l) instanceof Grass){
                  world.delete(world.getNonBlocking(l));
-            }else if (world.getNonBlocking(l) instanceof BurrowRabbit){
+            }else if (world.getNonBlocking(l) instanceof RabbitBurrow){
                 assignHole(world);
                 return;
             }else if(world.getNonBlocking(l) instanceof Carcass){
                 return;
             }
         }
-        world.setTile(l, new BurrowRabbit());
+        world.setTile(l, new RabbitBurrow());
         assignHole(world);
     }
 
@@ -139,14 +141,14 @@ public class Rabbit extends Animal{
     public void assignHole(World world){
         Location l = world.getLocation(this);
         if(world.containsNonBlocking(l)) {
-            if (world.getNonBlocking(l) instanceof BurrowRabbit) {
-                burrow = (BurrowRabbit) world.getNonBlocking(l);
+            if (world.getNonBlocking(l) instanceof RabbitBurrow) {
+                burrow = (RabbitBurrow) world.getNonBlocking(l);
                 this.burrow.addToList(this);
             }
         }
     }
 
-    public void assignHole(BurrowRabbit burrow){
+    public void assignHole(RabbitBurrow burrow){
         this.burrow = burrow;
         this.burrow.addToList(this);
     }

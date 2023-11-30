@@ -25,6 +25,11 @@ public class Bear extends Predator {
     }
 
     @Override
+    public void chooseNextTarget(World world) {
+
+    }
+
+    @Override
     public void tryReproduce(World world) {
 
     }

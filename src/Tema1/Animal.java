@@ -10,6 +10,7 @@ public abstract class Animal extends Organism {
     //variables for tings extending this class
     protected int age;
     protected int ageMax;
+    protected int foodSearchRadius;
     protected int health;
 
     @Override
@@ -79,16 +80,64 @@ public abstract class Animal extends Organism {
     }
 
     /**
-     * This is here for the future, when hunting becomes relevant.
+     *  returns the location of the nearest food this animal can eat
      * @param world the world object
-     * @param food the food type this Animal can eat
+     * @param food an ArrayList of the Food types the animal can eat
+     * @return the location of the nearest food this animal can eat
      */
-    public void searchForFood(World world, Class food){
-        List<Location> list = new ArrayList<>(world.getSurroundingTiles());
-        if(world.containsNonBlocking(world.getLocation(this))) {
-            if (food.isInstance(world.getNonBlocking(world.getLocation(this)))) {
+    public <T extends Food> Location searchForFood(World world, ArrayList<T> food){
+        if (food.isEmpty()) return null;
+        List<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(),foodSearchRadius));
+        Iterator<Location> it = list.iterator();
+        while (it.hasNext()){
+            Location l = it.next();
+            if(!world.containsNonBlocking(world.getLocation(l))){
+                it.remove();
+            } else if(world.containsNonBlocking(world.getLocation(l))){
+                int notFoodCount = 0;
+                for(T f : food){
+                    if(!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)))){
+                        notFoodCount++;
+                    }
+                }
+                if(notFoodCount >= food.size()){it.remove();}
+                notFoodCount = 0;
             }
         }
+        Location clossestFood = null;
+        double currentLength = 1.0;
+        Location l = world.getCurrentLocation();
+        while (it.hasNext()){
+            Location locationOfFood = it.next();
+            int newFoodXLength;
+            int newFoodYLength;
+            double newLength = 1.0;
+            if(locationOfFood.getX() > l.getX())
+                newFoodXLength = locationOfFood.getX() - l.getX();
+            else
+                newFoodXLength = l.getX() - locationOfFood.getX();
+            if(locationOfFood.getY() > l.getY())
+                newFoodYLength = locationOfFood.getY() - l.getY();
+            else
+                newFoodYLength = l.getY() - locationOfFood.getY();
+            if(newFoodXLength == 0) newLength = newFoodYLength;
+            else if(newFoodYLength == 0) newLength = newFoodXLength;
+            else{
+                newFoodXLength = (int) Math.pow(newFoodXLength,2);
+                newFoodYLength = (int) Math.pow(newFoodYLength,2);
+                newLength = Math.sqrt(newFoodXLength+newFoodYLength);
+            }
+            if(clossestFood == null) {
+                clossestFood = locationOfFood;
+                currentLength = newLength;
+                continue;
+            }
+            if(newLength < currentLength){
+                clossestFood = locationOfFood;
+                currentLength = newLength;
+            }
+        }
+        return clossestFood;
     }
 
     /**
@@ -148,6 +197,15 @@ public abstract class Animal extends Organism {
         Location l = list.get(r.nextInt(list.size()));
         world.move(this,l);
         energy -= 2;
+    }
+
+    /**
+     *
+     * @param world the world object
+     * @param location the location to flee from
+     */
+    public void flee(World world, Location location){
+
     }
 
     /**

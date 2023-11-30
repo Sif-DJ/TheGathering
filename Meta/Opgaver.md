@@ -58,8 +58,8 @@ Kaniner kan kun grave nye udgange mens de er i deres huller.
 
 > ## Tema 2: Prædatorer, flokdyr, og territorier
 >> ### Ulve Basis
->>- [ ] **K2-1a.** Ulve kan placeres på kortet når input filerne beskriver dette.
->>- [ ] **K2-1b.** Ulve kan dø, hvilket resulterer I at de fjernes fra verdenen.
+>>- [x] **K2-1a.** Ulve kan placeres på kortet når input filerne beskriver dette.
+>>- [x] **K2-1b.** Ulve kan dø, hvilket resulterer I at de fjernes fra verdenen.
 >>- [ ] **K2-1c.** Ulve jager andre dyr og spiser dem for at opnå energi.
 >
 >> ### Pack tactics
@@ -76,7 +76,7 @@ mod hinanden.
 >>- [ ] **K2-5c.** Kaniner frygter bjørne og forsøger så vidt muligt at løbe fra dem.
 >
 >> ### Beware, Bear
->>- [ ] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
+>>- [x] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
 >>- [ ] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
 >>- [ ] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
 ’bor’. Den knytter sig derimod til et bestemt område og bevæger sig sjældent ud herfra.

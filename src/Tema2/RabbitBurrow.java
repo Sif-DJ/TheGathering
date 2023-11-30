@@ -4,9 +4,9 @@ import Tema1.*;
 import itumulator.world.*;
 
 
-public class BurrowRabbit extends Burrow<Rabbit> {
+public class RabbitBurrow extends Burrow<Rabbit> {
 
-    public BurrowRabbit(){
+    public RabbitBurrow(){
         this.timeUnOccupied = 0;
         this.maxNumAnimalsInHole = 5;
     }

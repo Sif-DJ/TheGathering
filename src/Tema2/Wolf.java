@@ -26,16 +26,19 @@ public class Wolf extends Predator {
             System.out.println(e.getMessage());
             return;
         }
-
-        /*
-        if(pack.targetPrey == null){
-
-        }
-        determineNextMovement(world, pack.getPreyLocation(world)); // Hunt the prey
-         */
     }
     @Override
     public void tryReproduce(World world) {
 
+    }
+
+    @Override
+    public void chooseNextTarget(World world) {
+        pack.choosePrey(world);
+    }
+
+    @Override
+    public void chooseNextTarget(Object edible) {
+        pack.assignPrey((Animal)edible);
     }
 }
