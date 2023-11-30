@@ -60,10 +60,8 @@ public class Main {
                 String[] line = input[i].split(" ");
                 String type = line[0];
 
-                if(line.length > 1){
-                    Location l = new Location(
-                            Integer.parseInt(line[2].split(",")[0].substring(1)),
-                            Integer.parseInt(line[2].split(",")[1].substring(0,1)));
+                if(line.length > 2){
+                    Location l = new Location(1,1);
                     if(type.equals("bear"))createEntityAtLocation(world, new Bear(), l);
                 } else {
                     int[] nums;
@@ -81,11 +79,14 @@ public class Main {
                     if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
                     if(type.equals("burrow"))createEntities(world, new BurrowRabbit(), nums); // Burrows in random positions
                     if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Burrows in random positions
+                    if(type.equals("bear"))createEntities(world, new Bear(), nums); // Burrows in random positions
                 }
 
             }
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Error in main:");
+            e.printStackTrace();
+            System.out.println(e);
         }
 
         // Setup DisplayInfo for individual classes
@@ -179,7 +180,7 @@ public class Main {
      * @throws Exception if the location is already occupied by a Blocking entity.
      */
     public static void createEntityAtLocation(World world, Object type, Location location) throws Exception{
-        if(!(world.getTile(location) instanceof NonBlocking))throw new Exception("Cannot create an object here, since it has been taken.");
+        if(!world.isTileEmpty(location))throw new Exception("Spot has been taken");
         Pack pack = new Pack();
         Object entity = instantiateCorrectEntity(type, pack);
         world.setTile(location, entity);

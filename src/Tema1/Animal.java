@@ -1,7 +1,6 @@
 package Tema1;
 
 import Tema2.*;
-import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
@@ -15,8 +14,24 @@ public abstract class Animal extends Organism {
 
     @Override
     public void die(World world){
-        Location l = world.getLocation(this);
+        Location l;
+        try {
+            l = world.getLocation(this);
+        }catch(IllegalArgumentException e){
+            return;
+        }
         world.remove(this);
+        if(world.containsNonBlocking(l)) {
+            if (world.getNonBlocking(l) instanceof Grass) {
+                world.delete(world.getNonBlocking(l));
+            }else if (world.getNonBlocking(l) instanceof Burrow){
+                return;
+            }else if(world.getNonBlocking(l) instanceof Carcass){
+                Carcass carcass = (Carcass) world.getNonBlocking(l);
+                carcass.energy += this.energy + 10;
+                return;
+            }
+        }
         world.setTile(l, new Carcass(energy));
         super.die(world);
     }
@@ -37,12 +52,11 @@ public abstract class Animal extends Organism {
 
     /**
      * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
-     * @param world
+     * @param world the world object
      */
     public void reproduce(World world, Animal animal){
         if(energy < 50 || age < 2)return;
         Random r = new Random();
-        int size = world.getSize();
         Animal entity = this.createNewSelf();
         ArrayList<Location> locations = new ArrayList<>(world.getEmptySurroundingTiles(world.getLocation(this)));
         Location l = locations.get(r.nextInt(locations.size()));
@@ -52,7 +66,7 @@ public abstract class Animal extends Organism {
 
     /**
      * Empty method for instantiating new animals on demand in this abstract class. Can mainly be seen in function reproduce().
-     * @return
+     * @return returns a copy of the animal
      */
     public abstract Animal createNewSelf();
 
@@ -72,8 +86,8 @@ public abstract class Animal extends Organism {
 
     /**
      *
-     * @param world
-     * @param locationToReach
+     * @param world the world object
+     * @param locationToReach the location the animal need to reach
      */
     public void determineNextMovement(World world, Location locationToReach){
         Location l = world.getCurrentLocation();
@@ -118,7 +132,7 @@ public abstract class Animal extends Organism {
 
     /**
      * Default wandering for animals.
-     * @param world
+     * @param world the world object
      */
     public void wandering(World world){
         Set<Location> neighbours = world.getEmptySurroundingTiles();
@@ -147,9 +161,8 @@ public abstract class Animal extends Organism {
     /**
      * consumes an amount of energy from a food instance, refilling its own energy.
      * @param food The food the rabbit is trying to eat.
-     * @param world The world the rabbit is in.
      */
-    public void eat(Food food, World world) {
+    public void eat(Food food) {
         energy += food.eat(8);
         if(energy > maxEnergy) energy=maxEnergy;
     }

@@ -1,6 +1,7 @@
 package Tema1;
 
 import Tema2.BurrowRabbit;
+import Tema2.Carcass;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -55,7 +56,7 @@ public class Rabbit extends Animal{
             if (world.containsNonBlocking(world.getLocation(this))) {
                 if (world.getNonBlocking(world.getLocation(this)) instanceof Grass) {
                     Grass grass = (Grass) world.getNonBlocking(world.getLocation(this));
-                    eat(grass, world);
+                    eat(grass);
                 }
                 // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
                 if (world.getNonBlocking(world.getLocation(this)) instanceof BurrowRabbit) {
@@ -67,7 +68,7 @@ public class Rabbit extends Animal{
             if (world.isNight()) {
                 if (burrow == null)
                     digHole(world);
-                if (world.getLocation(burrow).equals(world.getLocation(this))) {
+                else if (world.getLocation(burrow).equals(world.getLocation(this))) {
                     enterHole(world);
                 }
             }
@@ -98,6 +99,8 @@ public class Rabbit extends Animal{
         for(int i = 0; i <= r.nextInt(3); i++){
             Rabbit rabbit = (Rabbit) this.createNewSelf();
             world.add(rabbit);
+            rabbit.assignHole(burrow);
+            this.burrow.addToList(this);
             burrow.enter(rabbit);
         }
         energy -= 50;
@@ -116,8 +119,10 @@ public class Rabbit extends Animal{
         if(world.containsNonBlocking(l)){
             if(world.getNonBlocking(l) instanceof Grass){
                  world.delete(world.getNonBlocking(l));
-            }else if (world.getNonBlocking(l) instanceof Burrow){
+            }else if (world.getNonBlocking(l) instanceof BurrowRabbit){
                 assignHole(world);
+                return;
+            }else if(world.getNonBlocking(l) instanceof Carcass){
                 return;
             }
         }
@@ -135,17 +140,36 @@ public class Rabbit extends Animal{
         if(world.containsNonBlocking(l)) {
             if (world.getNonBlocking(l) instanceof BurrowRabbit) {
                 burrow = (BurrowRabbit) world.getNonBlocking(l);
+                this.burrow.addToList(this);
             }
         }
     }
 
+    public void assignHole(BurrowRabbit burrow){
+        this.burrow = burrow;
+        this.burrow.addToList(this);
+    }
+
+    /**
+     * Should only be called from the caveIn function in Burrow
+     */
+    public void assignHole(){
+        this.burrow = null;
+    }
+
     /**
      * Enters a hole it is assigned to, afterwards it deletes itself.
+     * Gets skipped if and only if, there is no more space in the burrow.
      * @param world
      */
     public void enterHole(World world){
+        if(burrow.isBurrowFull()){
+            burrow.unAssign(this);
+            return;
+        }
         burrow.enter(this);
         world.remove(this);
+        world.setCurrentLocation(world.getLocation(burrow));
     }
 
     public boolean isInHole(){

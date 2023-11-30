@@ -14,5 +14,10 @@ public class BerryBush extends Food {
     public void act(World world) {
         if(world.getCurrentTime() % 20 == 0) this.energy += 25;
         if(energy > maxEnergy)energy = maxEnergy;
+        if(energy > 0){
+            // Gain big sprite
+        }else{
+            // Gain small sprite
+        }
     }
 }

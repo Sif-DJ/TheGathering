@@ -7,11 +7,21 @@ import itumulator.world.World;
 public class Bear extends Predator {
 
     public Bear() {
+        this.energy = 500;
+        this.age = 0;
+        this.ageMax = 50;
     }
 
     @Override
     public void act(World world) throws DeathException {
-        super.act(world);
+        try{
+            super.act(world);
+        }catch (DeathException e){
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        // Insert code here
     }
 
     @Override
