@@ -2,13 +2,9 @@ package Tema1;
 
 import Tema2.BurrowRabbit;
 import Tema2.Carcass;
-import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
-
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -66,14 +62,19 @@ public class Rabbit extends Animal{
 
             // All nighttime calculations
             if (world.isNight()) {
-                if (burrow == null)
+                if (burrow == null){
                     digHole(world);
-                else if (world.getLocation(burrow).equals(world.getLocation(this))) {
+                } else if (world.getLocation(burrow).equals(world.getLocation(this))) {
                     enterHole(world);
+                } else if (burrow == null && world.containsNonBlocking(world.getLocation(this))) {
+                    if (world.getNonBlocking(world.getLocation(this)) instanceof BurrowRabbit) {
+                        wandering(world);
+                    }
                 }
             }
         }
     }
+
 
     @Override
     public void tryReproduce(World world){
@@ -160,11 +161,12 @@ public class Rabbit extends Animal{
     /**
      * Enters a hole it is assigned to, afterwards it deletes itself.
      * Gets skipped if and only if, there is no more space in the burrow.
-     * @param world
+     * @param world the world object
      */
     public void enterHole(World world){
         if(burrow.isBurrowFull()){
             burrow.unAssign(this);
+            assignHole();
             return;
         }
         burrow.enter(this);

@@ -1,6 +1,6 @@
 package Tema1;
 
-import itumulator.world.Location;
+
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
 import itumulator.simulator.*;
@@ -23,11 +23,16 @@ public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
         if(animals.isEmpty()){timeUnOccupied++;}else{timeUnOccupied=0;}
     }
 
+    /**
+     * The burrow can cave in during certain events. This does that.
+     * Rabbits may get stuck
+     * @param world The world the burrow is in.
+     */
     public void caveIn(World world){
         world.delete(this);
     }
 
-    public void unAssign(Animal animal){
+    public void unAssign(T animal){
         assignedToBurrow.remove(animal);
     }
 
@@ -49,7 +54,7 @@ public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
         return (animals.contains(animal));
     }
 
-    public ArrayList<Animal> getAnimals(){return new ArrayList<Animal>(animals);}
+    public ArrayList<Animal> getAnimals(){return new ArrayList<>(animals);}
 
     public boolean isBurrowFull(){
         return (animals.size() >= maxNumAnimalsInHole);

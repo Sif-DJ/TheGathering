@@ -1,10 +1,9 @@
 package Tema2;
 import Tema1.*;
-import itumulator.world.Location;
-import itumulator.world.World;
+import itumulator.world.*;
 
 public class Wolf extends Predator {
-    private Pack pack;
+    private final Pack pack;
     public Wolf(Pack pack){
         this.maxEnergy = 400;
         this.energy = 200;
@@ -27,6 +26,13 @@ public class Wolf extends Predator {
             System.out.println(e.getMessage());
             return;
         }
+
+        /*
+        if(pack.targetPrey == null){
+
+        }
+        determineNextMovement(world, pack.getPreyLocation(world)); // Hunt the prey
+         */
     }
     @Override
     public void tryReproduce(World world) {

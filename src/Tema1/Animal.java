@@ -70,6 +70,13 @@ public abstract class Animal extends Organism {
      */
     public abstract Animal createNewSelf();
 
+    /**
+     * Method to determine if it is hungry.
+     * @return boolean
+     */
+    public boolean isHungry(){
+        return (energy < maxEnergy * 3.0 / 4.0);
+    }
 
     /**
      * This is here for the future, when hunting becomes relevant.
@@ -92,8 +99,8 @@ public abstract class Animal extends Organism {
     public void determineNextMovement(World world, Location locationToReach){
         Location l = world.getCurrentLocation();
         if(locationToReach == l) return;
-        int currentXLength = 0;
-        int currentYLength = 0;
+        int currentXLength;
+        int currentYLength;
         if(locationToReach.getX() > l.getX())
             currentXLength = locationToReach.getX() - l.getX();
         else
@@ -105,8 +112,8 @@ public abstract class Animal extends Organism {
 
         List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
         Iterator<Location> it = list.iterator();
-        int tileXlength = 0;
-        int tileYlength = 0;
+        int tileXlength;
+        int tileYlength;
         while (it.hasNext()) {
             Location tile = it.next();
             if(locationToReach.getX() > tile.getX())
@@ -164,16 +171,6 @@ public abstract class Animal extends Organism {
      */
     public void eat(Food food) {
         energy += food.eat(8);
-        if(energy > maxEnergy) energy=maxEnergy;
+        if(energy > maxEnergy) energy = maxEnergy;
     }
-
-    /**
-     * Method to determine if it is hungry.
-     * @return boolean
-     */
-    public boolean isHungry(){
-        return (energy < maxEnergy * 3.0 / 4.0);
-    }
-
-
 }

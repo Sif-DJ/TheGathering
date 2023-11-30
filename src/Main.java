@@ -30,7 +30,7 @@ public class Main {
             fileInput = (String) JOptionPane.showInputDialog(
                     null, "Choose a file: ", "Choose file to load",
                     JOptionPane.QUESTION_MESSAGE, null, allInputFiles, allInputFiles[0]);
-        }catch(NullPointerException e){
+        } catch(NullPointerException e) {
             System.out.println("You have no files in the data folder.\nMake sure you have all files placed correctly.");
             return;
         }
@@ -85,8 +85,7 @@ public class Main {
             }
         }catch(Exception e){
             System.out.println("Error in main:");
-            e.printStackTrace();
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         // Setup DisplayInfo for individual classes
@@ -97,10 +96,15 @@ public class Main {
         p.setDisplayInformation(BerryBush.class, new DisplayInformation(Color.red,"bush-berries",false));
         p.setDisplayInformation(Wolf.class, new DisplayInformation(Color.blue,"wolf",false));
         p.setDisplayInformation(Bear.class, new DisplayInformation(Color.GRAY,"bear",false));
+
         // Run simulation
         p.show();
         while(true){
-            p.simulate();
+            try {
+                p.simulate();
+            } catch (Exception e) {
+                return;
+            }
         }
     }
 
@@ -149,7 +153,7 @@ public class Main {
     /**
      * Is designed to take in any object that is placeable within the world and returns a new object of that type.
      * @param entity the entity to create a new instance of.
-     * @param pack if it has a pack, such as a wolfpack, then place here.
+     * @param pack if it has a pack, such as a wolfPack, then place here.
      * @return returns an object of the same type as the one input.
      * @throws Exception if the type could not be recognized. Don't wanna place anything that should exist.
      */
@@ -174,10 +178,10 @@ public class Main {
 
     /**
      * Creates an object in world at a specific location.
-     * @param world za worldo
-     * @param type of object to place.
-     * @param location the location to place the entity at.
-     * @throws Exception if the location is already occupied by a Blocking entity.
+     * @param world The world the entity is in.
+     * @param type The type of entity.
+     * @param location The location to place the entity at.
+     * @throws Exception If the location is already occupied by a Blocking entity.
      */
     public static void createEntityAtLocation(World world, Object type, Location location) throws Exception{
         if(!world.isTileEmpty(location))throw new Exception("Spot has been taken");

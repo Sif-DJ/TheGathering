@@ -1,6 +1,5 @@
 package Tema1;
 
-import itumulator.simulator.Actor;
 import itumulator.world.NonBlocking;
 
 public abstract class Food extends Organism implements NonBlocking {
@@ -15,11 +14,10 @@ public abstract class Food extends Organism implements NonBlocking {
         if(amount <= energy){
             energyToReturn = amount;
             energy -= energyToReturn;
-            return energyToReturn;
         }else{
             energyToReturn  = energy;
             energy = 0;
-            return energyToReturn;
         }
+        return energyToReturn;
     }
 }

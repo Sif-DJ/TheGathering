@@ -1,6 +1,7 @@
 package Tema2;
 
 import Tema1.*;
+import itumulator.world.*;
 
 import java.util.ArrayList;
 
@@ -17,5 +18,9 @@ public class Pack {
 
     public void assignPrey(Animal animal){
         targetPrey = animal;
+    }
+
+    public Location getPreyLocation(World world){
+        return world.getLocation(targetPrey);
     }
 }

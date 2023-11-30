@@ -7,13 +7,13 @@ import java.util.*;
 
 public class Grass extends Food {
     //variables for grass
-    private final int spreadchance = 10; // There is a 1:spreadchance chance of spreading.
-
+    private final int spreadChance; // There is a 1:spreadChance chance of spreading.
 
     //Grass constructor
     public Grass(){
         maxEnergy = 20;
         energy = 10;
+        spreadChance = 10;
     }
 
     /**
@@ -36,7 +36,7 @@ public class Grass extends Food {
         energy++;
         if(energy > maxEnergy)
             energy = maxEnergy;
-        if(spreadchance == r.nextInt(spreadchance+1)){
+        if(spreadChance == r.nextInt(spreadChance+1)){
             spread(world);
         }
     }

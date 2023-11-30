@@ -3,7 +3,7 @@ public class DeathException extends RuntimeException{
 
     /**
      * Exception for when things die.
-     * @param obj
+     * @param obj the object that dies
      */
     public DeathException(Object obj){
         super(obj+" died");
