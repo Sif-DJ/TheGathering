@@ -61,7 +61,18 @@ public class Main {
                 String type = line[0];
 
                 if(line.length > 2){
-                    Location l = new Location(1,1);
+                    String[] placeInfo = line[2].split(",");
+                    placeInfo[0] = placeInfo[0].substring(1);
+                    placeInfo[1] = placeInfo[1].substring(0,placeInfo[1].length() - 1);
+                    System.out.println(placeInfo[0] + "," + placeInfo[1]);
+                    Location l = new Location(
+                            Integer.parseInt(placeInfo[0]) - 1,
+                            Integer.parseInt(placeInfo[1]) - 1
+                    );
+                    if(type.equals("grass"))createEntityAtLocation(world, new Grass(), l);
+                    if(type.equals("rabbit"))createEntityAtLocation(world, new Rabbit(), l);
+                    if(type.equals("burrow"))createEntityAtLocation(world, new RabbitBurrow(), l);
+                    if(type.equals("wolf"))createEntityAtLocation(world, new Wolf(new Pack()), l);
                     if(type.equals("bear"))createEntityAtLocation(world, new Bear(), l);
                 } else {
                     int[] nums;
@@ -84,7 +95,7 @@ public class Main {
 
             }
         }catch(Exception e){
-            System.out.println("Error in main:");
+            System.out.println("Error in creation of new entity:");
             System.out.println(e.getMessage());
         }
 
@@ -107,13 +118,8 @@ public class Main {
      * @param p the program object
      */
     public static void setDisplay(Program p) {
-        p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large", false));
         p.setDisplayInformation(RabbitBurrow.class, new DisplayInformation(Color.orange, "hole-small", false));
-        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass", false));
-        p.setDisplayInformation(Carcass.class, new DisplayInformation(Color.pink,"carcass",false));
-        p.setDisplayInformation(BerryBush.class, new DisplayInformation(Color.red,"bush-berries",false));
-        p.setDisplayInformation(Wolf.class, new DisplayInformation(Color.blue,"wolf",false));
-        p.setDisplayInformation(Bear.class, new DisplayInformation(Color.gray,"bear",false));
+        p.setDisplayInformation(WolfBurrow.class, new DisplayInformation(Color.orange, "hole", false));
     }
 
     /**

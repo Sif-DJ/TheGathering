@@ -7,12 +7,10 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 public class Rabbit extends Animal{
-
 
     private RabbitBurrow burrow;
 
@@ -22,14 +20,13 @@ public class Rabbit extends Animal{
         energy = maxEnergy;
         age = 0;
         ageMax = 12;
+        health = 7;
     }
-
 
     @Override
     public Animal createNewSelf(){
         return new Rabbit();
     }
-
 
     /**
      * All actions taken during a call to simulate the program.
@@ -98,7 +95,7 @@ public class Rabbit extends Animal{
 
     @Override
     public void reproduce(World world, Animal animal) {
-        if(energy < 50 || age < 4 || animal.energy < 50 || animal.age < 4) return;
+        if(energy < 40 || isBaby || animal.energy < 40 || animal.isBaby) return;
         for(int i = 0; i <= r.nextInt(3); i++){
             Rabbit rabbit = (Rabbit) this.createNewSelf();
             world.add(rabbit);
@@ -106,8 +103,8 @@ public class Rabbit extends Animal{
             this.burrow.addToList(this);
             burrow.enter(rabbit);
         }
-        energy -= 50;
-        animal.energy -= 50;
+        energy -= 40;
+        animal.energy -= 40;
     }
 
 
@@ -156,7 +153,7 @@ public class Rabbit extends Animal{
     /**
      * Should only be called from the caveIn function in Burrow
      */
-    public void assignHole(){
+    public void unAssignHole(){
         this.burrow = null;
     }
 
@@ -168,7 +165,7 @@ public class Rabbit extends Animal{
     public void enterHole(World world){
         if(burrow.isBurrowFull()){
             burrow.unAssign(this);
-            assignHole();
+            unAssignHole();
             return;
         }
         burrow.enter(this);
@@ -185,6 +182,16 @@ public class Rabbit extends Animal{
     @Override
     public void age(World world) throws DeathException {
         super.age(world);
+        if(isBaby && age > 2)
+            isBaby = false;
+    }
 
+    @Override
+    public DisplayInformation getInformation() {
+        if (isBaby){
+            return new DisplayInformation(Color.red, "rabbit-small");
+        }else{
+            return  new DisplayInformation(Color.red, "rabbit-large");
+        }
     }
 }

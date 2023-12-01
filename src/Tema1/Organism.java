@@ -1,11 +1,12 @@
 package Tema1;
 
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.World;
 
 import java.util.Random;
 
-public abstract class Organism implements Actor {
+public abstract class Organism implements Actor, DynamicDisplayInformationProvider {
     //Variables for things extending this class
     protected int energy;
     protected int maxEnergy;

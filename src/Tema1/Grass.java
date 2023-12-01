@@ -1,9 +1,12 @@
 package Tema1;
 
+import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Grass extends Food {
     //variables for grass
@@ -58,4 +61,8 @@ public class Grass extends Food {
         world.setTile(l, new Grass());
     }
 
+    @Override
+    public DisplayInformation getInformation() {
+        return new DisplayInformation(Color.green, "grass");
+    }
 }

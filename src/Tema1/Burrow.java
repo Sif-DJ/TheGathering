@@ -1,10 +1,8 @@
 package Tema1;
 
-
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
 import itumulator.simulator.*;
-
 import java.util.ArrayList;
 
 public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
@@ -46,7 +44,7 @@ public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
 
     public void exit(World world){
         if(animals.isEmpty())return;
-        world.setTile(world.getCurrentLocation(), animals.get(0));
+        world.setTile(world.getLocation(this), animals.get(0));
         animals.remove(0);
     }
 

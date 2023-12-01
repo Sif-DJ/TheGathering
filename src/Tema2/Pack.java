@@ -4,10 +4,13 @@ import Tema1.*;
 import itumulator.world.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Pack {
     protected ArrayList<Wolf> list;
     protected Animal targetPrey;
+    private final Random r = new Random();
+    
     public Pack(){
         list = new ArrayList<>();
     }
@@ -17,28 +20,29 @@ public class Pack {
     }
 
     public void choosePrey(World world){
-        if(targetPrey == null){
-            Object[] possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
-            for(Object obj : possibleTargets){
-                if(obj instanceof NonBlocking)continue;
-                if(obj instanceof Bear && list.size() >= 3) {
-                    assignPrey((Animal) obj);
-                    break;
-                }
-                if(obj instanceof Rabbit) {
-                    assignPrey((Rabbit) obj);
-                    break;
-                }
-                if(obj instanceof Wolf)
-                    if(!list.contains(obj)){
-                        assignPrey((Wolf)obj);
-                        break;
-                    }
+        Object[] possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
+        ArrayList<Animal> edibleTargets = new ArrayList<>();
+        for(Object obj : possibleTargets){
+            try{
+                if(world.getLocation(obj) == null)
+                    continue;
+            }catch(Exception e){
+                continue;
+            }
+            if(obj instanceof Rabbit){
+                edibleTargets.add((Rabbit)obj);
             }
         }
+        if(edibleTargets.isEmpty()){
+            System.out.println(this + " failed to find suitable prey");
+            return;
+        }
+
+        assignPrey(edibleTargets.get(r.nextInt(edibleTargets.size())));
     }
 
     public void assignPrey(Animal animal){
+        System.out.println(this + " has found and is hunting " + animal);
         targetPrey = animal;
         for(Wolf wolf : list){
             wolf.targetPrey = animal;

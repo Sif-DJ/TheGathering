@@ -2,11 +2,14 @@ package Tema2;
 
 import Tema1.DeathException;
 import Tema1.Food;
+import itumulator.executable.DisplayInformation;
 import itumulator.world.World;
 
-public class Carcass extends Food {
+import java.awt.*;
 
+public class Carcass extends Food {
     int rotTimer = 3;
+
     public Carcass(int energy){
         this.energy = energy + 10;
     }
@@ -15,11 +18,6 @@ public class Carcass extends Food {
     public void act(World world) throws DeathException {
         if(world.getCurrentTime() % 20 == 0) rotTimer-=1;
 
-        if(energy > 50){
-            // Gain big sprite
-        }else{
-            // Gain small sprite
-        }
         try {
             if(rotTimer <= 0){
                 die(world);
@@ -30,6 +28,17 @@ public class Carcass extends Food {
             }
         }catch (DeathException e){
             System.out.println(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public DisplayInformation getInformation() {
+        if(energy > 50){
+            return new DisplayInformation(Color.pink,"carcass");
+        }
+        else{
+            return new DisplayInformation(Color.pink,"carcass-small");
         }
 
     }
