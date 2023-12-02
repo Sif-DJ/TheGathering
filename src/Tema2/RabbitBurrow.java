@@ -3,9 +3,6 @@ package Tema2;
 import Tema1.*;
 import itumulator.world.*;
 
-import java.util.ArrayList;
-
-
 public class RabbitBurrow extends Burrow<Rabbit> {
 
     public RabbitBurrow(){

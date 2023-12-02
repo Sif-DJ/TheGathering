@@ -41,14 +41,14 @@ public abstract class Predator extends Animal {
 
     /**
      * Checks if the targeted thing is near it. If yes, then attack.
-     * @param world
+     * @param world The world the attacker is in.
      */
     public void attemptAttack(World world){
         if(targetPrey == null)return;
         Location[] surroundingTiles = world.getSurroundingTiles(world.getLocation(this)).toArray(new Location[0]);
         for(Location l : surroundingTiles){
             try{
-                if(world.getTile(l).equals(targetPrey))attack(world);
+                if(world.getTile(l).equals(targetPrey))attack();
             }catch(Exception e){
                 return;
             }
@@ -59,7 +59,7 @@ public abstract class Predator extends Animal {
     /**
      * Either deals damage to an animal or eats from a food source.
      */
-    public void attack(World world){
+    public void attack(){
         if(targetPrey instanceof Food)
             eat((Food)targetPrey);
         if(targetPrey instanceof Animal)

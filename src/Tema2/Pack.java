@@ -9,6 +9,7 @@ import java.util.Random;
 public class Pack {
     protected ArrayList<Wolf> list;
     protected Animal targetPrey;
+    protected Burrow burrow;
     private final Random r = new Random();
     
     public Pack(){
@@ -24,7 +25,6 @@ public class Pack {
         try{
             possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
         }catch (NullPointerException e){
-            System.out.println("Are we there yet?");
             return;
         }
 

@@ -2,7 +2,6 @@ package Tema2;
 
 import Tema1.Food;
 import itumulator.executable.DisplayInformation;
-import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.World;
 
 import java.awt.*;

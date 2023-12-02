@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class Wolf extends Predator {
     private final Pack pack;
+    protected WolfBurrow burrow;
     
     public Wolf(Pack pack){
         this.maxEnergy = 400;
@@ -45,6 +46,26 @@ public class Wolf extends Predator {
     @Override
     public void chooseNextTarget(Object edible) {
         pack.assignPrey((Animal)edible);
+    }
+
+    public void digHole(World world){
+        Location l = world.getLocation(this);
+        if(world.containsNonBlocking(l)){
+            Object nonBlocking = world.getNonBlocking(l);
+            if(nonBlocking instanceof Grass)
+                world.delete(nonBlocking);
+            if(nonBlocking instanceof Burrow)
+                return;
+            if(nonBlocking instanceof Carcass)
+                return;
+        }
+        burrow = new WolfBurrow();
+        world.setTile(l, burrow);
+        enterHole();
+    }
+
+    public void enterHole(){
+
     }
 
     @Override

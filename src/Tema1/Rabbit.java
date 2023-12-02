@@ -12,6 +12,7 @@ import java.util.*;
 public class Rabbit extends Animal{
 
     private RabbitBurrow burrow;
+    private ArrayList<Animal> fleeFrom = new ArrayList<>();
 
     //Rabbit constructor
      public Rabbit(){
@@ -21,6 +22,8 @@ public class Rabbit extends Animal{
         ageMax = 12;
         health = 7;
         searchRadius = 2;
+        fleeFrom.add(new Bear());
+        fleeFrom.add(new Wolf(new Pack()));
     }
 
     @Override
@@ -42,8 +45,19 @@ public class Rabbit extends Animal{
         }
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
+            ArrayList<Location> f = searchForAnimals(world,fleeFrom);
+            if(!(f == null) || !f.isEmpty()) {
+                Location closest = getClosestLocation(world, f);
+                flee(world,closest,burrow);
+                if(world.containsNonBlocking(world.getLocation(this))){
+                    if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
+                        assignHole(world);
+                        enterHole(world);
+                    }
+                }
+                return;
+            }
 
-            searchForAnimals(world,new ArrayList<>());
             if(world.isDay()){
                 wandering(world);
             }else if(burrow != null){
