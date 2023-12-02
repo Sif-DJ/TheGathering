@@ -66,8 +66,8 @@ public class Main {
                     placeInfo[1] = placeInfo[1].substring(0,placeInfo[1].length() - 1);
                     System.out.println(placeInfo[0] + "," + placeInfo[1]);
                     Location l = new Location(
-                            Integer.parseInt(placeInfo[0]) - 1,
-                            Integer.parseInt(placeInfo[1]) - 1
+                            Integer.parseInt(placeInfo[0]),
+                            Integer.parseInt(placeInfo[1])
                     );
                     if(type.equals("grass"))createEntityAtLocation(world, new Grass(), l);
                     if(type.equals("rabbit"))createEntityAtLocation(world, new Rabbit(), l);

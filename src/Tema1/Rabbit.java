@@ -27,9 +27,10 @@ public class Rabbit extends Animal{
     }
 
     @Override
-    public void die(World world){
-         burrow.unAssign(this);
+    public void die(World world) throws DeathException{
          super.die(world);
+         burrow.unAssign(this);
+         System.out.println(this + " has been unassigned from a burrow");
     }
 
     @Override
@@ -52,8 +53,7 @@ public class Rabbit extends Animal{
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
             ArrayList<Location> f = searchForAnimals(world,fleeFrom);
-            /*
-            if(!(f == null) || !f.isEmpty()) {
+            if(!(f == null) && !f.isEmpty()) {
                 Location closest = getClosestLocation(world, f);
                 if( burrow != null){
                     flee(world,closest,burrow);
@@ -68,7 +68,6 @@ public class Rabbit extends Animal{
                 }
                 return;
             }
-            */
 
             if(world.isDay()){
                 wandering(world);

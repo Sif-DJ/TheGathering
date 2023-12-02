@@ -52,8 +52,8 @@ public abstract class Animal extends Organism {
 
         checkAge(world);
         if(energy <= 0 || health <= 0){
+            System.out.println(this + " is getting ready to die");
             die(world);
-            // Crash occurs after here
         }
     }
 

@@ -72,12 +72,12 @@ således at undgå andre grupper. Møder en ulv en ulv fra en anden flok, kæmpe
 mod hinanden.
 >
 >> ### Bunny fear
->>- [ ] **K2-4a.** Kaniner frygter ulve og forsøger så vidt muligt at løbe fra dem.
->>- [ ] **K2-5c.** Kaniner frygter bjørne og forsøger så vidt muligt at løbe fra dem.
+>>- [x] **K2-4a.** Kaniner frygter ulve og forsøger så vidt muligt at løbe fra dem.
+>>- [x] **K2-5c.** Kaniner frygter bjørne og forsøger så vidt muligt at løbe fra dem.
 >
 >> ### Beware, Bear
 >>- [x] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
->>- [ ] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
+>>- [x] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
 >>- [ ] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
 ’bor’. Den knytter sig derimod til et bestemt område og bevæger sig sjældent ud herfra.
 Dette territories centrum bestemmes ud fra bjørnens startplacering på kortet.

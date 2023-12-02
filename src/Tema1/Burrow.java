@@ -31,6 +31,7 @@ public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
     }
 
     public void unAssign(T animal){
+        if(animal == null)return;
         assignedToBurrow.remove(animal);
     }
 

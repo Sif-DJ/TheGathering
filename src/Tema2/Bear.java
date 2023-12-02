@@ -13,8 +13,8 @@ public class Bear extends Predator {
     private Location territory;
 
     public Bear() {
-        this.energy = 500;
         this.maxEnergy = 1000;
+        this.energy = maxEnergy;
         this.age = 0;
         this.ageMax = 50;
         this.health = 30;
