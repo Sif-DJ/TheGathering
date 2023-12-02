@@ -44,10 +44,11 @@ public abstract class Predator extends Animal {
      * @param world
      */
     public void attemptAttack(World world){
+        if(targetPrey == null)return;
         Location[] surroundingTiles = world.getSurroundingTiles(world.getLocation(this)).toArray(new Location[0]);
         for(Location l : surroundingTiles){
             try{
-                if(world.getTile(l).equals(targetPrey))attack();
+                if(world.getTile(l).equals(targetPrey))attack(world);
             }catch(Exception e){
                 return;
             }
@@ -58,11 +59,13 @@ public abstract class Predator extends Animal {
     /**
      * Either deals damage to an animal or eats from a food source.
      */
-    public void attack(){
+    public void attack(World world){
         if(targetPrey instanceof Food)
             eat((Food)targetPrey);
         if(targetPrey instanceof Animal)
             ((Animal)targetPrey).takeDamage(power);
+
+        System.out.println(this + " attacked " + targetPrey);
     }
 
     public abstract void chooseNextTarget(World world);

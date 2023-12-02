@@ -1,14 +1,13 @@
 package Tema1;
 
-import Tema2.RabbitBurrow;
-import Tema2.Carcass;
+import Tema2.*;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
+
 
 public class Rabbit extends Animal{
 
@@ -21,6 +20,7 @@ public class Rabbit extends Animal{
         age = 0;
         ageMax = 12;
         health = 7;
+        searchRadius = 2;
     }
 
     @Override
@@ -37,10 +37,13 @@ public class Rabbit extends Animal{
         try{
             super.act(world);
         }catch (DeathException e){
+            System.out.println(e);
             return;
         }
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
+
+            searchForAnimals(world,new ArrayList<>());
             if(world.isDay()){
                 wandering(world);
             }else if(burrow != null){

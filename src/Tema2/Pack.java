@@ -20,7 +20,14 @@ public class Pack {
     }
 
     public void choosePrey(World world){
-        Object[] possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
+        Object[] possibleTargets;
+        try{
+            possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
+        }catch (NullPointerException e){
+            System.out.println("Are we there yet?");
+            return;
+        }
+
         ArrayList<Animal> edibleTargets = new ArrayList<>();
         for(Object obj : possibleTargets){
             try{
@@ -34,7 +41,6 @@ public class Pack {
             }
         }
         if(edibleTargets.isEmpty()){
-            System.out.println(this + " failed to find suitable prey");
             return;
         }
 

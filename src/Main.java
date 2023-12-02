@@ -45,7 +45,7 @@ public class Main {
         }
 
         int size = Integer.parseInt(input[0]); // Get the integer from the first line of the
-        int delay = 200;
+        int delay = 100;
         int display_size = 800;
 
         // Setup objects

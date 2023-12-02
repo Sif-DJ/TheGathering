@@ -15,7 +15,7 @@ public class Carcass extends Food {
     }
 
     @Override
-    public void act(World world) throws DeathException {
+    public void act(World world){
         if(world.getCurrentTime() % 20 == 0) rotTimer-=1;
 
         try {
@@ -27,7 +27,7 @@ public class Carcass extends Food {
                 die(world);
             }
         }catch (DeathException e){
-            System.out.println(e.getMessage());
+            System.out.println(e);
         }
 
     }

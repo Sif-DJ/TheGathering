@@ -14,6 +14,7 @@ public class Bear extends Predator {
 
     public Bear() {
         this.energy = 500;
+        this.maxEnergy = 1000;
         this.age = 0;
         this.ageMax = 50;
         this.health = 30;
@@ -36,8 +37,15 @@ public class Bear extends Predator {
 
     @Override
     public void chooseNextTarget(World world) {
-        Object[] possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
+        Object[] possibleTargets;
+        try{
+            possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
+        }catch (NullPointerException e){
+            return;
+        }
+
         ArrayList<Animal> edibleTargets = new ArrayList<>();
+        System.out.println(this + " is trying to find a suitable target");
         for(Object obj : possibleTargets){
             try{
                 if(world.getLocation(obj) == null)
@@ -45,8 +53,8 @@ public class Bear extends Predator {
             }catch(Exception e){
                 continue;
             }
-            if(obj instanceof Wolf){
-                edibleTargets.add((Wolf)obj);
+            if(obj instanceof Rabbit){
+                edibleTargets.add((Rabbit)obj);
             }
         }
         if(edibleTargets.isEmpty()){
@@ -55,6 +63,7 @@ public class Bear extends Predator {
         }
 
         targetPrey = edibleTargets.get(r.nextInt(edibleTargets.size()));
+        System.out.println(this + " found and is hunting " + targetPrey);
     }
 
     @Override

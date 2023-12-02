@@ -11,15 +11,17 @@ public abstract class Animal extends Organism {
     protected int age;
     protected int ageMax;
     protected int foodSearchRadius;
+    protected int searchRadius;
     protected int health;
     protected boolean isBaby = true;
 
     @Override
-    public void die(World world){
+    public void die(World world) throws DeathException{
         Location l;
         try {
             l = world.getLocation(this);
         }catch(IllegalArgumentException e){
+            super.die(world);
             return;
         }
         world.remove(this);
@@ -27,10 +29,12 @@ public abstract class Animal extends Organism {
             if (world.getNonBlocking(l) instanceof Grass) {
                 world.delete(world.getNonBlocking(l));
             }else if (world.getNonBlocking(l) instanceof Burrow){
+                super.die(world);
                 return;
             }else if(world.getNonBlocking(l) instanceof Carcass){
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
                 carcass.energy += this.energy + 10;
+                super.die(world);
                 return;
             }
         }
@@ -46,6 +50,7 @@ public abstract class Animal extends Organism {
         tryReproduce(world);
 
         if(energy <= 0 || health <= 0){
+            System.out.println();
             die(world);
         }
     }
@@ -97,7 +102,7 @@ public abstract class Animal extends Organism {
             } else if(world.containsNonBlocking(world.getLocation(l))){
                 int notFoodCount = 0;
                 for(T f : food){
-                    if(!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)))){
+                    if(!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)).getClass())){
                         notFoodCount++;
                     }
                 }
@@ -109,16 +114,7 @@ public abstract class Animal extends Organism {
         Location l = world.getCurrentLocation();
         while (it.hasNext()){
             Location locationOfFood = it.next();
-            int newFoodXLength = getXlengthBetweenTiles (locationOfFood, l);
-            int newFoodYLength = getYlengthBetweenTiles (locationOfFood, l);
-            double newLength = 1.0;
-            if(newFoodXLength == 0) newLength = newFoodYLength;
-            else if(newFoodYLength == 0) newLength = newFoodXLength;
-            else{
-                newFoodXLength = (int) Math.pow(newFoodXLength,2);
-                newFoodYLength = (int) Math.pow(newFoodYLength,2);
-                newLength = Math.sqrt(newFoodXLength+newFoodYLength);
-            }
+            double newLength = getLengthBetweenTiles(locationOfFood,l);
             if(closestFood == null) {
                 closestFood = locationOfFood;
                 currentLength = newLength;
@@ -314,6 +310,57 @@ public abstract class Animal extends Organism {
         else
             return b.getY() - a.getY();
     }
+
+    /**
+     * gives the length between location a and b
+     * @param a location 1
+     * @param b location 2
+     * @return the length between location a and b
+     */
+    public double getLengthBetweenTiles(Location a, Location b){
+        double lenght = 0;
+        int xLength = getXlengthBetweenTiles(a,b);
+        int Ylength = getYlengthBetweenTiles(a,b);
+        if(xLength == 0) lenght = Ylength;
+        else if(Ylength == 0) lenght = xLength;
+        else{
+            xLength = (int) Math.pow(xLength,2);
+            Ylength = (int) Math.pow(Ylength,2);
+            lenght = Math.sqrt(xLength+Ylength);
+        }
+        return lenght;
+    }
+
+
+    /**
+     *  returns locations of all animals given in arraylist with a distances
+     *  determind by the searchRadius variable which all animals have
+     * @param world the world object
+     * @param animals arraylist of the animal types you are searching for
+     * @return locations of all animals searched for
+     * @param <T> things that extends animal
+     */
+    public <T extends Animal> ArrayList<Location> searchForAnimals(World world, ArrayList<T> animals){
+        if (animals.isEmpty()) return null;
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(),searchRadius));
+        Iterator<Location> it = list.iterator();
+        while (it.hasNext()){
+            Location l = it.next();
+            if(world.isTileEmpty(world.getLocation(l))){
+                it.remove();
+            } else {
+                int notAnimalScearhedFor = 0;
+                for(T f : animals){
+                    if(!f.getClass().isInstance(world.getTile(l).getClass())){
+                        notAnimalScearhedFor++;
+                    }
+                }
+                if(notAnimalScearhedFor >= animals.size()){it.remove();}
+            }
+        }
+        return list;
+    }
+
     /**
      * Creatures age and loose a maximum energy for every time it ages.
      * At one point it dies when its age can no longer sustain itself.
