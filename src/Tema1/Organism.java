@@ -14,8 +14,8 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
 
     /**
      * Deletes this object when called.
-     * @param world the world object.
-     * @throws DeathException this indicates that the this has died.
+     * @param world The world the object is in.
+     * @throws DeathException This indicates that the this has died.
      */
     public void die(World world) throws DeathException{
         world.delete(this);

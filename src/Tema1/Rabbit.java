@@ -27,6 +27,12 @@ public class Rabbit extends Animal{
     }
 
     @Override
+    public void die(World world){
+         burrow.unAssign(this);
+         super.die(world);
+    }
+
+    @Override
     public Animal createNewSelf(){
         return new Rabbit();
     }
@@ -46,9 +52,14 @@ public class Rabbit extends Animal{
         if(world.getCurrentLocation() == null) return;
         if(!isInHole()) {
             ArrayList<Location> f = searchForAnimals(world,fleeFrom);
+            /*
             if(!(f == null) || !f.isEmpty()) {
                 Location closest = getClosestLocation(world, f);
-                flee(world,closest,burrow);
+                if( burrow != null){
+                    flee(world,closest,burrow);
+                }else{
+                    flee(world,closest);
+                }
                 if(world.containsNonBlocking(world.getLocation(this))){
                     if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
                         assignHole(world);
@@ -57,6 +68,7 @@ public class Rabbit extends Animal{
                 }
                 return;
             }
+            */
 
             if(world.isDay()){
                 wandering(world);

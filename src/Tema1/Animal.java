@@ -16,30 +16,27 @@ public abstract class Animal extends Organism {
     protected boolean isBaby = true;
 
     @Override
-    public void die(World world) throws DeathException{
+    public void die(World world) throws DeathException {
         Location l;
         System.out.println(this + " is going to die");
         try {
             l = world.getLocation(this);
         }catch(IllegalArgumentException e){
-            world.remove(this);
             super.die(world);
             return;
         }
         world.remove(this);
         if(world.containsNonBlocking(l)) {
-            if (world.getNonBlocking(l) instanceof Grass) {
-                world.delete(world.getNonBlocking(l));
-            }
             if (world.getNonBlocking(l) instanceof Burrow){
                 super.die(world);
-                return;
             }
             if(world.getNonBlocking(l) instanceof Carcass){
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
                 carcass.energy += this.energy + 10;
                 super.die(world);
-                return;
+            }
+            if(world.getNonBlocking(l) instanceof Grass) {
+                world.delete(world.getNonBlocking(l));
             }
         }
         world.setTile(l, new Carcass(energy));
@@ -53,6 +50,7 @@ public abstract class Animal extends Organism {
 
         tryReproduce(world);
 
+        checkAge(world);
         if(energy <= 0 || health <= 0){
             die(world);
             // Crash occurs after here
@@ -379,6 +377,10 @@ public abstract class Animal extends Organism {
     public void age(World world) throws DeathException{
         this.age += 1;
         this.maxEnergy -= 5;
+        checkAge(world);
+    }
+
+    public void checkAge(World world){
         if(this.age >= this.ageMax) {
             die(world);
         }
