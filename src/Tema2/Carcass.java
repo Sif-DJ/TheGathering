@@ -11,7 +11,7 @@ public class Carcass extends Food {
     int rotTimer = 3;
 
     public Carcass(int energy){
-        this.energy = energy + 10;
+        this.energy = energy + 100;
     }
 
     @Override

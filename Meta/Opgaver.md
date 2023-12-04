@@ -66,7 +66,7 @@ Kaniner kan kun grave nye udgange mens de er i deres huller.
 >>- [x] **K2-2a.** Ulve er et flokdyr. De søger konstant mod andre ulve i flokken, og derigennem
 ’jager’ sammen. Når inputfilen beskriver (på en enkelt linje) at der skal placeres flere
 ulve, bør disse automatisk være i samme flok.
->>- [ ] **K2-3a.** Ulve og deres flok, tilhører en ulvehule, det er også her de formerer sig. Ulve
+>>- [x] **K2-3a.** Ulve og deres flok, tilhører en ulvehule, det er også her de formerer sig. Ulve
 ’bygger’ selv deres huler. Ulve kan ikke lide andre ulveflokke og deres huler. De prøver
 således at undgå andre grupper. Møder en ulv en ulv fra en anden flok, kæmper de
 mod hinanden.
@@ -78,14 +78,14 @@ mod hinanden.
 >> ### Beware, Bear
 >>- [x] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
 >>- [x] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
->>- [ ] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
+>>- [x] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
 ’bor’. Den knytter sig derimod til et bestemt område og bevæger sig sjældent ud herfra.
 Dette territories centrum bestemmes ud fra bjørnens startplacering på kortet.
 >>- [ ] **K2-7a.** Dertil spiser bjørne også bær fra buske (såsom blåbær og hindbær) når de gror
 i området. Bær er en god ekstra form for næring for bjørnen (om end det ikke giver
 samme mængde energi som når de spiser kød), men som det er med buske går der tid
 før bær gror tilbage. Bær skal indsættes på kortet når inputfilerne beskriver dette.
->>- [ ] **K2-8a.** Bjørnen er naturligvis vores øverste rovdyr i denne lille fødekæde, men det
+>>- [x] **K2-8a.** Bjørnen er naturligvis vores øverste rovdyr i denne lille fødekæde, men det
 hænder at en stor nok gruppe ulve kan angribe (og dræbe) en bjørn. Dette vil i praksis
 være hvis flere ulve af samme flok er i nærheden af en bjørn.
 

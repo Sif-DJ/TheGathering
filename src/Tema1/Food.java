@@ -20,4 +20,8 @@ public abstract class Food extends Organism implements NonBlocking {
         }
         return energyToReturn;
     }
+
+    public int getEnergy(){
+        return energy;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.*;
 public class Rabbit extends Animal{
 
     private RabbitBurrow burrow;
-    private ArrayList<Animal> fleeFrom = new ArrayList<>();
+    private final ArrayList<Animal> fleeFrom = new ArrayList<>();
 
     //Rabbit constructor
      public Rabbit(){
@@ -28,9 +28,9 @@ public class Rabbit extends Animal{
 
     @Override
     public void die(World world) throws DeathException{
+        if(burrow != null)
+            burrow.unAssign(this);
          super.die(world);
-         burrow.unAssign(this);
-         System.out.println(this + " has been unassigned from a burrow");
     }
 
     @Override

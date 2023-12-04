@@ -20,7 +20,7 @@ public abstract class Predator extends Animal {
             targetPrey = null;
         }
 
-        if(isHungry() && targetPrey == null){
+        if(isHungry() && !isHunting()){
             Carcass carcass = getAnyCarcass(world);
             if(carcass == null) {
                 chooseNextTarget(world);
@@ -29,8 +29,10 @@ public abstract class Predator extends Animal {
                 chooseNextTarget(carcass);
             }
         }
+    }
 
-        if(targetPrey == null){
+    public void doMove(World world){
+        if(!isHunting()){
             wandering(world);
         }
         else{
@@ -44,7 +46,7 @@ public abstract class Predator extends Animal {
      * @param world The world the attacker is in.
      */
     public void attemptAttack(World world){
-        if(targetPrey == null)return;
+        if(!isHunting())return;
         Location[] surroundingTiles = world.getSurroundingTiles(world.getLocation(this)).toArray(new Location[0]);
         for(Location l : surroundingTiles){
             try{
@@ -79,7 +81,7 @@ public abstract class Predator extends Animal {
     }
 
     /**
-     * Gets any carcass in the world and returns that carcess.
+     * Gets any carcass in the world and returns that carcass.
      * @param world to look in
      * @return a carcass object
      */
@@ -94,4 +96,9 @@ public abstract class Predator extends Animal {
             return null;
         return carcasses.get(r.nextInt(carcasses.size()));
     }
+
+    public boolean isHunting(){
+        return (targetPrey != null);
+    }
+
 }

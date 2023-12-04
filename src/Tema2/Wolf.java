@@ -6,7 +6,7 @@ import itumulator.world.*;
 import java.awt.*;
 
 public class Wolf extends Predator {
-    private final Pack pack;
+    protected final Pack pack;
     protected WolfBurrow burrow;
     
     public Wolf(Pack pack){
@@ -32,6 +32,8 @@ public class Wolf extends Predator {
             System.out.println(e.getMessage());
             return;
         }
+
+        doMove(world);
     }
     @Override
     public void tryReproduce(World world) {
@@ -45,7 +47,7 @@ public class Wolf extends Predator {
 
     @Override
     public void chooseNextTarget(Object edible) {
-        pack.assignPrey((Animal)edible);
+        pack.assignPrey(edible);
     }
 
     public void digHole(World world){

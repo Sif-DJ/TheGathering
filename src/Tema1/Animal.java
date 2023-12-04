@@ -52,7 +52,6 @@ public abstract class Animal extends Organism {
 
         checkAge(world);
         if(energy <= 0 || health <= 0){
-            System.out.println(this + " is getting ready to die");
             die(world);
         }
     }
@@ -380,7 +379,7 @@ public abstract class Animal extends Organism {
         checkAge(world);
     }
 
-    public void checkAge(World world){
+    public void checkAge(World world) throws DeathException{
         if(this.age >= this.ageMax) {
             die(world);
         }

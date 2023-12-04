@@ -1,8 +1,6 @@
 package Tema2;
 
-import Tema1.Animal;
-import Tema1.DeathException;
-import Tema1.Rabbit;
+import Tema1.*;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;
@@ -10,11 +8,11 @@ import java.util.ArrayList;
 
 public class Bear extends Predator {
 
-    private Location territory;
-
+    private Location territoryCenter;
+    private ArrayList<Location> territoryTiles;
     public Bear() {
         this.maxEnergy = 1000;
-        this.energy = maxEnergy;
+        this.energy = 500;
         this.age = 0;
         this.ageMax = 50;
         this.health = 30;
@@ -23,8 +21,10 @@ public class Bear extends Predator {
 
     @Override
     public void act(World world) throws DeathException {
-        if(territory == null)
-            territory = world.getLocation(this);
+        if(territoryCenter == null){
+            territoryCenter = world.getLocation(this);
+            territoryTiles = new ArrayList<>(world.getSurroundingTiles(territoryCenter,3));
+        }
         try{
             super.act(world);
         }catch (DeathException e){
@@ -32,7 +32,26 @@ public class Bear extends Predator {
             return;
         }
 
-        // Insert code here
+        if(isHunting()) {
+            doMove(world);
+            return;
+        }
+
+        for(int i = 0; i < territoryTiles.size();i++){
+            if(world.getLocation(this).equals(territoryTiles.get(i))){
+                break;
+            }
+            if(i == territoryTiles.size()-1){
+                determineNextMovement(world,territoryCenter);
+                return;
+            }
+        }
+        wandering(world);
+    }
+    @Override
+    public void doMove(World world){
+        determineNextMovement(world, world.getLocation(targetPrey));
+        attemptAttack(world);
     }
 
     @Override
@@ -41,6 +60,16 @@ public class Bear extends Predator {
         try{
             possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
         }catch (NullPointerException e){
+            return;
+        }
+
+
+        ArrayList<Food> foods = new ArrayList<>();
+        foods.add(new BerryBush());
+        Location l = searchForFood(world, foods);
+        if(l != null && r.nextInt(3) > 0){
+            targetPrey = world.getNonBlocking(l);
+            System.out.println(this + " found a " + targetPrey);
             return;
         }
 
@@ -53,9 +82,12 @@ public class Bear extends Predator {
             }catch(Exception e){
                 continue;
             }
-            if(obj instanceof Rabbit){
+            if(obj instanceof Rabbit)
                 edibleTargets.add((Rabbit)obj);
-            }
+            if(obj instanceof Bear)
+                edibleTargets.add((Bear)obj);
+            if(obj instanceof Wolf)
+                edibleTargets.add((Wolf)obj);
         }
         if(edibleTargets.isEmpty()){
             System.out.println(this + " failed to find suitable prey");
