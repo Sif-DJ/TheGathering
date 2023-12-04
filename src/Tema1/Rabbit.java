@@ -72,7 +72,7 @@ public class Rabbit extends Animal{
             if(world.isDay()){
                 wandering(world);
             }else if(burrow != null){
-                determineNextMovement(world, world.getLocation(burrow));
+                headTowards(world, world.getLocation(burrow));
             }
 
 
@@ -90,7 +90,7 @@ public class Rabbit extends Animal{
             // All nighttime calculations
             if (world.isNight()) {
                 if (burrow == null){
-                    digHole(world);
+                    digBurrow(world);
                 } else if (world.getLocation(burrow).equals(world.getLocation(this))) {
                     enterHole(world);
                 } else if (burrow == null && world.containsNonBlocking(world.getLocation(this))) {
@@ -135,29 +135,6 @@ public class Rabbit extends Animal{
         animal.energy -= 40;
     }
 
-
-    /**
-     * Checks if the current tile contains Nonblocking entities.
-     * If yes, it checks if its valid for creating a RabbitHole.
-     * If yes, it creates a new RabbitHole instance.
-     * @param world The world the rabbit is in.
-     */
-    public void digHole(World world){
-        Location l = world.getLocation(this);
-        if(world.containsNonBlocking(l)){
-            if(world.getNonBlocking(l) instanceof Grass){
-                 world.delete(world.getNonBlocking(l));
-            }else if (world.getNonBlocking(l) instanceof RabbitBurrow){
-                assignHole(world);
-                return;
-            }else if(world.getNonBlocking(l) instanceof Carcass){
-                return;
-            }
-        }
-        world.setTile(l, new RabbitBurrow());
-        assignHole(world);
-    }
-
     /**
      *
      * @param world The world the rabbit is in.
@@ -171,6 +148,11 @@ public class Rabbit extends Animal{
                 this.burrow.addToList(this);
             }
         }
+    }
+
+    public void diggyHole(World world, Location l){
+        world.setTile(l, new RabbitBurrow());
+        assignHole(world);
     }
 
     public void assignHole(RabbitBurrow burrow){

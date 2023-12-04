@@ -81,7 +81,7 @@ mod hinanden.
 >>- [x] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
 ’bor’. Den knytter sig derimod til et bestemt område og bevæger sig sjældent ud herfra.
 Dette territories centrum bestemmes ud fra bjørnens startplacering på kortet.
->>- [ ] **K2-7a.** Dertil spiser bjørne også bær fra buske (såsom blåbær og hindbær) når de gror
+>>- [x] **K2-7a.** Dertil spiser bjørne også bær fra buske (såsom blåbær og hindbær) når de gror
 i området. Bær er en god ekstra form for næring for bjørnen (om end det ikke giver
 samme mængde energi som når de spiser kød), men som det er med buske går der tid
 før bær gror tilbage. Bær skal indsættes på kortet når inputfilerne beskriver dette.

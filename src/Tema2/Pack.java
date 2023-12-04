@@ -58,28 +58,11 @@ public class Pack {
         }
     }
 
-    public void digBurrow(World world) {
-        Location l = world.getLocation(list.get(0));
-        if(world.containsNonBlocking(l)){
-            if(world.getNonBlocking(l) instanceof Grass) {
-                world.delete(world.getNonBlocking(l));
-            } else if (world.getNonBlocking(l) instanceof Burrow){
-                return;
-            } else if(world.getNonBlocking(l) instanceof Carcass){
-                return;
-            }
-        }
-        packBurrow = new WolfBurrow();
-        world.setTile(l, packBurrow);
-        assignBurrow(packBurrow);
-    }
-
     public void assignBurrow(WolfBurrow burrow) {
         for(Wolf wolf : list) {
             wolf.burrow = burrow;
         }
     }
-
 
     public Location getPreyLocation(World world){
         return world.getLocation(targetPrey);
@@ -94,7 +77,7 @@ public class Pack {
         }
         double averageX = totalX / list.size();
         double averageY = totalY / list.size();
-        return null;
+        return new Location((int) averageX,(int) averageY);
     }
 
 }

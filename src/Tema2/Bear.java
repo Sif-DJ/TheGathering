@@ -12,7 +12,7 @@ public class Bear extends Predator {
     private ArrayList<Location> territoryTiles;
     public Bear() {
         this.maxEnergy = 1000;
-        this.energy = 500;
+        this.energy = maxEnergy;
         this.age = 0;
         this.ageMax = 50;
         this.health = 30;
@@ -37,20 +37,24 @@ public class Bear extends Predator {
             return;
         }
 
+        /* Something broke the bear here
         for(int i = 0; i < territoryTiles.size();i++){
             if(world.getLocation(this).equals(territoryTiles.get(i))){
                 break;
             }
             if(i == territoryTiles.size()-1){
-                determineNextMovement(world,territoryCenter);
+                headTowards(world,territoryCenter);
                 return;
             }
         }
+        */
+
         wandering(world);
     }
+
     @Override
     public void doMove(World world){
-        determineNextMovement(world, world.getLocation(targetPrey));
+        headTowards(world, world.getLocation(targetPrey));
         attemptAttack(world);
     }
 
@@ -60,14 +64,14 @@ public class Bear extends Predator {
         try{
             possibleTargets = world.getEntities().keySet().toArray(new Object[0]);
         }catch (NullPointerException e){
+            System.out.println(e);
             return;
         }
-
 
         ArrayList<Food> foods = new ArrayList<>();
         foods.add(new BerryBush());
         Location l = searchForFood(world, foods);
-        if(l != null && r.nextInt(3) > 0){
+        if(l != null){
             targetPrey = world.getNonBlocking(l);
             System.out.println(this + " found a " + targetPrey);
             return;
@@ -84,7 +88,7 @@ public class Bear extends Predator {
             }
             if(obj instanceof Rabbit)
                 edibleTargets.add((Rabbit)obj);
-            if(obj instanceof Bear)
+            if(obj instanceof Bear && !obj.equals(this))
                 edibleTargets.add((Bear)obj);
             if(obj instanceof Wolf)
                 edibleTargets.add((Wolf)obj);
@@ -97,6 +101,9 @@ public class Bear extends Predator {
         targetPrey = edibleTargets.get(r.nextInt(edibleTargets.size()));
         System.out.println(this + " found and is hunting " + targetPrey);
     }
+
+    @Override
+    public void diggyHole(World world, Location l) {}
 
     @Override
     public void tryReproduce(World world) {

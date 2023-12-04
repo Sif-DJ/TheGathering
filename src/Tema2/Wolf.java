@@ -11,7 +11,7 @@ public class Wolf extends Predator {
     
     public Wolf(Pack pack){
         this.maxEnergy = 400;
-        this.energy = 200;
+        this.energy = maxEnergy;
         this.age = 0;
         this.pack = pack;
         this.ageMax = 15;
@@ -34,7 +34,34 @@ public class Wolf extends Predator {
         }
 
         doMove(world);
+        if(burrow == null && world.isNight()){
+            digBurrow(world);
+        }
+
     }
+
+    @Override
+    public void doMove(World world) {
+        if(!isHunting()){
+            Location packL = pack.getAverageLocation(world);
+            if(getyLengthBetweenTiles(packL,world.getLocation(this)) > 3){
+                headTowards(world, packL);
+            }else if(world.isNight() && burrow != null){
+                try{
+                    headTowards(world, world.getLocation(burrow));
+                }catch(Exception e){
+                    wandering(world);
+                }
+            }else{
+                wandering(world);
+            }
+        }
+        else{
+            headTowards(world, world.getLocation(targetPrey));
+            attemptAttack(world);
+        }
+    }
+
     @Override
     public void tryReproduce(World world) {
 
@@ -50,20 +77,11 @@ public class Wolf extends Predator {
         pack.assignPrey(edible);
     }
 
-    public void digHole(World world){
-        Location l = world.getLocation(this);
-        if(world.containsNonBlocking(l)){
-            Object nonBlocking = world.getNonBlocking(l);
-            if(nonBlocking instanceof Grass)
-                world.delete(nonBlocking);
-            if(nonBlocking instanceof Burrow)
-                return;
-            if(nonBlocking instanceof Carcass)
-                return;
-        }
+    @Override
+    public void diggyHole(World world, Location l){
         burrow = new WolfBurrow();
         world.setTile(l, burrow);
-        enterHole();
+        pack.assignBurrow(burrow);
     }
 
     public void enterHole(){

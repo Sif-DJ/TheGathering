@@ -19,6 +19,11 @@ public class Grass extends Food {
         spreadChance = 10;
     }
 
+    @Override
+    public DisplayInformation getInformation() {
+        return new DisplayInformation(Color.green, "grass");
+    }
+
     /**
      * All actions taken during a call to simulate the program.
      * @param world providing details of the position on which the actor is currently located and much more.
@@ -59,10 +64,5 @@ public class Grass extends Food {
         if(list.isEmpty()) return;
         Location l = list.get(r.nextInt(list.size()));
         world.setTile(l, new Grass());
-    }
-
-    @Override
-    public DisplayInformation getInformation() {
-        return new DisplayInformation(Color.green, "grass");
     }
 }

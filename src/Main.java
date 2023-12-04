@@ -74,6 +74,7 @@ public class Main {
                     if(type.equals("burrow"))createEntityAtLocation(world, new RabbitBurrow(), l);
                     if(type.equals("wolf"))createEntityAtLocation(world, new Wolf(new Pack()), l);
                     if(type.equals("bear"))createEntityAtLocation(world, new Bear(), l);
+                    if(type.equals("berry"))createEntityAtLocation(world, new BerryBush(), l);
                 } else {
                     int[] nums;
                     String possibleRange = line[1];
@@ -89,8 +90,9 @@ public class Main {
                     if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
                     if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
                     if(type.equals("burrow"))createEntities(world, new RabbitBurrow(), nums); // Burrows in random positions
-                    if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Burrows in random positions
-                    if(type.equals("bear"))createEntities(world, new Bear(), nums); // Burrows in random positions
+                    if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Wolfs in random positions
+                    if(type.equals("bear"))createEntities(world, new Bear(), nums); // Bears in random positions
+                    if(type.equals("berry"))createEntities(world, new BerryBush(), nums); // BerryBushes in random positions
                 }
 
             }
@@ -185,7 +187,9 @@ public class Main {
             return wolf;
         } else if (entity instanceof Bear) {
             return new Bear();
-        }else{
+        } else if (entity instanceof BerryBush) {
+            return new BerryBush();
+        } else{
             throw new Exception("Cannot recognize entity");
         }
     }

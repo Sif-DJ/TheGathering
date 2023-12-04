@@ -31,12 +31,16 @@ public abstract class Predator extends Animal {
         }
     }
 
+    /**
+     * Exclusive change of how a predator moves. Meant to be overwritten.
+     * @param world
+     */
     public void doMove(World world){
         if(!isHunting()){
             wandering(world);
         }
         else{
-            determineNextMovement(world, world.getLocation(targetPrey));
+            headTowards(world, world.getLocation(targetPrey));
             attemptAttack(world);
         }
     }
@@ -97,6 +101,10 @@ public abstract class Predator extends Animal {
         return carcasses.get(r.nextInt(carcasses.size()));
     }
 
+    /**
+     * Determines if an animal is in the middle of hunting.
+     * @return boolean is true if it is hunting.
+     */
     public boolean isHunting(){
         return (targetPrey != null);
     }

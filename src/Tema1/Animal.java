@@ -21,21 +21,21 @@ public abstract class Animal extends Organism {
         System.out.println(this + " is going to die");
         try {
             l = world.getLocation(this);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             super.die(world);
             return;
         }
         world.remove(this);
-        if(world.containsNonBlocking(l)) {
-            if (world.getNonBlocking(l) instanceof Burrow){
+        if (world.containsNonBlocking(l)) {
+            if (world.getNonBlocking(l) instanceof Burrow) {
                 super.die(world);
             }
-            if(world.getNonBlocking(l) instanceof Carcass){
+            if (world.getNonBlocking(l) instanceof Carcass) {
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
                 carcass.energy += this.energy + 10;
                 super.die(world);
             }
-            if(world.getNonBlocking(l) instanceof Grass) {
+            if (world.getNonBlocking(l) instanceof Grass) {
                 world.delete(world.getNonBlocking(l));
             }
         }
@@ -44,14 +44,14 @@ public abstract class Animal extends Organism {
     }
 
     @Override
-    public void act(World world) throws DeathException{
-        if(world.getCurrentTime() % 20 == 0)
+    public void act(World world) throws DeathException {
+        if (world.getCurrentTime() % 20 == 0)
             age(world);
 
         tryReproduce(world);
 
         checkAge(world);
-        if(energy <= 0 || health <= 0){
+        if (energy <= 0 || health <= 0) {
             die(world);
         }
     }
@@ -60,10 +60,11 @@ public abstract class Animal extends Organism {
 
     /**
      * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
+     *
      * @param world the world object
      */
-    public void reproduce(World world, Animal animal){
-        if(energy < 50 || age < 2)return;
+    public void reproduce(World world, Animal animal) {
+        if (energy < 50 || age < 2) return;
         Random r = new Random();
         Animal entity = this.createNewSelf();
         ArrayList<Location> locations = new ArrayList<>(world.getEmptySurroundingTiles(world.getLocation(this)));
@@ -74,50 +75,97 @@ public abstract class Animal extends Organism {
 
     /**
      * Empty method for instantiating new animals on demand in this abstract class. Can mainly be seen in function reproduce().
+     *
      * @return returns a copy of the animal
      */
     public abstract Animal createNewSelf();
 
     /**
      * Method to determine if it is hungry.
+     *
      * @return boolean
      */
-    public boolean isHungry(){
+    public boolean isHungry() {
         return (energy < maxEnergy * 3.0 / 4.0);
     }
 
+
     /**
-     *  returns the location of the nearest food this animal can eat
+     * Default wandering for animals.
      * @param world the world object
-     * @param food an ArrayList of the Food types the animal can eat
-     * @return the location of the nearest food this animal can eat
      */
-    public <T extends Food> Location searchForFood(World world, ArrayList<T> food){
-        if (food.isEmpty()) return null;
-        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(),foodSearchRadius));
-        Iterator<Location> it = list.iterator();
-        while (it.hasNext()){
-            Location l = it.next();
-            if(!world.containsNonBlocking(l)){
-                it.remove();
-            } else if(world.containsNonBlocking(l)){
-                int notFoodCount = 0;
-                for(T f : food){
-                    if(!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)).getClass())){
-                        notFoodCount++;
-                    }
-                }
-                if(notFoodCount >= food.size()){it.remove();}
-            }
-        }
-        return getClosestLocation(world, list);
+    public void wandering(World world) {
+        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        List<Location> list = new ArrayList<>(neighbours);
+        if (list.isEmpty()) return;
+        move(world, list);
     }
 
-
-    public void move(World world,List<Location> list){
+    public void move(World world, List<Location> list) {
         Location l = list.get(r.nextInt(list.size()));
-        world.move(this,l);
+        world.move(this, l);
         energy -= 2;
+    }
+
+    /**
+     * returns an arraylist of possible locations to move to
+     * @param world the world object
+     * @param locationToReach Location to reach
+     * @return an arraylist of possible locations to move to
+     */
+    public ArrayList<Location> determineNextMovement(World world, Location locationToReach) {
+        Location l = world.getCurrentLocation();
+        int currentxLength = getxLengthBetweenTiles(l, locationToReach);
+        int currentyLength = getyLengthBetweenTiles(l, locationToReach);
+        // Iterate through all surrounding empty tiles to determine possible move locations
+        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        Iterator<Location> it = list.iterator();
+        int tilexLength;
+        int tileyLength;
+        while (it.hasNext()) {
+            Location tile = it.next();
+            tilexLength = getxLengthBetweenTiles(tile, locationToReach);
+            tileyLength = getyLengthBetweenTiles(tile, locationToReach);
+            if (tilexLength > currentxLength || tileyLength > currentyLength) {
+                it.remove();
+            }
+        }
+        return list;
+    }
+
+    /**
+     * returns an arraylist of possible locations to move to
+     * @param world the world object
+     * @param moveAwayForm the location to move away form
+     * @return an arraylist of possible locations to move to
+     */
+    public ArrayList<Location> determineNextMovementAway(World world, Location moveAwayForm){
+        Location l = world.getCurrentLocation();
+        int currentxLength = getxLengthBetweenTiles(l, moveAwayForm);
+        int currentyLength = getyLengthBetweenTiles(l, moveAwayForm);
+        // Iterate through all surrounding empty tiles to determine possible move
+        // locations that are away form the location
+        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        Iterator<Location> it = list.iterator();
+        int tilexLength;
+        int tileyLength;
+        while (it.hasNext()) {
+            Location tile = it.next();
+            tilexLength = getxLengthBetweenTiles(tile, moveAwayForm);
+            tileyLength = getyLengthBetweenTiles(tile, moveAwayForm);
+            if (currentxLength == 0 && tileyLength <= currentyLength) {
+                it.remove();
+            } else if (currentyLength == 0 && tilexLength <= currentxLength) {
+                it.remove();
+            } else {
+                if (tilexLength < currentxLength && tileyLength <= currentyLength) {
+                    it.remove();
+                } else if (tilexLength <= currentxLength && tileyLength < currentyLength) {
+                    it.remove();
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -125,211 +173,133 @@ public abstract class Animal extends Organism {
      * @param world the world object
      * @param locationToReach the location the animal need to reach
      */
-    public void determineNextMovement(World world, Location locationToReach){
-        Location l = world.getCurrentLocation();
-        if(locationToReach == l) return;
-        int currentxLength = getxLengthBetweenTiles(l,locationToReach);
-        int currentyLength = getyLengthBetweenTiles(l, locationToReach);
-
-        // Iterate through all surrounding empty tiles to determine possible move locations
-        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-        Iterator<Location> it = list.iterator();
-        int tilexLength;
-        int tileyLength;
-        while (it.hasNext()) {
-            Location tile = it.next();
-            tilexLength = getxLengthBetweenTiles(tile,locationToReach);
-            tileyLength = getyLengthBetweenTiles(tile,locationToReach);
-            if(tilexLength > currentxLength || tileyLength > currentyLength){
-                it.remove();
-            }
-        }
-        if(list.isEmpty()){
+    public void headTowards(World world,Location locationToReach){
+        ArrayList<Location> list =determineNextMovement(world,locationToReach);
+        if (list.isEmpty()) {
             wandering(world);
             return;
         }
-        move(world,list);
+        move(world, list);
     }
-
     /**
-     * Default wandering for animals.
-     * @param world the world object
-     */
-    public void wandering(World world){
-        Set<Location> neighbours = world.getEmptySurroundingTiles();
-        List<Location> list = new ArrayList<>(neighbours);
-        if(list.isEmpty()) return;
-        move(world,list);
-    }
-
-    /**
-     *  Determines the next movement away from a location
-     * @param world the world object
+     * Determines the next movement away from a location
+     *
+     * @param world    the world object
      * @param location the location to flee from
      */
-    public void flee(World world, Location location){
-        Location l = world.getCurrentLocation();
-        int currentxLength = getxLengthBetweenTiles(l,location);
-        int currentyLength = getyLengthBetweenTiles(l, location);
-        // Iterate through all surrounding empty tiles to determine possible move
-        // locations that are away form the location
-        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-        Iterator<Location> it = list.iterator();
-        int tilexLength;
-        int tileyLength;
-        while (it.hasNext()) {
-            Location tile = it.next();
-            tilexLength = getxLengthBetweenTiles(tile,location);
-            tileyLength = getyLengthBetweenTiles(tile,location);
-            if(currentxLength == 0 && tileyLength <= currentyLength){
-                it.remove();
-            } else if (currentyLength == 0 && tilexLength <= currentxLength) {
-                it.remove();
-            } else {
-                if(tilexLength < currentxLength && tileyLength <= currentyLength){
-                    it.remove();
-                } else if (tilexLength <= currentxLength && tileyLength < currentyLength){
-                    it.remove();
-                }
-            }
-        }
-        if(list.isEmpty()){
+    public void flee(World world, Location location) {
+        List<Location> list = determineNextMovementAway(world,location);
+        if (list.isEmpty()) {
             wandering(world);
             return;
         }
-        move(world,list);
+        move(world, list);
     }
 
     /**
      * Determines the next movement away from a location for animal with burrows
-     * @param world the world object
+     *
+     * @param world    the world object
      * @param location the location to flee from
-     * @param burrow the burrow of an animal if it has one
+     * @param burrow   the burrow of an animal if it has one
      */
-    public void flee(World world, Location location, Burrow burrow){
-        Location l = world.getCurrentLocation();
+    public void flee(World world, Location location, Burrow burrow) {
         Location burrowL = world.getLocation(burrow);
-        int burrowxLength = getxLengthBetweenTiles(l, burrowL);
-        int burrowyLength = getyLengthBetweenTiles(l, burrowL);
-        // Iterate through all empty tiles to determine possible move locations that are closer to the burrow
-        List<Location> listBurrow = new ArrayList<>(world.getEmptySurroundingTiles());
-        Iterator<Location> itBurrow = listBurrow.iterator();
-        int tilexLengthBurrow;
-        int tileyLengthBurrow;
-        while (itBurrow.hasNext()) {
-            Location tile = itBurrow.next();
-            tilexLengthBurrow = getxLengthBetweenTiles(tile,location);
-            tileyLengthBurrow = getyLengthBetweenTiles(tile,location);
-            if(tilexLengthBurrow > burrowxLength || tileyLengthBurrow > burrowyLength){
-                itBurrow.remove();
-            }
-        }
-        int currentxLength = getxLengthBetweenTiles(l,location);
-        int currentyLength = getyLengthBetweenTiles(l, location);
-        // Iterate through all surrounding empty tiles to determine possible move
-        // locations that are away form the location
-        List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-        Iterator<Location> it = list.iterator();
-        int tilexLength;
-        int tileyLength;
-        while (it.hasNext()) {
-            Location tile = it.next();
-            tilexLength = getxLengthBetweenTiles(tile,location);
-            tileyLength = getyLengthBetweenTiles(tile,location);
-            if(currentxLength == 0 && tileyLength <= currentyLength){
-                it.remove();
-            } else if (currentyLength == 0 && tilexLength <= currentxLength) {
-                it.remove();
-            } else {
-                if(tilexLength < currentxLength && tileyLength <= currentyLength){
-                    it.remove();
-                } else if (tilexLength <= currentxLength && tileyLength < currentyLength){
-                    it.remove();
-                }
-            }
-        }
+        List<Location> listBurrow = determineNextMovement(world,burrowL);
+        List<Location> list = determineNextMovementAway(world,location);
         // looks trough locations determining if it is viable to go to the burrow
         ArrayList<Location> priorityL = new ArrayList<>();
-        for(Location loc : list){
-            for(Location locb : listBurrow){
-                if(loc.equals(locb)){
+        for (Location loc : list) {
+            for (Location locb : listBurrow) {
+                if (loc.equals(locb)) {
                     priorityL.add(loc);
                 }
             }
         }
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             wandering(world);
             return;
         }
         //looks if a priority location exists
-        if(!priorityL.isEmpty()){
-            move(world,priorityL);
-        }else{
-            move(world,list);
+        if (!priorityL.isEmpty()) {
+            move(world, priorityL);
+        } else {
+            move(world, list);
         }
 
     }
 
     /**
      * returns the distance in the x axis between the locations
+     *
      * @param a location 1
      * @param b location 2
      * @return the distance in the x axis between the locations
      */
-    public int getxLengthBetweenTiles(Location a,Location b){
-        if(a.getX() > b.getX())
+    public int getxLengthBetweenTiles(Location a, Location b) {
+        if (a.getX() > b.getX())
             return a.getX() - b.getX();
         else
-            return  b.getX() - a.getX();
+            return b.getX() - a.getX();
 
     }
+
     /**
      * returns the distance in the y axis between the locations
+     *
      * @param a location 1
      * @param b location 2
      * @return the distance in the y axis between the locations
      */
-    public int getyLengthBetweenTiles(Location a,Location b){
-        if(a.getY() > b.getY())
+    public int getyLengthBetweenTiles(Location a, Location b) {
+        if (a.getY() > b.getY())
             return a.getY() - b.getY();
         else
             return b.getY() - a.getY();
     }
+
     /**
      * gives the length between location a and b
+     *
      * @param a location 1
      * @param b location 2
      * @return the length between location a and b
      */
-    public double getLengthBetweenTiles(Location a, Location b){
+    public double getLengthBetweenTiles(Location a, Location b) {
         double length;
-        int xLength = getxLengthBetweenTiles(a,b);
-        int yLength = getyLengthBetweenTiles(a,b);
-        if(xLength == 0) length = yLength;
-        else if(yLength == 0) length = xLength;
-        else{
-            xLength = (int) Math.pow(xLength,2);
-            yLength = (int) Math.pow(yLength,2);
-            length = Math.sqrt(xLength+yLength);
+        int xLength = getxLengthBetweenTiles(a, b);
+        int yLength = getyLengthBetweenTiles(a, b);
+        if (xLength == 0) length = yLength;
+        else if (yLength == 0) length = xLength;
+        else {
+            xLength = (int) Math.pow(xLength, 2);
+            yLength = (int) Math.pow(yLength, 2);
+            length = Math.sqrt(xLength + yLength);
         }
         return length;
     }
 
-    public Location getClosestLocation(World world,ArrayList<Location> locations){
-        if(locations == null) return null;
+    /**
+     * a function that return the closest location
+     * @param world the world object
+     * @param locations an arraylist of location you want the closest location of
+     * @return the closest loctaion
+     */
+    public Location getClosestLocation(World world, ArrayList<Location> locations) {
+        if (locations == null) return null;
         Location closestLocation = null;
         Iterator<Location> it = locations.iterator();
         double currentLength = 1;
         Location l = world.getCurrentLocation();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Location location = it.next();
-            double newLength = getLengthBetweenTiles(location,l);
-            if(closestLocation == null) {
+            double newLength = getLengthBetweenTiles(location, l);
+            if (closestLocation == null) {
                 closestLocation = location;
                 currentLength = newLength;
                 continue;
             }
-            if(newLength < currentLength){
+            if (newLength < currentLength) {
                 closestLocation = location;
                 currentLength = newLength;
             }
@@ -338,63 +308,120 @@ public abstract class Animal extends Organism {
     }
 
     /**
-     *  returns locations of all animals given in arraylist with a distances
-     *  determined by the searchRadius variable which all animals have
-     * @param world the world object
+     * returns locations of all animals given in arraylist with a distances
+     * determined by the searchRadius variable which all animals have
+     *
+     * @param world   the world object
      * @param animals arraylist of the animal types you are searching for
+     * @param <T>     things that extends animal
      * @return locations of all animals searched for
-     * @param <T> things that extends animal
      */
-    public <T extends Animal> ArrayList<Location> searchForAnimals(World world, ArrayList<T> animals){
+    public <T extends Animal> ArrayList<Location> searchForAnimals(World world, ArrayList<T> animals) {
         if (animals.isEmpty() || world.getLocation(this) == null) return null;
-        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(this),searchRadius));
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(this), searchRadius));
         Iterator<Location> it = list.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Location l = it.next();
-            if(world.isTileEmpty(l)){
+            if (world.isTileEmpty(l)) {
                 it.remove();
             } else {
                 int notAnimalSearchedFor = 0;
-                for(T f : animals){
-                    if(!(f.getClass().isInstance(world.getTile(l)))){
+                for (T f : animals) {
+                    if (!(f.getClass().isInstance(world.getTile(l)))) {
                         notAnimalSearchedFor++;
 
                     }
                 }
-                if(notAnimalSearchedFor >= animals.size()){it.remove();}
+                if (notAnimalSearchedFor >= animals.size()) {
+                    it.remove();
+                }
             }
         }
         return list;
     }
 
     /**
+     * returns the location of the nearest food this animal can eat
+     *
+     * @param world the world object
+     * @param food  an ArrayList of the Food types the animal can eat
+     * @return the location of the nearest food this animal can eat
+     */
+    public <T extends Food> Location searchForFood(World world, ArrayList<T> food) {
+        if (food.isEmpty()) return null;
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(), foodSearchRadius));
+        Iterator<Location> it = list.iterator();
+        while (it.hasNext()) {
+            Location l = it.next();
+            if (!world.containsNonBlocking(l)) {
+                it.remove();
+            } else if (world.containsNonBlocking(l)) {
+                int notFoodCount = 0;
+                for (T f : food) {
+                    if (!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)).getClass())) {
+                        notFoodCount++;
+                    }
+                }
+                if (notFoodCount >= food.size()) {
+                    it.remove();
+                }
+            }
+        }
+        return getClosestLocation(world, list);
+    }
+
+    /**
      * Creatures age and loose a maximum energy for every time it ages.
      * At one point it dies when its age can no longer sustain itself.
+     *
      * @param world the world object
      * @throws DeathException throws an exception to intervene nested checks.
      */
-    public void age(World world) throws DeathException{
+    public void age(World world) throws DeathException {
         this.age += 1;
         this.maxEnergy -= 5;
         checkAge(world);
     }
 
-    public void checkAge(World world) throws DeathException{
-        if(this.age >= this.ageMax) {
+    public void checkAge(World world) throws DeathException {
+        if (this.age >= this.ageMax) {
             die(world);
         }
     }
 
     /**
      * consumes an amount of energy from a food instance, refilling its own energy.
+     *
      * @param food The food the rabbit is trying to eat.
      */
     public void eat(Food food) {
         energy += food.eat(8);
-        if(energy > maxEnergy) energy = maxEnergy;
+        if (energy > maxEnergy) energy = maxEnergy;
     }
 
     public void takeDamage(int damageTaken){
         health -= damageTaken;
     }
+
+    /**
+     * Checks if the current tile contains Nonblocking entities.
+     * If yes, it checks if its valid for creating a burrow.
+     * If yes, it creates a new RabbitBurrow instance.
+     * @param world The world the rabbit is in.
+     */
+    public void digBurrow(World world) {
+        Location l = world.getLocation(this);
+        if (world.containsNonBlocking(l)) {
+            if (world.getNonBlocking(l) instanceof Grass) {
+                world.delete(world.getNonBlocking(l));
+            } else if (world.getNonBlocking(l) instanceof Burrow) {
+                return;
+            } else if (world.getNonBlocking(l) instanceof Carcass) {
+                return;
+            }
+        }
+        diggyHole(world, l);
+    }
+
+    public abstract void diggyHole(World world, Location l);
 }
