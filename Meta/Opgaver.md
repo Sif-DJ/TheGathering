@@ -89,5 +89,40 @@ før bær gror tilbage. Bær skal indsættes på kortet når inputfilerne beskri
 hænder at en stor nok gruppe ulve kan angribe (og dræbe) en bjørn. Dette vil i praksis
 være hvis flere ulve af samme flok er i nærheden af en bjørn.
 
-## Tema 3:
+>## Tema 3:
+>>### Carcasssssss
+>>- [ ] **K3-1a.** Opret ådsler, som placeres på kortet når input filerne beskriver dette.
+>>- [ ] **K3-1b.** Når dyr dør nu, skal de efterlade et ådsel. Ådsler kan spises ligesom dyr kunne
+tidligere, dog afhænger mængden af ’kød’ af hvor stort dyret der døde er. Således
+spises dyr ikke direkte længere når det slås ihjel, i stedet spises ådslet. Alle dyr som er
+kødædende spiser ådsler.
+>>- [ ] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
+op (altså forsvinder det)! Det forsvinder naturligvis også hvis det hele er spist.
+>
+>>### Mushrooms (Cordyceps)
+>>- [ ] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
+svampe I et ådsel. Dette kan ikke ses på selve kortet, men svampen lever I selve ådslet.
+Når ådslet er nedbrudt (og forsvinder), og hvis svampen er stor nok, kan den ses som
+en svamp placeret på kortet, der hvor ådslet lå.
+>>- [ ] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
+nærheden. Er dette ikke tilfældet, vil svampen også dø eRer lidt Bd. Desto større ådslet 
+er, desto længere vil svampen leve eRer ådslet er væk. Da svampen kan udsende
+sporer, kan den række lidt længere end kun de omkringliggende pladser
+>
+>>### Frivilige Krav
+>>- [ ] **KF3-1a.** Når en svamp dør, er jorden ekstra gunstig. Derfor opstår græs på sådanne
+felter, når svampen dør.
+>>- [ ] **KF3-2a.** Ikke alle typer svampe lever på døde dyr. Der eksisterer også en anden type
+svamp (Cordyceps). Denne svamp spreder sig til, og styrer, (kun) levende dyr. Deres
+livscyklus er den samme som de tidligere svampe; de nedbryder langsomt dyret, og er
+der ikke mere tilbage af dyret, dør svampen snart efter. Når svampen har tæret nok på 
+dyret, dør dyret. Da denne svamp nedbryder dyret mens det lever, er der ikke noget
+ådsel efter døden. Svampen dør også når dyret dør, med undtagelsen af krav
+>>- [ ] **KF3-3a.** Når Cordyceps’ vært dør, forsøger den at sprede sig til levende dyr i nærheden,
+og kun på dette tidspunkt. Igen kan denne svamp sprede sig lidt længere end de
+omkringliggende pladser da den sender sporer ud.
+>>- [ ] **KF3-3b.** Når et dyr er inficeret med Cordyceps svampen, overtager svampen dyrets
+handlinger. Dyret gør derfor som svampen bestemmer, hvilket er at søge mod andre
+dyr af samme art.
+
 ## Tema 4:
