@@ -58,7 +58,15 @@ public class Main {
             for(int i = 1; i < input.length; i++){
                 System.out.println(input[i]);
                 String[] line = input[i].split(" ");
-                String type = line[0];
+
+                String type;
+                if(line[0].equals("cordyceps")){
+                    type = line[1];
+                    // Remove
+                }
+                else{
+                    type = line[0];
+                }
 
                 if(line.length > 2){
                     String[] placeInfo = line[2].split(",");
