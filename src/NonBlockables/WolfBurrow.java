@@ -1,6 +1,6 @@
-package Tema2;
+package NonBlockables;
 
-import Tema1.*;
+import Animals.Wolf;
 import itumulator.world.World;
 
 public class WolfBurrow extends Burrow<Wolf> {

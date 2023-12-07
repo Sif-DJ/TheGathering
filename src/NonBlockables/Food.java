@@ -1,5 +1,6 @@
-package Tema1;
+package NonBlockables;
 
+import Dubious.Organism;
 import itumulator.world.NonBlocking;
 
 public abstract class Food extends Organism implements NonBlocking {
@@ -21,7 +22,15 @@ public abstract class Food extends Organism implements NonBlocking {
         return energyToReturn;
     }
 
+    /**
+     * Gets the current energy of this food item.
+     * @return int in energy
+     */
     public int getEnergy(){
         return energy;
+    }
+
+    public void addEnergy(int energy){
+        this.energy += energy;
     }
 }

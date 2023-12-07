@@ -1,6 +1,8 @@
-package Tema2;
+package Animals;
 
-import Tema1.*;
+import Dubious.DeathException;
+import NonBlockables.Food;
+import NonBlockables.BerryBush;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;

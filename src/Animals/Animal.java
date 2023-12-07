@@ -1,6 +1,11 @@
-package Tema1;
+package Animals;
 
-import Tema2.*;
+import Dubious.DeathException;
+import Dubious.Organism;
+import NonBlockables.Burrow;
+import NonBlockables.Carcass;
+import NonBlockables.Food;
+import NonBlockables.Grass;
 import itumulator.world.Location;
 import itumulator.world.World;
 
@@ -32,7 +37,7 @@ public abstract class Animal extends Organism {
             }
             if (world.getNonBlocking(l) instanceof Carcass) {
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
-                carcass.energy += this.energy + 10;
+                carcass.addEnergy(this.energy + 10);
                 super.die(world);
             }
             if (world.getNonBlocking(l) instanceof Grass) {

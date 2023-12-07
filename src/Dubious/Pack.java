@@ -1,6 +1,7 @@
-package Tema2;
+package Dubious;
 
-import Tema1.*;
+import Animals.*;
+import NonBlockables.WolfBurrow;
 import itumulator.world.*;
 
 import java.util.ArrayList;
@@ -54,13 +55,13 @@ public class Pack {
         System.out.println(this + " has found and is hunting " + eatable);
         targetPrey = eatable;
         for(Wolf wolf : list){
-            wolf.targetPrey = eatable;
+            wolf.chooseNextTarget(eatable);
         }
     }
 
     public void assignBurrow(WolfBurrow burrow) {
         for(Wolf wolf : list) {
-            wolf.burrow = burrow;
+            wolf.assignBurrow(burrow);
         }
     }
 
@@ -78,6 +79,10 @@ public class Pack {
         double averageX = totalX / list.size();
         double averageY = totalY / list.size();
         return new Location((int) averageX,(int) averageY);
+    }
+
+    public ArrayList<Wolf> getPack(){
+        return list;
     }
 
 }

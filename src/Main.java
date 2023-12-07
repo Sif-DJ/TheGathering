@@ -1,5 +1,8 @@
-import Tema1.*;
-import Tema2.*;
+import Animals.Bear;
+import Animals.Rabbit;
+import Animals.Wolf;
+import Dubious.Pack;
+import NonBlockables.*;
 import itumulator.executable.*;
 import itumulator.world.*;
 import java.awt.*;

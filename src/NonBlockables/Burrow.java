@@ -1,11 +1,12 @@
-package Tema1;
+package NonBlockables;
 
+import Animals.Animal;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
 import itumulator.simulator.*;
 import java.util.ArrayList;
 
-public abstract class Burrow<T extends  Animal> implements NonBlocking, Actor {
+public abstract class Burrow<T extends Animal> implements NonBlocking, Actor {
 
     // creates
     protected ArrayList<Animal> animals = new ArrayList<>();

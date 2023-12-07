@@ -1,4 +1,4 @@
-package Tema1;
+package Dubious;
 
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;

@@ -1,6 +1,7 @@
-package Tema2;
+package NonBlockables;
 
-import Tema1.*;
+import Animals.Predator;
+import Animals.Rabbit;
 import itumulator.world.*;
 
 public class RabbitBurrow extends Burrow<Rabbit> {

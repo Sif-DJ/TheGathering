@@ -1,4 +1,4 @@
-package Tema1;
+package Dubious;
 public class DeathException extends RuntimeException{
 
     /**

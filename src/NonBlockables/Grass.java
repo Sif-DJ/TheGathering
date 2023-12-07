@@ -1,5 +1,6 @@
-package Tema1;
+package NonBlockables;
 
+import Dubious.DeathException;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;

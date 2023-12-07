@@ -1,6 +1,9 @@
-package Tema1;
+package Animals;
 
-import Tema2.*;
+import Dubious.Pack;
+import NonBlockables.RabbitBurrow;
+import Dubious.DeathException;
+import NonBlockables.Grass;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -27,7 +30,7 @@ public class Rabbit extends Animal{
     }
 
     @Override
-    public void die(World world) throws DeathException{
+    public void die(World world) throws DeathException {
         if(burrow != null)
             burrow.unAssign(this);
          super.die(world);

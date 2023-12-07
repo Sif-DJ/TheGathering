@@ -1,6 +1,5 @@
-package Tema2;
+package NonBlockables;
 
-import Tema1.Food;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.World;
 

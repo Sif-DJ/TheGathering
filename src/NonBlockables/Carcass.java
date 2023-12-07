@@ -1,7 +1,6 @@
-package Tema2;
+package NonBlockables;
 
-import Tema1.DeathException;
-import Tema1.Food;
+import Dubious.DeathException;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.World;
 

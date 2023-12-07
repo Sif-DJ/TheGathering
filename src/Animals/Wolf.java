@@ -1,6 +1,8 @@
-package Tema2;
+package Animals;
 
-import Tema1.*;
+import Dubious.DeathException;
+import Dubious.Pack;
+import NonBlockables.WolfBurrow;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;
@@ -82,6 +84,10 @@ public class Wolf extends Predator {
         burrow = new WolfBurrow();
         world.setTile(l, burrow);
         pack.assignBurrow(burrow);
+    }
+
+    public void assignBurrow(WolfBurrow burrow){
+        this.burrow = burrow;
     }
 
     public void enterHole(){
