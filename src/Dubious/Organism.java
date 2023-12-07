@@ -39,32 +39,31 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
     }
 
     /**
-     * returns the location of the nearest food this animal can eat
+     * returns the location of the nearest food this organism can eat
      *
      * @param world the world object
-     * @param food  an ArrayList of the Food types the animal can eat
-     * @return the location of the nearest food this animal can eat
+     * @param food an ArrayList of the Food types the organism can eat
+     * @param searchRadius int, size of the search area
+     * @return the location of the nearest food this organism can eat
+     * @param <T> things that extends Food
      */
     public <T extends Food> ArrayList<Location> searchForFood(World world, ArrayList<T> food,int searchRadius) {
-        if (food.isEmpty()) return null;
-        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(), searchRadius));
-        Iterator<Location> it = list.iterator();
-        while (it.hasNext()) {
-            Location l = it.next();
-            if (!world.containsNonBlocking(l)) {
-                it.remove();
-            } else if (world.containsNonBlocking(l)) {
-                int notFoodCount = 0;
-                for (T f : food) {
-                    if (!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)).getClass())) {
-                        notFoodCount++;
-                    }
-                }
-                if (notFoodCount >= food.size()) {
-                    it.remove();
+        if (food.isEmpty()) return null; // Did someone input no food types to find, then stop prematurely.
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(searchRadius)); // Get a list of surrounding locals
+        ArrayList<Location> locs = new ArrayList<>(); // Create empty list for additions
+
+        // Loop of all locals
+        for(Location l : list){
+            // Does this contain a NonBlocking object? No? Move to next location then.
+            if(!world.containsNonBlocking(l)) continue;
+
+            // Check all food types input, and if one matches, add it to the list.
+            for(T f : food){
+                if (world.getNonBlocking(l).getClass().isInstance(f)) {
+                    locs.add(l);
                 }
             }
         }
-        return list;
+        return locs; // Return the list of remaining locations, may be empty if nothing is nearby.
     }
 }

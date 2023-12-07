@@ -2,10 +2,7 @@ package Animals;
 
 import Dubious.DeathException;
 import Dubious.Organism;
-import NonBlockables.Burrow;
-import NonBlockables.Carcass;
-import NonBlockables.Food;
-import NonBlockables.Grass;
+import NonBlockables.*;
 import itumulator.world.Location;
 import itumulator.world.World;
 
@@ -336,25 +333,16 @@ public abstract class Animal extends Organism {
     public <T extends Animal> ArrayList<Location> searchForAnimals(World world, ArrayList<T> animals) {
         if (animals.isEmpty() || world.getLocation(this) == null) return null;
         ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(this), searchRadius));
-        Iterator<Location> it = list.iterator();
-        while (it.hasNext()) {
-            Location l = it.next();
-            if (world.isTileEmpty(l)) {
-                it.remove();
-            } else {
-                int notAnimalSearchedFor = 0;
-                for (T f : animals) {
-                    if (!(f.getClass().isInstance(world.getTile(l)))) {
-                        notAnimalSearchedFor++;
-
-                    }
-                }
-                if (notAnimalSearchedFor >= animals.size()) {
-                    it.remove();
+        ArrayList<Location> locs = new ArrayList<>();
+        for(Location l : list){
+            if(world.isTileEmpty(l)) continue;
+            for(T a : animals){
+                if (world.getTile(l).getClass().isInstance(a)) {
+                    locs.add(l);
                 }
             }
         }
-        return list;
+        return locs;
     }
 
 
@@ -383,7 +371,7 @@ public abstract class Animal extends Organism {
      * @param food The food the rabbit is trying to eat.
      */
     public void eat(Food food) {
-        energy += food.eat(8);
+        energy += food.eat(12);
         if (energy > maxEnergy) energy = maxEnergy;
     }
 
@@ -405,6 +393,8 @@ public abstract class Animal extends Organism {
             } else if (world.getNonBlocking(l) instanceof Burrow) {
                 return;
             } else if (world.getNonBlocking(l) instanceof Carcass) {
+                return;
+            }else if (world.getNonBlocking(l) instanceof Mushroom) {
                 return;
             }
         }

@@ -32,7 +32,7 @@ public abstract class Predator extends Animal {
                 chooseNextTarget(world);
             }
             else{
-                chooseNextTarget(carcass);
+                chooseNextPrey(carcass);
             }
         }
     }
@@ -46,8 +46,13 @@ public abstract class Predator extends Animal {
             wandering(world);
         }
         else{
-            headTowards(world, world.getLocation(targetPrey));
-            attemptAttack(world);
+            try{
+                headTowards(world, world.getLocation(targetPrey));
+                attemptAttack(world);
+            }catch (Exception e){
+                System.out.println(e);
+                return;
+            }
         }
     }
 
@@ -77,7 +82,7 @@ public abstract class Predator extends Animal {
         if(targetPrey instanceof Animal)
             ((Animal)targetPrey).takeDamage(power);
 
-        System.out.println(this + " attacked " + targetPrey);
+        // System.out.println(this + " attacked " + targetPrey);
     }
 
     public abstract void chooseNextTarget(World world);
@@ -86,7 +91,7 @@ public abstract class Predator extends Animal {
      * Assigns what to prey on.
      * @param edible the thing to prey on.
      */
-    public void chooseNextTarget(Object edible){
+    public void chooseNextPrey(Object edible){
         targetPrey = edible;
     }
 

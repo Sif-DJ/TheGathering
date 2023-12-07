@@ -17,13 +17,14 @@ public class Mushroom extends Organism implements NonBlocking {
 
     private final ArrayList<Food> spreadTo = new ArrayList<>();
 
-    public  Mushroom(){
+    public Mushroom(int startingEnergy){
+        energy = startingEnergy;
         spreadTo.add(new Carcass(false,100));
     }
 
     @Override
     public void act(World world) {
-        energy--;
+        energy -= 1;
         if(energy <= 0){
             try{
                 die(world);
@@ -35,7 +36,7 @@ public class Mushroom extends Organism implements NonBlocking {
 
         }
 
-        if(world.getLocation(this) != null){
+        if(world.getCurrentLocation() != null){
             releaseSpores(world);
         }
     }
@@ -51,11 +52,14 @@ public class Mushroom extends Organism implements NonBlocking {
     public void releaseSpores(World world){
         ArrayList<Location> locations = searchForFood(world,spreadTo,5);
         for(Location location : locations){
-            if(world.containsNonBlocking(location)){
-                if (world.getNonBlocking(location) instanceof Carcass) {
-                    ((Carcass) world.getNonBlocking(location)).setIsInfected();
-                }
-            }
+            ((Carcass) world.getNonBlocking(location)).setIsInfected();
         }
+
+
+        /*
+        Carcass carcass = (Carcass)findAnyFood(world, spreadTo, 5);
+        if(!carcass.isInfected)
+            carcass.setIsInfected();
+        */
     }
 }

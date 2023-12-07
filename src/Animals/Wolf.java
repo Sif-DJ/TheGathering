@@ -28,6 +28,12 @@ public class Wolf extends Predator {
     }
 
     @Override
+    public void die(World world) throws DeathException{
+        pack.remove(this);
+        super.die(world);
+    }
+
+    @Override
     public void act(World world){
         try{
             super.act(world);
@@ -60,8 +66,13 @@ public class Wolf extends Predator {
             }
         }
         else{
-            headTowards(world, world.getLocation(targetPrey));
-            attemptAttack(world);
+            try{
+                headTowards(world, world.getLocation(targetPrey));
+                attemptAttack(world);
+            }catch (Exception e){
+                System.out.println(e);
+                return;
+            }
         }
     }
 
@@ -75,9 +86,12 @@ public class Wolf extends Predator {
         pack.choosePrey(world);
     }
 
-    @Override
-    public void chooseNextTarget(Object edible) {
+    public void chooseNextPrey(Object edible) {
         pack.assignPrey(edible);
+    }
+
+    public void assignPrey(Object edible){
+        targetPrey = edible;
     }
 
     @Override

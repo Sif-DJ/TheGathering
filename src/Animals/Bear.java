@@ -14,7 +14,7 @@ public class Bear extends Predator {
     private ArrayList<Location> territoryTiles;
     public Bear(boolean isInfected) {
         super(isInfected);
-        this.maxEnergy = 1000;
+        this.maxEnergy = 600;
         this.energy = maxEnergy;
         this.age = 0;
         this.ageMax = 50;
@@ -40,7 +40,7 @@ public class Bear extends Predator {
             return;
         }
 
-        /* Something broke the bear here
+
         for(int i = 0; i < territoryTiles.size();i++){
             if(world.getLocation(this).equals(territoryTiles.get(i))){
                 break;
@@ -50,15 +50,20 @@ public class Bear extends Predator {
                 return;
             }
         }
-        */
+
 
         wandering(world);
     }
 
     @Override
     public void doMove(World world){
-        headTowards(world, world.getLocation(targetPrey));
-        attemptAttack(world);
+        try{
+            headTowards(world, world.getLocation(targetPrey));
+            attemptAttack(world);
+        }catch (Exception e){
+            System.out.println(e);
+            return;
+        }
     }
 
     @Override

@@ -94,7 +94,7 @@ public class Main {
                     if(type.equals("bear"))createEntityAtLocation(world, new Bear(isInfected), l, isInfected);
                     if(type.equals("berry"))createEntityAtLocation(world, new BerryBush(), l, isInfected);
                     if(type.equals("carcass"))createEntityAtLocation(world, new Carcass(isInfected, 0), l, isInfected);
-                    if(type.equals("fungi"))createEntityAtLocation(world, new Mushroom(), l, isInfected);
+                    if(type.equals("fungi"))createEntityAtLocation(world, new Mushroom(0), l, isInfected);
 
                     System.out.println(" it was created at location " + l);
                 } else {
@@ -118,7 +118,7 @@ public class Main {
                     if(type.equals("bear"))createEntities(world, new Bear(isInfected), nums, isInfected); // Bears in random positions
                     if(type.equals("berry"))createEntities(world, new BerryBush(), nums, isInfected); // BerryBushes in random positions
                     if(type.equals("carcass"))createEntities(world, new Carcass(isInfected, 0), nums, isInfected); // BerryBushes in random positions
-                    if(type.equals("fungi"))createEntities(world, new Mushroom(), nums, isInfected); // Mushrooms in random positions
+                    if(type.equals("fungi"))createEntities(world, new Mushroom(0), nums, isInfected); // Mushrooms in random positions
                 }
 
             }
@@ -218,7 +218,7 @@ public class Main {
         } else if (entity instanceof Carcass) {
             return new Carcass(isInfected, 0);
         } else if (entity instanceof Mushroom) {
-            return new Mushroom();
+            return new Mushroom(120);
         } else{
             throw new Exception("Cannot recognize entity");
         }

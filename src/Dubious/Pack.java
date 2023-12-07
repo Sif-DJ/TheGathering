@@ -20,6 +20,7 @@ public class Pack {
     public void add(Wolf wolf){
         list.add(wolf);
     }
+    public void remove(Wolf wolf){ list.remove(wolf); }
 
     public void choosePrey(World world){
         Object[] possibleTargets;
@@ -55,7 +56,7 @@ public class Pack {
         System.out.println(this + " has found and is hunting " + eatable);
         targetPrey = eatable;
         for(Wolf wolf : list){
-            wolf.chooseNextTarget(eatable);
+            wolf.assignPrey(eatable);
         }
     }
 
