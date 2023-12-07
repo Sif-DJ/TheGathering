@@ -12,7 +12,8 @@ public class Bear extends Predator {
 
     private Location territoryCenter;
     private ArrayList<Location> territoryTiles;
-    public Bear() {
+    public Bear(boolean isInfected) {
+        super(isInfected);
         this.maxEnergy = 1000;
         this.energy = maxEnergy;
         this.age = 0;
@@ -72,7 +73,7 @@ public class Bear extends Predator {
 
         ArrayList<Food> foods = new ArrayList<>();
         foods.add(new BerryBush());
-        Location l = searchForFood(world, foods);
+        Location l = getClosestLocation(world , searchForFood(world, foods, foodSearchRadius));
         if(l != null){
             targetPrey = world.getNonBlocking(l);
             System.out.println(this + " found a " + targetPrey);
@@ -114,11 +115,13 @@ public class Bear extends Predator {
 
     @Override
     public Animal createNewSelf() {
-        return new Bear();
+        return new Bear(false);
     }
 
     @Override
     public DisplayInformation getInformation() {
-        return new DisplayInformation(Color.gray,"bear");
+        return new DisplayInformation(Color.gray,
+                "bear"
+                        +(isInfected ? "-fungi" : ""));
     }
 }

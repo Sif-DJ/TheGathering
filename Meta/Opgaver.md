@@ -92,21 +92,21 @@ være hvis flere ulve af samme flok er i nærheden af en bjørn.
 >## Tema 3:
 >>### Carcasssssss
 >>- [ ] **K3-1a.** Opret ådsler, som placeres på kortet når input filerne beskriver dette.
->>- [ ] **K3-1b.** Når dyr dør nu, skal de efterlade et ådsel. Ådsler kan spises ligesom dyr kunne
+>>- [x] **K3-1b.** Når dyr dør nu, skal de efterlade et ådsel. Ådsler kan spises ligesom dyr kunne
 tidligere, dog afhænger mængden af ’kød’ af hvor stort dyret der døde er. Således
 spises dyr ikke direkte længere når det slås ihjel, i stedet spises ådslet. Alle dyr som er
 kødædende spiser ådsler.
->>- [ ] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
+>>- [x] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
 op (altså forsvinder det)! Det forsvinder naturligvis også hvis det hele er spist.
 >
 >>### Mushrooms (Cordyceps)
->>- [ ] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
+>>- [x] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
 svampe I et ådsel. Dette kan ikke ses på selve kortet, men svampen lever I selve ådslet.
 Når ådslet er nedbrudt (og forsvinder), og hvis svampen er stor nok, kan den ses som
 en svamp placeret på kortet, der hvor ådslet lå.
->>- [ ] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
-nærheden. Er dette ikke tilfældet, vil svampen også dø eRer lidt Bd. Desto større ådslet 
-er, desto længere vil svampen leve eRer ådslet er væk. Da svampen kan udsende
+>>- [x] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
+nærheden. Er dette ikke tilfældet, vil svampen også dø efter lidt tid. Desto større ådslet 
+er, desto længere vil svampen leve efter ådslet er væk. Da svampen kan udsende
 sporer, kan den række lidt længere end kun de omkringliggende pladser
 >
 >>### Frivilige Krav

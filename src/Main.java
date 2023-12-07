@@ -1,7 +1,5 @@
-import Animals.Bear;
-import Animals.Rabbit;
-import Animals.Wolf;
-import Dubious.Pack;
+import Animals.*;
+import Dubious.*;
 import NonBlockables.*;
 import itumulator.executable.*;
 import itumulator.world.*;
@@ -63,12 +61,21 @@ public class Main {
                 String[] line = input[i].split(" ");
 
                 String type;
+                boolean isInfected = false;
                 if(line[0].equals("cordyceps")){
+                    isInfected = true;
                     type = line[1];
-                    // Remove
+                    // Remove the first entry from the line list
+                    String[] arr = new String[line.length];
+                    for(int j = 1; j < line.length; j++){
+                        arr[j-1] = line[j];
+                    }
+                    line = arr;
+                    System.out.println("Creating a " + type + " that is infected");
                 }
                 else{
                     type = line[0];
+                    System.out.println("Creating a " + type);
                 }
 
                 if(line.length > 2){
@@ -80,12 +87,16 @@ public class Main {
                             Integer.parseInt(placeInfo[0]),
                             Integer.parseInt(placeInfo[1])
                     );
-                    if(type.equals("grass"))createEntityAtLocation(world, new Grass(), l);
-                    if(type.equals("rabbit"))createEntityAtLocation(world, new Rabbit(), l);
-                    if(type.equals("burrow"))createEntityAtLocation(world, new RabbitBurrow(), l);
-                    if(type.equals("wolf"))createEntityAtLocation(world, new Wolf(new Pack()), l);
-                    if(type.equals("bear"))createEntityAtLocation(world, new Bear(), l);
-                    if(type.equals("berry"))createEntityAtLocation(world, new BerryBush(), l);
+                    if(type.equals("grass"))createEntityAtLocation(world, new Grass(), l, isInfected);
+                    if(type.equals("rabbit"))createEntityAtLocation(world, new Rabbit(isInfected), l, isInfected);
+                    if(type.equals("burrow"))createEntityAtLocation(world, new RabbitBurrow(), l, isInfected);
+                    if(type.equals("wolf"))createEntityAtLocation(world, new Wolf(isInfected, new Pack()), l, isInfected);
+                    if(type.equals("bear"))createEntityAtLocation(world, new Bear(isInfected), l, isInfected);
+                    if(type.equals("berry"))createEntityAtLocation(world, new BerryBush(), l, isInfected);
+                    if(type.equals("carcass"))createEntityAtLocation(world, new Carcass(isInfected, 0), l, isInfected);
+                    if(type.equals("fungi"))createEntityAtLocation(world, new Mushroom(), l, isInfected);
+
+                    System.out.println(" it was created at location " + l);
                 } else {
                     int[] nums;
                     String possibleRange = line[1];
@@ -93,17 +104,21 @@ public class Main {
                         nums = new int[2];
                         nums[0] = Integer.parseInt(possibleRange.split("-")[0]);
                         nums[1] = Integer.parseInt(possibleRange.split("-")[1]);
+                        System.out.println(" with somewhere between " + nums[0] + " and " + nums[1] + " being created");
                     }else{
                         nums = new int[1];
                         nums[0] = Integer.parseInt(possibleRange);
+                        System.out.println(" with " + nums[0] + " being created");
                     }
 
-                    if(type.equals("grass"))createEntities(world, new Grass(), nums); // Grass in random positions
-                    if(type.equals("rabbit"))createEntities(world, new Rabbit(), nums); // Rabbits in random positions
-                    if(type.equals("burrow"))createEntities(world, new RabbitBurrow(), nums); // Burrows in random positions
-                    if(type.equals("wolf"))createEntities(world, new Wolf(new Pack()), nums); // Wolfs in random positions
-                    if(type.equals("bear"))createEntities(world, new Bear(), nums); // Bears in random positions
-                    if(type.equals("berry"))createEntities(world, new BerryBush(), nums); // BerryBushes in random positions
+                    if(type.equals("grass"))createEntities(world, new Grass(), nums, isInfected); // Grass in random positions
+                    if(type.equals("rabbit"))createEntities(world, new Rabbit(isInfected), nums, isInfected); // Rabbits in random positions
+                    if(type.equals("burrow"))createEntities(world, new RabbitBurrow(), nums, isInfected); // Burrows in random positions
+                    if(type.equals("wolf"))createEntities(world, new Wolf(isInfected, new Pack()), nums, isInfected); // Wolfs in random positions
+                    if(type.equals("bear"))createEntities(world, new Bear(isInfected), nums, isInfected); // Bears in random positions
+                    if(type.equals("berry"))createEntities(world, new BerryBush(), nums, isInfected); // BerryBushes in random positions
+                    if(type.equals("carcass"))createEntities(world, new Carcass(isInfected, 0), nums, isInfected); // BerryBushes in random positions
+                    if(type.equals("fungi"))createEntities(world, new Mushroom(), nums, isInfected); // Mushrooms in random positions
                 }
 
             }
@@ -142,7 +157,7 @@ public class Main {
      * @param amounts The amount of entities to be created. Only reads the first and second index as min and max.
      * @throws Exception If and only if an incompatible object was set as a parameter.
      */
-    private static void createEntities(World world, Object type, int[] amounts) throws Exception{
+    private static void createEntities(World world, Object type, int[] amounts, boolean isInfected) throws Exception{
         Random r = new Random();
         int size = world.getSize();
         Object entity;
@@ -159,7 +174,7 @@ public class Main {
         // Instantiate an amount of entities.
         for (int i = 0; i < amount; i++) {
 
-            entity = instantiateCorrectEntity(type, pack);
+            entity = instantiateCorrectEntity(type, pack, isInfected);
 
             // Gets and saves a location depending on if the entity is Blocking or NonBlocking
             Location l = new Location(r.nextInt(size), r.nextInt(size));
@@ -184,22 +199,26 @@ public class Main {
      * @return returns an object of the same type as the one input.
      * @throws Exception if the type could not be recognized. Don't wanna place anything that should exist.
      */
-    public static Object instantiateCorrectEntity(Object entity, Pack pack) throws Exception{
+    public static Object instantiateCorrectEntity(Object entity, Pack pack, boolean isInfected) throws Exception{
         // Apply the right object type to entity
         if (entity instanceof Rabbit) {
-            return new Rabbit();
+            return new Rabbit(isInfected);
         } else if (entity instanceof Burrow) {
             return new RabbitBurrow();
         } else if (entity instanceof Grass) {
             return new Grass();
         } else if (entity instanceof Wolf) {
-            Wolf wolf = new Wolf(pack);
+            Wolf wolf = new Wolf(isInfected, pack);
             pack.add(wolf);
             return wolf;
         } else if (entity instanceof Bear) {
-            return new Bear();
+            return new Bear(isInfected);
         } else if (entity instanceof BerryBush) {
             return new BerryBush();
+        } else if (entity instanceof Carcass) {
+            return new Carcass(isInfected, 0);
+        } else if (entity instanceof Mushroom) {
+            return new Mushroom();
         } else{
             throw new Exception("Cannot recognize entity");
         }
@@ -212,10 +231,10 @@ public class Main {
      * @param location The location to place the entity at.
      * @throws Exception If the location is already occupied by a Blocking entity.
      */
-    public static void createEntityAtLocation(World world, Object type, Location location) throws Exception{
+    public static void createEntityAtLocation(World world, Object type, Location location, boolean isInfected) throws Exception{
         if(!world.isTileEmpty(location))throw new Exception("Spot has been taken");
         Pack pack = new Pack();
-        Object entity = instantiateCorrectEntity(type, pack);
+        Object entity = instantiateCorrectEntity(type, pack, isInfected);
         world.setTile(location, entity);
     }
 

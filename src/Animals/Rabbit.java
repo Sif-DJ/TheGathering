@@ -18,15 +18,16 @@ public class Rabbit extends Animal{
     private final ArrayList<Animal> fleeFrom = new ArrayList<>();
 
     //Rabbit constructor
-     public Rabbit(){
+     public Rabbit(boolean isInfected){
+         super(isInfected);
         maxEnergy = 100;
         energy = maxEnergy;
         age = 0;
         ageMax = 12;
         health = 7;
         searchRadius = 2;
-        fleeFrom.add(new Bear());
-        fleeFrom.add(new Wolf(new Pack()));
+        fleeFrom.add(new Bear(false));
+        fleeFrom.add(new Wolf(false ,new Pack()));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Rabbit extends Animal{
 
     @Override
     public Animal createNewSelf(){
-        return new Rabbit();
+        return new Rabbit(false);
     }
 
     /**
@@ -126,7 +127,7 @@ public class Rabbit extends Animal{
 
     @Override
     public void reproduce(World world, Animal animal) {
-        if(energy < 40 || isBaby || animal.energy < 40 || animal.isBaby) return;
+        if(energy < 40 || isBaby || animal.getEnergy() < 40 || animal.isBaby) return;
         for(int i = 0; i <= r.nextInt(3); i++){
             Rabbit rabbit = (Rabbit) this.createNewSelf();
             world.add(rabbit);
@@ -135,7 +136,7 @@ public class Rabbit extends Animal{
             burrow.enter(rabbit);
         }
         energy -= 40;
-        animal.energy -= 40;
+        animal.addEnergy(-40);
     }
 
     /**
@@ -201,10 +202,9 @@ public class Rabbit extends Animal{
 
     @Override
     public DisplayInformation getInformation() {
-        if (isBaby){
-            return new DisplayInformation(Color.red, "rabbit-small");
-        }else{
-            return  new DisplayInformation(Color.red, "rabbit-large");
-        }
+        return new DisplayInformation(Color.red,
+                "rabbit"
+                        +(isBaby ? "-small" : "-large")
+                        +(isInfected ? "-fungi" : ""));
     }
 }

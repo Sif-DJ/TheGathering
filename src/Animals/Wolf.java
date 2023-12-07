@@ -11,7 +11,8 @@ public class Wolf extends Predator {
     protected final Pack pack;
     protected WolfBurrow burrow;
     
-    public Wolf(Pack pack){
+    public Wolf(boolean isInfected, Pack pack){
+        super(isInfected);
         this.maxEnergy = 400;
         this.energy = maxEnergy;
         this.age = 0;
@@ -23,7 +24,7 @@ public class Wolf extends Predator {
 
     @Override
     public Animal createNewSelf() {
-        return new Wolf(this.pack);
+        return new Wolf(false, this.pack);
     }
 
     @Override
@@ -90,12 +91,18 @@ public class Wolf extends Predator {
         this.burrow = burrow;
     }
 
+    public Pack getPack(){
+        return pack;
+    }
+
     public void enterHole(){
 
     }
 
     @Override
     public DisplayInformation getInformation() {
-        return new DisplayInformation(Color.cyan, "wolf");
+        return new DisplayInformation(Color.cyan,
+                "wolf"
+                        +(isInfected ? "-fungi" : ""));
     }
 }

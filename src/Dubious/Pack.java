@@ -41,7 +41,7 @@ public class Pack {
                 edibleTargets.add((Rabbit)obj);
             if(obj instanceof Bear && list.size() >= 3)
                 edibleTargets.add((Bear)obj);
-            if(obj instanceof Wolf && !((Wolf)obj).pack.equals(this))
+            if(obj instanceof Wolf && !((Wolf)obj).getPack().equals(this))
                 edibleTargets.add((Wolf)obj);
         }
         if(edibleTargets.isEmpty()){

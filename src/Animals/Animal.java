@@ -19,6 +19,11 @@ public abstract class Animal extends Organism {
     protected int searchRadius;
     protected int health;
     protected boolean isBaby = true;
+    protected boolean isInfected;
+
+    public Animal(Boolean isInfected){
+        this.isInfected = isInfected;
+    };
 
     @Override
     public void die(World world) throws DeathException {
@@ -38,13 +43,16 @@ public abstract class Animal extends Organism {
             if (world.getNonBlocking(l) instanceof Carcass) {
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
                 carcass.addEnergy(this.energy + 10);
+                if(isInfected){
+                    carcass.setIsInfected();
+                }
                 super.die(world);
             }
             if (world.getNonBlocking(l) instanceof Grass) {
                 world.delete(world.getNonBlocking(l));
             }
         }
-        world.setTile(l, new Carcass(energy));
+        world.setTile(l, new Carcass(isInfected, energy));
         super.die(world);
     }
 
@@ -52,6 +60,10 @@ public abstract class Animal extends Organism {
     public void act(World world) throws DeathException {
         if (world.getCurrentTime() % 20 == 0)
             age(world);
+
+        if(isInfected){
+
+        }
 
         tryReproduce(world);
 
@@ -179,7 +191,7 @@ public abstract class Animal extends Organism {
      * @param locationToReach the location the animal need to reach
      */
     public void headTowards(World world,Location locationToReach){
-        ArrayList<Location> list =determineNextMovement(world,locationToReach);
+        ArrayList<Location> list = determineNextMovement(world,locationToReach);
         if (list.isEmpty()) {
             wandering(world);
             return;
@@ -345,35 +357,6 @@ public abstract class Animal extends Organism {
         return list;
     }
 
-    /**
-     * returns the location of the nearest food this animal can eat
-     *
-     * @param world the world object
-     * @param food  an ArrayList of the Food types the animal can eat
-     * @return the location of the nearest food this animal can eat
-     */
-    public <T extends Food> Location searchForFood(World world, ArrayList<T> food) {
-        if (food.isEmpty()) return null;
-        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getCurrentLocation(), foodSearchRadius));
-        Iterator<Location> it = list.iterator();
-        while (it.hasNext()) {
-            Location l = it.next();
-            if (!world.containsNonBlocking(l)) {
-                it.remove();
-            } else if (world.containsNonBlocking(l)) {
-                int notFoodCount = 0;
-                for (T f : food) {
-                    if (!f.getClass().isInstance(world.getNonBlocking(world.getLocation(this)).getClass())) {
-                        notFoodCount++;
-                    }
-                }
-                if (notFoodCount >= food.size()) {
-                    it.remove();
-                }
-            }
-        }
-        return getClosestLocation(world, list);
-    }
 
     /**
      * Creatures age and loose a maximum energy for every time it ages.

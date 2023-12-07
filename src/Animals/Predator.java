@@ -11,6 +11,10 @@ public abstract class Predator extends Animal {
     protected Object targetPrey = null;
     protected int power;
 
+    public Predator(boolean isInfected){
+        super(isInfected);
+    }
+
     @Override
     public void act(World world) throws DeathException {
         super.act(world);
