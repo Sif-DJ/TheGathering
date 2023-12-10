@@ -8,7 +8,7 @@ public abstract class Food extends Organism implements NonBlocking {
     /**
      * Returns an amount of energy back and removes that amount from itself in energy.
      * @param amount how much energy you want to deduct.
-     * @return int in energy.
+     * @return the amount of energy the food gives to what eats it.
      */
     public int eat(int amount) {
         int energyToReturn;

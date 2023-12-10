@@ -17,7 +17,10 @@ public class Rabbit extends Animal{
     private RabbitBurrow burrow;
     private final ArrayList<Animal> fleeFrom = new ArrayList<>();
 
-    //Rabbit constructor
+    /**
+     * The Rabbit constructor
+     * @param isInfected A boolean that determines if the Rabbit is infected by spores of mushrooms.
+     */
      public Rabbit(boolean isInfected){
          super(isInfected);
         maxEnergy = 100;
@@ -30,6 +33,11 @@ public class Rabbit extends Animal{
         fleeFrom.add(new Wolf(false ,new Pack()));
     }
 
+    /**
+     * Deletes the animal from the world.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void die(World world) throws DeathException {
         if(burrow != null)
@@ -37,14 +45,19 @@ public class Rabbit extends Animal{
          super.die(world);
     }
 
+    /**
+     * Creates a new instance of its type of animal.
+     * Mainly used in the reproduce() function.
+     * @return returns a new instance of itself.
+     */
     @Override
     public Animal createNewSelf(){
         return new Rabbit(false);
     }
 
     /**
-     * All actions taken during a call to simulate the program.
-     * @param world The world the rabbit is in.
+     * The method called whenever the actor needs to simulate actions.
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     @Override
     public void act(World world) {
@@ -106,7 +119,10 @@ public class Rabbit extends Animal{
         }
     }
 
-
+    /**
+     * Defines how a Rabbit reproduces.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void tryReproduce(World world){
         Set<Object> objs = world.getEntities().keySet();
@@ -125,6 +141,13 @@ public class Rabbit extends Animal{
         }
     }
 
+    /**
+     * Handles the actual reproduction of the animal.
+     * Checks if the animals have enough energy and are adults.
+     * They create 1-3 baby rabbits, which are stored in the burrows.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @param animal The animal that is being reproduced with.
+     */
     @Override
     public void reproduce(World world, Animal animal) {
         if(energy < 40 || isBaby || animal.getEnergy() < 40 || animal.isBaby) return;
@@ -140,10 +163,9 @@ public class Rabbit extends Animal{
     }
 
     /**
-     *
-     * @param world The world the rabbit is in.
+     * Assign the rabbit to hole it is standing on.
+     * @param world Providing details of the position on which the actor is currently located and much more.
      */
-    //function to assign rabbit specific hole
     public void assignHole(World world){
         Location l = world.getLocation(this);
         if(world.containsNonBlocking(l)) {
@@ -154,11 +176,20 @@ public class Rabbit extends Animal{
         }
     }
 
+    /**
+     * Digs a burrow to place in the world and assigns itself to it.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @param l the location of the burrow.
+     */
     public void diggyHole(World world, Location l){
         world.setTile(l, new RabbitBurrow());
         assignHole(world);
     }
 
+    /**
+     * Sets itself to know this burrow and adds itself to the burrows list.
+     * @param burrow to be assigned to.
+     */
     public void assignHole(RabbitBurrow burrow){
         this.burrow = burrow;
         this.burrow.addToList(this);
@@ -174,7 +205,7 @@ public class Rabbit extends Animal{
     /**
      * Enters a hole it is assigned to, afterwards it deletes itself.
      * Gets skipped if and only if, there is no more space in the burrow.
-     * @param world the world object
+     * @param world Providing details of the position on which the actor is currently located and much more.
      */
     public void enterHole(World world){
         if(burrow.isBurrowFull()){
@@ -187,12 +218,21 @@ public class Rabbit extends Animal{
         world.setCurrentLocation(world.getLocation(burrow));
     }
 
+    /**
+     * Gets if this rabbit is in a hole. True if in hole, otherwise false.
+     * @return boolean of its current state.
+     */
     public boolean isInHole(){
         if(burrow == null)
             return false;
         return (burrow.isInHole(this));
     }
 
+    /**
+     * Ages the rabbit by one.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void age(World world) throws DeathException {
         super.age(world);
@@ -200,6 +240,10 @@ public class Rabbit extends Animal{
             isBaby = false;
     }
 
+    /**
+     * Provides info on how this object should be displayed in game world.
+     * @return DisplayInformation with its name, if it small or large, and if it is infected.
+     */
     @Override
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.red,

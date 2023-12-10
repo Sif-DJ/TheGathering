@@ -8,20 +8,37 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Pack {
+    //Variables
     protected ArrayList<Wolf> list;
     protected Object targetPrey;
     protected WolfBurrow packBurrow;
     private final Random r = new Random();
-    
+
+    /**
+     * The constructor for Pack.
+     */
     public Pack(){
         list = new ArrayList<>();
     }
 
+    /**
+     * Adds a specific wolf to the pack.
+     * @param wolf the wolf to add to the pack.
+     */
     public void add(Wolf wolf){
         list.add(wolf);
     }
+
+    /**
+     * Removes a specific wolf to the pack.
+     * @param wolf the wolf to remove to the pack.
+     */
     public void remove(Wolf wolf){ list.remove(wolf); }
 
+    /**
+     * Chooses a prey for the whole pack.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     public void choosePrey(World world){
         Object[] possibleTargets;
         try{
@@ -52,6 +69,10 @@ public class Pack {
         assignPrey(edibleTargets.get(r.nextInt(edibleTargets.size())));
     }
 
+    /**
+     * Assigns the prey to the hole pack.
+     * @param eatable the prey to be assigned.
+     */
     public void assignPrey(Object eatable){
         System.out.println(this + " has found and is hunting " + eatable);
         targetPrey = eatable;
@@ -60,16 +81,30 @@ public class Pack {
         }
     }
 
+    /**
+     * Assigns the burrow to the hole pack.
+     * @param burrow the burrow to be assigned
+     */
     public void assignBurrow(WolfBurrow burrow) {
         for(Wolf wolf : list) {
             wolf.assignBurrow(burrow);
         }
     }
 
+    /**
+     * returns the location of the prey.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @return the location of the prey.
+     */
     public Location getPreyLocation(World world){
         return world.getLocation(targetPrey);
     }
 
+    /**
+     * Calculates the average location of the hole pack.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @return the average location of the hole pack.
+     */
     public Location getAverageLocation(World world){
         double totalX = 0;
         double totalY = 0;
@@ -82,6 +117,10 @@ public class Pack {
         return new Location((int) averageX,(int) averageY);
     }
 
+    /**
+     * Returns the wolf in the pack.
+     * @return the wolf in the pack.
+     */
     public ArrayList<Wolf> getPack(){
         return list;
     }

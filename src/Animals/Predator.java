@@ -15,6 +15,10 @@ public abstract class Predator extends Animal {
         super(isInfected);
     }
 
+    /**
+     * The method called whenever the actor needs to simulate actions.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) throws DeathException {
         super.act(world);
@@ -38,8 +42,8 @@ public abstract class Predator extends Animal {
     }
 
     /**
-     * Exclusive change of how a predator moves. Meant to be overwritten.
-     * @param world
+     * Defines how at base a predator moves. Meant to be overwritten.
+     * @param world Providing details of the position on which the actor is currently located and much more.
      */
     public void doMove(World world){
         if(!isHunting()){
@@ -58,7 +62,7 @@ public abstract class Predator extends Animal {
 
     /**
      * Checks if the targeted thing is near it. If yes, then attack.
-     * @param world The world the attacker is in.
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void attemptAttack(World world){
         if(!isHunting())return;
@@ -85,10 +89,14 @@ public abstract class Predator extends Animal {
         // System.out.println(this + " attacked " + targetPrey);
     }
 
+    /**
+     * Method to find the next target in the world, determined by the individual animal.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     public abstract void chooseNextTarget(World world);
 
     /**
-     * Assigns what to prey on.
+     * Assigns what object to prey on.
      * @param edible the thing to prey on.
      */
     public void chooseNextPrey(Object edible){
@@ -97,7 +105,7 @@ public abstract class Predator extends Animal {
 
     /**
      * Gets any carcass in the world and returns that carcass.
-     * @param world to look in
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @return a carcass object
      */
     public Carcass getAnyCarcass(World world){

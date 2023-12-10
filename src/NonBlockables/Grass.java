@@ -13,20 +13,26 @@ public class Grass extends Food {
     //variables for grass
     private final int spreadChance; // There is a 1:spreadChance chance of spreading.
 
-    //Grass constructor
+    /**
+     * The constructor for Grass.
+     */
     public Grass(){
         maxEnergy = 20;
         energy = 10;
         spreadChance = 10;
     }
 
+    /**
+     * Provides info on how this object should be displayed in game world.
+     * @return the DisplayInformation that is used for how it looks on the map.
+     */
     @Override
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.green, "grass");
     }
 
     /**
-     * All actions taken during a call to simulate the program.
+     * The method called whenever the actor needs to simulate actions.
      * @param world providing details of the position on which the actor is currently located and much more.
      */
     @Override
@@ -52,7 +58,7 @@ public class Grass extends Food {
 
     /**
      * Finds a random surrounding tile with no Nonblocking entities and creates a new grass instance.
-     * @param world the world the grass is in.
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void spread(World world){
         List<Location> list = new ArrayList<>(world.getSurroundingTiles());

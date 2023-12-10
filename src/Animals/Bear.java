@@ -12,6 +12,11 @@ public class Bear extends Predator {
 
     private Location territoryCenter;
     private ArrayList<Location> territoryTiles;
+
+    /**
+     * Constructor for the object Bear.
+     * @param isInfected defines if it is infected by a mushroom. True means it is infected.
+     */
     public Bear(boolean isInfected) {
         super(isInfected);
         this.maxEnergy = 600;
@@ -22,8 +27,13 @@ public class Bear extends Predator {
         this.power = 8;
     }
 
+    /**
+     * Runs the bears act on simulation call. Makes sure that it has a territory
+     * and is running around in that space, unless it is hunting.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
-    public void act(World world) throws DeathException {
+    public void act(World world){
         if(territoryCenter == null){
             territoryCenter = world.getLocation(this);
             territoryTiles = new ArrayList<>(world.getSurroundingTiles(territoryCenter,3));
@@ -55,6 +65,10 @@ public class Bear extends Predator {
         wandering(world);
     }
 
+    /**
+     * Defines how a bear moves.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void doMove(World world){
         try{
@@ -66,6 +80,10 @@ public class Bear extends Predator {
         }
     }
 
+    /**
+     * Finds the next object to eat, where it will either find a carcass to eat from or a living available animal to hunt.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void chooseNextTarget(World world) {
         Object[] possibleTargets;
@@ -110,19 +128,38 @@ public class Bear extends Predator {
         System.out.println(this + " found and is hunting " + targetPrey);
     }
 
+    /**
+     * Creates a burrow for the bear.
+     * This method is currently left empty, as the bear should not be able to create a burrow.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @param l the location of the burrow.
+     */
     @Override
     public void diggyHole(World world, Location l) {}
 
+    /**
+     * Makes the bear try to reproduce. It cannot right now, so it is left empty.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void tryReproduce(World world) {
 
     }
 
+    /**
+     * Creates a new instance of its type of animal.
+     * Mainly used in the reproduce() function.
+     * @return returns a new instance of itself.
+     */
     @Override
     public Animal createNewSelf() {
         return new Bear(false);
     }
 
+    /**
+     * Provides info on how this object should be displayed in game world.
+     * @return DisplayInformation with its name and if it is infected.
+     */
     @Override
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.gray,

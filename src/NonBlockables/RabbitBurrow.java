@@ -5,12 +5,17 @@ import Animals.Rabbit;
 import itumulator.world.*;
 
 public class RabbitBurrow extends Burrow<Rabbit> {
-
+    /**
+     * The constructor for RabbitBurrow.
+     */
     public RabbitBurrow(){
         this.timeUnOccupied = 0;
         this.maxNumAnimalsInHole = 5;
     }
-
+    /**
+     * The method called whenever the actor needs to simulate actions.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world){
         super.act(world);
@@ -21,7 +26,10 @@ public class RabbitBurrow extends Burrow<Rabbit> {
             caveIn(world);
         }
     }
-
+    /**
+     * The funktion to exit the RabbitBurrow.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void exit(World world){
         if(animals.isEmpty())return;

@@ -18,10 +18,20 @@ public abstract class Animal extends Organism {
     protected boolean isBaby = true;
     protected boolean isInfected;
 
+    /**
+     * Instantiation of the Animal object.
+     * @param isInfected determines if this object has been infected by a mushroom.
+     */
     public Animal(Boolean isInfected){
         this.isInfected = isInfected;
     };
 
+    /**
+     * When an animal is going to die, this function needs to be called. It places all necessary objects when it dies,
+     * and throws an exception to break the function out of doing anything more.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException is used to break out of all functions until it is caught by a non abstract type that ends itself.
+     */
     @Override
     public void die(World world) throws DeathException {
         Location l;
@@ -53,6 +63,12 @@ public abstract class Animal extends Organism {
         super.die(world);
     }
 
+    /**
+     * Provides all basic functions to be done by the animal when simulating a world.
+     * Designed to be called as a super statement by creatures inheriting this class.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void act(World world) throws DeathException {
         if (world.getCurrentTime() % 20 == 0)
@@ -70,12 +86,17 @@ public abstract class Animal extends Organism {
         }
     }
 
+    /**
+     * All animals possibly has a unique way of reproducing, and is therefore a necessary inclusion when creating a non abstract animal.
+     * Call the reproduce() when it successfully reproduces.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     public abstract void tryReproduce(World world);
 
     /**
      * Makes a new animal when they reproduce, where the baby will be placed on a tile adjacent to the parents.
      *
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void reproduce(World world, Animal animal) {
         if (energy < 50 || age < 2) return;
@@ -88,8 +109,8 @@ public abstract class Animal extends Organism {
     }
 
     /**
-     * Empty method for instantiating new animals on demand in this abstract class. Can mainly be seen in function reproduce().
-     *
+     * Empty method for instantiating new animals on demand in this abstract class.
+     * Can mainly be seen in function reproduce().
      * @return returns a copy of the animal
      */
     public abstract Animal createNewSelf();
@@ -106,7 +127,7 @@ public abstract class Animal extends Organism {
 
     /**
      * Default wandering for animals.
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void wandering(World world) {
         Set<Location> neighbours = world.getEmptySurroundingTiles();
@@ -115,6 +136,11 @@ public abstract class Animal extends Organism {
         move(world, list);
     }
 
+    /**
+     * Moves the animal around on the Map.
+     * @param world providing details of the position on which the actor is currently located and much more
+     * @param list a list of location that can be moved to.
+     */
     public void move(World world, List<Location> list) {
         Location l = list.get(r.nextInt(list.size()));
         world.move(this, l);
@@ -123,7 +149,7 @@ public abstract class Animal extends Organism {
 
     /**
      * returns an arraylist of possible locations to move to
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @param locationToReach Location to reach
      * @return an arraylist of possible locations to move to
      */
@@ -149,7 +175,7 @@ public abstract class Animal extends Organism {
 
     /**
      * returns an arraylist of possible locations to move to
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @param moveAwayForm the location to move away form
      * @return an arraylist of possible locations to move to
      */
@@ -184,7 +210,7 @@ public abstract class Animal extends Organism {
 
     /**
      * Determines the next movement towards a location
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @param locationToReach the location the animal need to reach
      */
     public void headTowards(World world,Location locationToReach){
@@ -198,7 +224,7 @@ public abstract class Animal extends Organism {
     /**
      * Determines the next movement away from a location
      *
-     * @param world    the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @param location the location to flee from
      */
     public void flee(World world, Location location) {
@@ -213,7 +239,7 @@ public abstract class Animal extends Organism {
     /**
      * Determines the next movement away from a location for animal with burrows
      *
-     * @param world    the world object
+     * @param world    providing details of the position on which the actor is currently located and much more.
      * @param location the location to flee from
      * @param burrow   the burrow of an animal if it has one
      */
@@ -295,7 +321,7 @@ public abstract class Animal extends Organism {
 
     /**
      * a function that return the closest location
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @param locations an arraylist of location you want the closest location of
      * @return the closest loctaion
      */
@@ -325,7 +351,7 @@ public abstract class Animal extends Organism {
      * returns locations of all animals given in arraylist with a distances
      * determined by the searchRadius variable which all animals have
      *
-     * @param world   the world object
+     * @param world   providing details of the position on which the actor is currently located and much more.
      * @param animals arraylist of the animal types you are searching for
      * @param <T>     things that extends animal
      * @return locations of all animals searched for
@@ -350,7 +376,7 @@ public abstract class Animal extends Organism {
      * Creatures age and loose a maximum energy for every time it ages.
      * At one point it dies when its age can no longer sustain itself.
      *
-     * @param world the world object
+     * @param world providing details of the position on which the actor is currently located and much more.
      * @throws DeathException throws an exception to intervene nested checks.
      */
     public void age(World world) throws DeathException {
@@ -359,6 +385,11 @@ public abstract class Animal extends Organism {
         checkAge(world);
     }
 
+    /**
+     * Checks the age of the animal and kills it if has died of old age.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException to stop the animal from doing anything and ends its processes in
+     */
     public void checkAge(World world) throws DeathException {
         if (this.age >= this.ageMax) {
             die(world);
@@ -366,7 +397,7 @@ public abstract class Animal extends Organism {
     }
 
     /**
-     * consumes an amount of energy from a food instance, refilling its own energy.
+     * Consumes an amount of energy from a food instance, refilling its own energy.
      *
      * @param food The food the rabbit is trying to eat.
      */
@@ -381,9 +412,9 @@ public abstract class Animal extends Organism {
 
     /**
      * Checks if the current tile contains Nonblocking entities.
-     * If yes, it checks if its valid for creating a burrow.
-     * If yes, it creates a new RabbitBurrow instance.
-     * @param world The world the rabbit is in.
+     * Then runs the diggyHole() function.
+     *
+     * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void digBurrow(World world) {
         Location l = world.getLocation(this);
@@ -401,5 +432,10 @@ public abstract class Animal extends Organism {
         diggyHole(world, l);
     }
 
+    /**
+     * Creates a hole of the right kind dependant on the type of animal that digs the burrow.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @param l the location of the burrow.
+     */
     public abstract void diggyHole(World world, Location l);
 }

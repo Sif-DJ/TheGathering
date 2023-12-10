@@ -9,7 +9,7 @@ import java.io.*;
 import javax.swing.JOptionPane;
 
 /**
- * Main class to contain all setup and main running.
+ * The main class, that sets up the world, and runs all the simulations.
  */
 public class Main {
 
@@ -48,9 +48,9 @@ public class Main {
             return;
         }
 
-        int size = Integer.parseInt(input[0]); // Get the integer from the first line of the
-        int delay = 100;
-        int display_size = 800;
+        int size = Integer.parseInt(input[0]); // Get the integer from the first line of the input.
+        int delay = 100; // Delay between simulations.
+        int display_size = 800; // Size of the display.
 
         // Setup objects
         Program p = new Program(size, display_size, delay);
@@ -81,6 +81,7 @@ public class Main {
                     System.out.println("Creating a " + type);
                 }
 
+                // Creates the entities based on the given input.
                 if(line.length > 2){
                     String[] placeInfo = line[2].split(",");
                     placeInfo[0] = placeInfo[0].substring(1);
@@ -145,8 +146,8 @@ public class Main {
     }
 
     /**
-     * Sets the display information of the different classes
-     * @param p the program object
+     * Sets the display information of the different classes.
+     * @param p The program object.
      */
     public static void setDisplay(Program p) {
         p.setDisplayInformation(RabbitBurrow.class, new DisplayInformation(Color.orange, "hole-small", false));
@@ -154,9 +155,9 @@ public class Main {
     }
 
     /**
-     * Creates a specified amount of objects in a world object.
-     * @param world The world to apply the entity to.
-     * @param type Insert an empty of the object type you want multiple of.
+     * Creates a specified amount of objects in the world object.
+     * @param world The world to apply the entities to.
+     * @param type The type of entity you want to create.
      * @param amounts The amount of entities to be created. Only reads the first and second index as min and max.
      * @throws Exception If and only if an incompatible object was set as a parameter.
      */
@@ -171,7 +172,7 @@ public class Main {
             amount = amounts[0];
         }
 
-        // Some animals are part pack
+        // Some animals are part of a pack.
         Pack pack = new Pack();
 
         // Instantiate an amount of entities.
@@ -197,10 +198,10 @@ public class Main {
 
     /**
      * Is designed to take in any object that is placeable within the world and returns a new object of that type.
-     * @param entity the entity to create a new instance of.
-     * @param pack if it has a pack, such as a wolfPack, then place here.
-     * @return returns an object of the same type as the one input.
-     * @throws Exception if the type could not be recognized. Don't wanna place anything that should exist.
+     * @param entity The entity to create a new instance of.
+     * @param pack If it has a pack, such as a wolfPack, then place here.
+     * @return Returns an object of the same type as the one input.
+     * @throws Exception If the type entity could not be recognized.
      */
     public static Object instantiateCorrectEntity(Object entity, Pack pack, boolean isInfected) throws Exception{
         // Apply the right object type to entity
@@ -229,7 +230,7 @@ public class Main {
 
     /**
      * Creates an object in world at a specific location.
-     * @param world The world the entity is in.
+     * @param world Providing details of the position on which the actor is currently located and much more.
      * @param type The type of entity.
      * @param location The location to place the entity at.
      * @throws Exception If the location is already occupied by a Blocking entity.

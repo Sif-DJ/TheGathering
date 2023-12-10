@@ -10,7 +10,12 @@ import java.awt.*;
 public class Wolf extends Predator {
     protected final Pack pack;
     protected WolfBurrow burrow;
-    
+
+    /**
+     * The Wolf constructor.
+     * @param isInfected A boolean that determines if the wolf is infected by spores of mushrooms.
+     * @param pack An object created to help keep track of information across a pack of wolves.
+     */
     public Wolf(boolean isInfected, Pack pack){
         super(isInfected);
         this.maxEnergy = 400;
@@ -22,17 +27,31 @@ public class Wolf extends Predator {
         this.health = 15;
     }
 
+    /**
+     * Creates a new instance of its type of animal.
+     * Mainly used in the reproduce() function.
+     * @return returns a new instance of itself.
+     */
     @Override
     public Animal createNewSelf() {
         return new Wolf(false, this.pack);
     }
 
+    /**
+     * Deletes the animal from the world.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void die(World world) throws DeathException{
         pack.remove(this);
         super.die(world);
     }
 
+    /**
+     * The method called whenever the actor needs to simulate its actions.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world){
         try{
@@ -49,6 +68,10 @@ public class Wolf extends Predator {
 
     }
 
+    /**
+     * Defines how a wolf moves.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void doMove(World world) {
         if(!isHunting()){
@@ -76,24 +99,46 @@ public class Wolf extends Predator {
         }
     }
 
+    /**
+     * Defines how a wolf reproduces.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void tryReproduce(World world) {
 
     }
 
+    /**
+     * Asks the pack object to find a new prey to hunt.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void chooseNextTarget(World world) {
         pack.choosePrey(world);
     }
 
+    /**
+     * Asks the pack object to assign the new prey to all the wolves in the pack.
+     * @param edible The thing to prey on.
+     */
     public void chooseNextPrey(Object edible) {
         pack.assignPrey(edible);
     }
 
+    /**
+     * Sets this wolf to target this object.
+     * This includes, but is not limited to: Carcasses, Rabbits and Bears.
+     * @param edible The thing to prey on.
+     */
     public void assignPrey(Object edible){
         targetPrey = edible;
     }
 
+    /**
+     * Digs a burrow for the Wolfs and assigns it to all the wolfs in the pack, with the pack.assignBurrow function.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @param l the location of the burrow.
+     */
     @Override
     public void diggyHole(World world, Location l){
         burrow = new WolfBurrow();
@@ -101,18 +146,29 @@ public class Wolf extends Predator {
         pack.assignBurrow(burrow);
     }
 
+    /**
+     * Sets this wolfs burrow to be equal to the parameter burrow.
+     * Mainly used by the pack to assign it to all wolfs in the pack.
+     * @param burrow of the WolfBurrow type.
+     */
     public void assignBurrow(WolfBurrow burrow){
         this.burrow = burrow;
     }
 
+    /**
+     * Gets the Pack object and returns it.
+     * @return Pack
+     */
     public Pack getPack(){
         return pack;
     }
 
-    public void enterHole(){
 
-    }
 
+    /**
+     * Provides info on how this object should be displayed in game world.
+     * @return DisplayInformation with its name and if it is infected.
+     */
     @Override
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.cyan,

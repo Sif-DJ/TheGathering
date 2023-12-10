@@ -17,8 +17,9 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
     protected Random r = new Random();
 
     /**
-     * Deletes this object when called.
-     * @param world The world the object is in.
+     * Deletes the object when called. Used to permanently remove animals and food,
+     * when they die or get eaten.
+     * @param world Providing details of the position on which the actor is currently located and much more.
      * @throws DeathException This indicates that the this has died.
      */
     public void die(World world) throws DeathException{
@@ -27,25 +28,28 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
     }
 
     /**
-     * Gets the current energy of this food item.
-     * @return int in energy
+     * Gets the current energy of the organism.
+     * @return returns the energy as an Integer.
      */
     public int getEnergy(){
         return energy;
     }
 
+    /**
+     * Adds an amount of energy to the organism.
+     * @param energy as an Integer value.
+     */
     public void addEnergy(int energy){
         this.energy += energy;
     }
 
     /**
-     * returns the location of the nearest food this organism can eat
-     *
-     * @param world the world object
-     * @param food an ArrayList of the Food types the organism can eat
-     * @param searchRadius int, size of the search area
-     * @return the location of the nearest food this organism can eat
-     * @param <T> things that extends Food
+     * Returns the location of the nearest food, that the organism can eat.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @param food An ArrayList of the Food types the organism can eat.
+     * @param searchRadius An Integer that determines the size of the search area.
+     * @return The location of the nearest food this organism can eat.
+     * @param <T> All types of objects, that extends Food.
      */
     public <T extends Food> ArrayList<Location> searchForFood(World world, ArrayList<T> food,int searchRadius) {
         if (food.isEmpty()) return null; // Did someone input no food types to find, then stop prematurely.
