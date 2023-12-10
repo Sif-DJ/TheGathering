@@ -12,7 +12,7 @@ public class Carcass extends Food {
     public boolean isInfected;
     public Mushroom mushroom = null;
     public Location l;
-    public Carcass(boolean isInfected,int energy){
+    public Carcass(boolean isInfected, int energy){
         this.energy = energy + 100;
         this.isInfected = isInfected;
         if(isInfected) mushroom = new Mushroom(0);

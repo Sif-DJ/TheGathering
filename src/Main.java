@@ -40,6 +40,9 @@ public class Main {
         String[] input;
         try{
             input = readFile(fileInput);
+            // None should be case sensitive, so we default to lowercase.
+            for(int i = 0; i < input.length; i++)
+                input[i] = input[i].toLowerCase();
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
             return;
@@ -216,7 +219,7 @@ public class Main {
         } else if (entity instanceof BerryBush) {
             return new BerryBush();
         } else if (entity instanceof Carcass) {
-            return new Carcass(isInfected, 0);
+            return new Carcass(isInfected, 100);
         } else if (entity instanceof Mushroom) {
             return new Mushroom(120);
         } else{
