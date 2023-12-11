@@ -125,4 +125,15 @@ omkringliggende pladser da den sender sporer ud.
 handlinger. Dyret gør derfor som svampen bestemmer, hvilket er at søge mod andre
 dyr af samme art.
 
-## Tema 4:
+>## Tema 4:
+>>### Checkliste:
+>>- Nyt dyr: ""
+>>- Unikt adfærd: ""
+> 
+>>### Rigtige krav:
+>>- [ ] **K4-1.** Vælg et valgfrit dyr og implementer dets karakteristika og adfærd i økosystemet.
+Dyret skal have mindst et unikt adfærd.
+>>- [ ] **K4-2.** Dyret skal kunne interagere med eksisterende elementer i økosystemet, herunder ådsler, planter og andre dyr.
+>>- [ ] **K4-3.** Simuler dyrets livscyklus, herunder fødsel, vækst, reproduktion og død.
+>>- [ ] **K4-4.** Implementer dyrets fødekæde og prædator-bytte forhold.
+>>- [ ] **K4-5.** Dyrets tilstedeværelse og adfærd skal kunne påvirke økosystemets balance og dynamik.
