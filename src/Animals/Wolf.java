@@ -163,7 +163,16 @@ public class Wolf extends Predator {
         return pack;
     }
 
-
+    public void enterHole(World world){
+        if(burrow.isBurrowFull()){
+            burrow.unAssign(this);
+            assignBurrow(null);
+            return;
+        }
+        burrow.enter(this);
+        world.remove(this);
+        world.setCurrentLocation(world.getLocation(burrow));
+    }
 
     /**
      * Provides info on how this object should be displayed in game world.

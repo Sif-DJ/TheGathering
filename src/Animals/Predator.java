@@ -31,7 +31,7 @@ public abstract class Predator extends Animal {
             targetPrey = null;
         }
 
-        if(isHungry() && !isHunting()){
+        if(!isBaby && isHungry() && !isHunting()){
             Carcass carcass = getAnyCarcass(world);
             if(carcass == null) {
                 chooseNextTarget(world);

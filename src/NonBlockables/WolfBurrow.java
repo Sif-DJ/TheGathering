@@ -20,15 +20,13 @@ public class WolfBurrow extends Burrow<Wolf> {
     public void act(World world){
         super.act(world);
         if(timeUnOccupied > 50){
-            for(Wolf wolf : assignedToBurrow){
-                //Pack.unAssignHole();
-            }
+            ((Wolf)animals.get(0)).getPack().unAssignBurrow();
             caveIn(world);
         }
     }
 
     /**
-     * The funktion to exit the wolfburrow.
+     * The function to exit the wolfburrow.
      * @param world providing details of the position on which the actor is currently located and much more.
      */
     @Override

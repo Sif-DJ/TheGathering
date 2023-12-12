@@ -92,6 +92,15 @@ public class Pack {
     }
 
     /**
+     * Unassigns the pack burrow from all wolfs in pack.
+     */
+    public void unAssignBurrow() {
+        for(Wolf wolf : list) {
+            wolf.assignBurrow(null);
+        }
+    }
+
+    /**
      * returns the location of the prey.
      * @param world providing details of the position on which the actor is currently located and much more.
      * @return the location of the prey.
