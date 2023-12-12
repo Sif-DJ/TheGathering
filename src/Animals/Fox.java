@@ -34,7 +34,6 @@ public class Fox extends Predator {
         if(world.isNight()){
 
         }
-
     }
 
     /**

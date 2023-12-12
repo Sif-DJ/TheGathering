@@ -49,7 +49,7 @@ public class Main {
         }
 
         int size = Integer.parseInt(input[0]); // Get the integer from the first line of the input.
-        int delay = 100; // Delay between simulations.
+        int delay = 200; // Delay between simulations.
         int display_size = 800; // Size of the display.
 
         // Setup objects

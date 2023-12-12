@@ -20,7 +20,9 @@ public class WolfBurrow extends Burrow<Wolf> {
     public void act(World world){
         super.act(world);
         if(timeUnOccupied > 50){
-            ((Wolf)animals.get(0)).getPack().unAssignBurrow();
+            while(!animals.isEmpty()){
+                ((Wolf)animals.get(0)).getPack().unAssignBurrow();
+            }
             caveIn(world);
         }
     }
