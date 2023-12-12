@@ -5,7 +5,6 @@ import Dubious.Organism;
 import NonBlockables.*;
 import itumulator.world.Location;
 import itumulator.world.World;
-
 import java.util.*;
 
 public abstract class Animal extends Organism {
@@ -22,7 +21,7 @@ public abstract class Animal extends Organism {
      * Instantiation of the Animal object.
      * @param isInfected determines if this object has been infected by a mushroom.
      */
-    public Animal(Boolean isInfected){
+    public Animal(boolean isInfected){
         this.isInfected = isInfected;
     };
 

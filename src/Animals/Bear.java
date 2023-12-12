@@ -6,7 +6,7 @@ import NonBlockables.BerryBush;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Bear extends Predator {
 

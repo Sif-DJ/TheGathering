@@ -1,9 +1,10 @@
 package Animals;
 
 import Dubious.DeathException;
-import NonBlockables.Food;
 import NonBlockables.Carcass;
-import itumulator.world.*;
+import NonBlockables.Food;
+import itumulator.world.Location;
+import itumulator.world.World;
 import java.util.ArrayList;
 
 public abstract class Predator extends Animal {
