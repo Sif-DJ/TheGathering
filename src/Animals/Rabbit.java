@@ -30,6 +30,7 @@ public class Rabbit extends Animal{
         health = 7;
         searchRadius = 2;
         fleeFrom.add(new Bear(false));
+        fleeFrom.add(new Fox(false));
         fleeFrom.add(new Wolf(false ,new Pack()));
     }
 
@@ -68,7 +69,7 @@ public class Rabbit extends Animal{
             return;
         }
         if(world.getCurrentLocation() == null) return;
-        if(!isInHole()) {
+        if(!isInBurrow()) {
             ArrayList<Location> f = searchForAnimals(world,fleeFrom);
             if(!(f == null) && !f.isEmpty()) {
                 Location closest = getClosestLocation(world, f);
@@ -131,7 +132,7 @@ public class Rabbit extends Animal{
             if(obj instanceof Rabbit) rabbitCounter += 1.0;
         }
         if(4.0 / rabbitCounter < r.nextDouble() * 2.0) return;
-        if(isInHole() && burrow != null){
+        if(isInBurrow() && burrow != null){
             Random r = new Random();
             ArrayList<Animal> rabbits = burrow.getAnimals();
             rabbits.remove(this);
@@ -151,7 +152,7 @@ public class Rabbit extends Animal{
     @Override
     public void reproduce(World world, Animal animal) {
         if(energy < 40 || isBaby || animal.getEnergy() < 40 || animal.isBaby) return;
-        for(int i = 0; i <= r.nextInt(3); i++){
+        for(int i = 0; i <= r.nextInt(3) + 2; i++){
             Rabbit rabbit = (Rabbit) this.createNewSelf();
             world.add(rabbit);
             rabbit.assignHole(burrow);
@@ -219,13 +220,13 @@ public class Rabbit extends Animal{
     }
 
     /**
-     * Gets if this rabbit is in a hole. True if in hole, otherwise false.
+     * Gets if this rabbit is in a burrow. True if in hole, otherwise false.
      * @return boolean of its current state.
      */
-    public boolean isInHole(){
+    public boolean isInBurrow(){
         if(burrow == null)
             return false;
-        return (burrow.isInHole(this));
+        return (burrow.isInBurrow(this));
     }
 
     /**

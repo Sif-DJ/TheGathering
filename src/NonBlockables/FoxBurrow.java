@@ -16,7 +16,7 @@ public class FoxBurrow extends Burrow<Fox>{
         if(animals.isEmpty()){timeUnOccupied++;}else{timeUnOccupied=0;}
         if(timeUnOccupied > 100){
             for(Fox fox : assignedToBurrow){
-                fox.assignHole(null);
+                fox.assignBurrow(null);
             }
             caveIn(world);
         }

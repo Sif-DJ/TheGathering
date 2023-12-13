@@ -73,16 +73,11 @@ public abstract class Animal extends Organism {
         if (world.getCurrentTime() % 20 == 0)
             age(world);
 
-        if(isInfected){
-
-        }
-
         tryReproduce(world);
 
         checkAge(world);
-        if (energy <= 0 || health <= 0) {
+        if (energy <= 0 || health <= 0)
             die(world);
-        }
     }
 
     /**
@@ -328,7 +323,7 @@ public abstract class Animal extends Organism {
      * a function that return the closest location
      * @param world providing details of the position on which the actor is currently located and much more.
      * @param locations an arraylist of location you want the closest location of
-     * @return the closest loctaion
+     * @return the closest location
      */
     public Location getClosestLocation(World world, ArrayList<Location> locations) {
         if (locations == null) return null;

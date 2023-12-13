@@ -60,6 +60,12 @@ public abstract class Burrow<T extends Animal> implements NonBlocking, Actor {
     }
 
     /**
+     * Makes an animal get out of the burrow without apearing on the map.
+     * @param animal The animal that is forced to exit.
+     */
+    public void forceExit(Animal animal){this.animals.remove(animal);}
+
+    /**
      * Exit this burrow.
      * @param world providing details of the position on which the actor is currently located and much more.
      */
@@ -74,7 +80,7 @@ public abstract class Burrow<T extends Animal> implements NonBlocking, Actor {
      * @param animal the animal you want to check if it is in this hole.
      * @return true if the animal is in this hole.
      */
-    public boolean isInHole(Animal animal){
+    public boolean isInBurrow(Animal animal){
         return (animals.contains(animal));
     }
 

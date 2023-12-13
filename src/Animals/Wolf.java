@@ -99,7 +99,6 @@ public class Wolf extends Predator {
                 attemptAttack(world);
             }catch (Exception e){
                 System.out.println(e);
-                return;
             }
         }
     }
@@ -211,7 +210,7 @@ public class Wolf extends Predator {
      */
     public boolean isInBurrow(){
         if(burrow == null)return false;
-        return (burrow.isInHole(this));
+        return (burrow.isInBurrow(this));
     }
 
     /**

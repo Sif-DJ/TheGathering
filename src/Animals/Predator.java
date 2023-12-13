@@ -56,7 +56,6 @@ public abstract class Predator extends Animal {
                 attemptAttack(world);
             }catch (Exception e){
                 System.out.println(e);
-                return;
             }
         }
     }

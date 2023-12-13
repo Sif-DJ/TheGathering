@@ -7,8 +7,6 @@ import itumulator.world.World;
 import NonBlockables.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Set;
 
 public class Fox extends Predator {
     //variable
@@ -36,12 +34,87 @@ public class Fox extends Predator {
      */
     @Override
     public void act(World world) throws DeathException {
-        super.act(world);
-        if(world.isNight()){
+        try{
+            super.act(world);
+        }catch(DeathException e){
+            System.out.println(e);
+            return;
+        }
 
+        if(!isInBurrow())
+            doMove(world);
+        if(burrow == null && world.isDay()){
+            digBurrow(world);
         }
     }
 
+    @Override
+    public void doMove(World world) {
+        try{
+            if(world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
+                assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
+        }catch(Exception e){
+            // Keep going
+        }
+
+        if(world.isDay() && burrow != null){
+            try{
+                headTowards(world, world.getLocation(burrow));
+                if(world.getLocation(burrow).equals(world.getLocation(this))){
+                    enterHole(world);
+                    return;
+                }
+            }catch(Exception e){
+                wandering(world);
+            }
+        }
+
+        if(!isHunting()){
+            wandering(world);
+        }else{
+            if(targetPrey == null)return;
+            headTowards(world, world.getLocation(targetPrey));
+            attemptAttack(world);
+        }
+    }
+
+    /**
+     * Sets this foxes burrow to be equal to the parameter burrow.
+     * Mainly used by the pack to assign it to all wolfs in the pack.
+     * @param burrow of the WolfBurrow type.
+     */
+    public void assignBurrow(FoxBurrow burrow){
+        this.burrow = burrow;
+    }
+
+    /**
+     * Makes this fox enter the burrow
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     */
+    public void enterHole(World world){
+        if(burrow.isBurrowFull()){
+            burrow.unAssign(this);
+            assignBurrow(null);
+            return;
+        }
+        burrow.enter(this);
+        world.remove(this);
+        world.setCurrentLocation(world.getLocation(burrow));
+    }
+
+    /**
+     * This makes the fox take a random rabbit from the burrow provided and carry the carcass of that rabbit.
+     * @param burrow The Rabbit burrow that the fox is hunting in;
+     */
+    public void pounce(RabbitBurrow burrow) throws DeathException{
+        if(burrow.getAnimals().isEmpty()) return;
+        ArrayList<Rabbit> rabbits = new ArrayList<>();
+        for(Animal a : burrow.getAnimals()){rabbits.add((Rabbit)a);}
+        Rabbit caughtRabbit = rabbits.get(r.nextInt(rabbits.size()));
+        burrow.forceExit(caughtRabbit);
+        carryCarcass(caughtRabbit);
+        caughtRabbit.health = 0;
+    }
     /**
      * Creates a Carcass on the fox that it can then place where ever.
      * @param rabbit The rabbit that has been killed.
@@ -100,7 +173,13 @@ public class Fox extends Predator {
 
     @Override
     public void chooseNextTarget(World world) {
-
+        ArrayList<Location> listOfBurrows = new ArrayList<>();
+        for(Object obj : world.getEntities().keySet()){
+            if(obj instanceof RabbitBurrow)
+                listOfBurrows.add(world.getLocation(obj));
+        }
+        if(listOfBurrows.isEmpty())return;
+        targetPrey = world.getLocation(getClosestLocation(world, listOfBurrows));
     }
 
     /**
@@ -108,15 +187,19 @@ public class Fox extends Predator {
      */
     @Override
     public void attack() {
-
+        if(targetPrey instanceof RabbitBurrow)
+            pounce((RabbitBurrow)targetPrey);
+        if(targetPrey instanceof Carcass)
+            eat((Carcass)targetPrey);
     }
 
     /**
-     * Is used to save a burrow in the foxes storage.
-     * @param burrow the burrow to assign to. Apply null to unassign.
+     * Check if this fox is in a burrow.
+     * @return true if it is. Otherwise, false.
      */
-    public void assignHole(FoxBurrow burrow){
-        this.burrow = burrow;
+    public boolean isInBurrow(){
+        if(burrow == null)return false;
+        return burrow.isInBurrow(this);
     }
 
     /**
