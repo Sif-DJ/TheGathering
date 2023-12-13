@@ -26,7 +26,7 @@ public class Rabbit extends Animal{
         maxEnergy = 100;
         energy = maxEnergy;
         age = 0;
-        ageMax = 12;
+        ageMax = 15;
         health = 7;
         searchRadius = 2;
         fleeFrom.add(new Bear(false));

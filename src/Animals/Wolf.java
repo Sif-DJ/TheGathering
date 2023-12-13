@@ -6,6 +6,9 @@ import NonBlockables.WolfBurrow;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Set;
 
 public class Wolf extends Predator {
     protected final Pack pack;
@@ -22,7 +25,7 @@ public class Wolf extends Predator {
         this.energy = maxEnergy;
         this.age = 0;
         this.pack = pack;
-        this.ageMax = 15;
+        this.ageMax = 25;
         this.power = 5;
         this.health = 15;
     }
@@ -61,7 +64,7 @@ public class Wolf extends Predator {
             return;
         }
 
-        doMove(world);
+        if(!isInBurrow())doMove(world);
         if(burrow == null && world.isNight()){
             digBurrow(world);
         }
@@ -81,6 +84,8 @@ public class Wolf extends Predator {
             }else if(world.isNight() && burrow != null){
                 try{
                     headTowards(world, world.getLocation(burrow));
+                    if(world.getLocation(this).equals(world.getLocation(burrow)))
+                        enterHole(world);
                 }catch(Exception e){
                     wandering(world);
                 }
@@ -100,12 +105,38 @@ public class Wolf extends Predator {
     }
 
     /**
-     * Defines how a wolf reproduces.
+     * Defines how a wolf reproduces. If there are a lot of wolves, then they have a low chance of reproducing.
      * @param world Providing details of the position on which the actor is currently located and much more.
      */
     @Override
     public void tryReproduce(World world) {
+        if(!isInBurrow())return;
+        Set<Object> objs = world.getEntities().keySet();
+        double wolfCounter = 0.0;
+        for(Object obj : objs){
+            if(obj instanceof Wolf) wolfCounter += 1.0;
+        }
+        if(3.0 / wolfCounter < r.nextDouble() * 2.0) return;
 
+        for(Animal wolf : burrow.getAnimals()){
+            if(wolf.equals(this) || wolf.isBaby())continue;
+            reproduce(world, wolf);
+        }
+    }
+
+    /**
+     * Creates a new wolf, if both parents are of acceptable quality.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @param wolf the wolf animal to reproduce with.
+     */
+    @Override
+    public void reproduce(World world, Animal wolf){
+        if(this.getEnergy() < 40 || wolf.getEnergy() < 40)return;
+        this.addEnergy(-40); wolf.addEnergy(-40);
+        Wolf baby = (Wolf)this.createNewSelf();
+        this.pack.add(baby);
+        this.burrow.addToList(baby);
+        this.burrow.enter(baby);
     }
 
     /**
@@ -172,6 +203,15 @@ public class Wolf extends Predator {
         burrow.enter(this);
         world.remove(this);
         world.setCurrentLocation(world.getLocation(burrow));
+    }
+
+    /**
+     * Checks if this animal is in the burrow
+     * @return true if it is its burrow.
+     */
+    public boolean isInBurrow(){
+        if(burrow == null)return false;
+        return (burrow.isInHole(this));
     }
 
     /**

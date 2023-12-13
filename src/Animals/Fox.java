@@ -22,6 +22,12 @@ public class Fox extends Predator {
      */
     public Fox(boolean isInfected) {
         super(isInfected);
+        this.maxEnergy = 400;
+        this.energy = maxEnergy;
+        this.age = 0;
+        this.ageMax = 20;
+        this.power = 3;
+        this.health = 10;
     }
 
     /**
@@ -107,7 +113,7 @@ public class Fox extends Predator {
 
     /**
      * Is used to save a burrow in the foxes storage.
-     * @param burrow
+     * @param burrow the burrow to assign to. Apply null to unassign.
      */
     public void assignHole(FoxBurrow burrow){
         this.burrow = burrow;
@@ -122,6 +128,6 @@ public class Fox extends Predator {
         return new DisplayInformation(Color.gray,
                 "fox"
                         +(isBaby ? "-small" : "")
-                        +(carcass != null ? "-carrying" : ""));
+                        +(isCarrying() ? "-carrying" : ""));
     }
 }

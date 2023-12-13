@@ -129,6 +129,12 @@ public abstract class Animal extends Organism {
      * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void wandering(World world) {
+        try{
+            world.getLocation(this);
+            world.setCurrentLocation(world.getLocation(this));
+        }catch(Exception e){
+            return;
+        }
         Set<Location> neighbours = world.getEmptySurroundingTiles();
         List<Location> list = new ArrayList<>(neighbours);
         if (list.isEmpty()) return;
@@ -393,6 +399,14 @@ public abstract class Animal extends Organism {
         if (this.age >= this.ageMax) {
             die(world);
         }
+    }
+
+    /**
+     * Get the age of this animal.
+     * @return int of age.
+     */
+    public boolean isBaby(){
+        return isBaby;
     }
 
     /**

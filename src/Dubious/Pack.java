@@ -117,7 +117,8 @@ public class Pack {
     public Location getAverageLocation(World world){
         double totalX = 0;
         double totalY = 0;
-        for (Wolf wolf : list ){
+        for (Wolf wolf : list){
+            if(wolf.isInBurrow())continue;
             totalX += world.getLocation(wolf).getX();
             totalY += world.getLocation(wolf).getY();
         }
