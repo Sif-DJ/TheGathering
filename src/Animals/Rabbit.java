@@ -68,52 +68,56 @@ public class Rabbit extends Animal{
             System.out.println(e);
             return;
         }
-        if(world.getCurrentLocation() == null) return;
-        if(!isInBurrow()) {
-            ArrayList<Location> f = searchForAnimals(world,fleeFrom);
-            if(!(f == null) && !f.isEmpty()) {
-                Location closest = getClosestLocation(world, f);
-                if( burrow != null){
-                    flee(world,closest,burrow);
-                }else{
-                    flee(world,closest);
+
+        // This animal has two movement step per tick.
+        for(int i = 0; i < 2; i++) {
+            if (world.getCurrentLocation() == null) return;
+            if (!isInBurrow()) {
+                ArrayList<Location> f = searchForAnimals(world, fleeFrom);
+                if (!(f == null) && !f.isEmpty()) {
+                    Location closest = getClosestLocation(world, f);
+                    if (burrow != null) {
+                        flee(world, closest, burrow);
+                    } else {
+                        flee(world, closest);
+                    }
+                    if (world.containsNonBlocking(world.getLocation(this))) {
+                        if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
+                            assignHole(world);
+                            enterHole(world);
+                        }
+                    }
+                    return;
                 }
-                if(world.containsNonBlocking(world.getLocation(this))){
+
+                if (world.isDay()) {
+                    wandering(world);
+                } else if (burrow != null) {
+                    headTowards(world, world.getLocation(burrow));
+                }
+
+
+                if (world.containsNonBlocking(world.getLocation(this))) {
+                    if (world.getNonBlocking(world.getLocation(this)) instanceof Grass) {
+                        Grass grass = (Grass) world.getNonBlocking(world.getLocation(this));
+                        eat(grass);
+                    }
+                    // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
                     if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
                         assignHole(world);
-                        enterHole(world);
                     }
                 }
-                return;
-            }
 
-            if(world.isDay()){
-                wandering(world);
-            }else if(burrow != null){
-                headTowards(world, world.getLocation(burrow));
-            }
-
-
-            if (world.containsNonBlocking(world.getLocation(this))) {
-                if (world.getNonBlocking(world.getLocation(this)) instanceof Grass) {
-                    Grass grass = (Grass) world.getNonBlocking(world.getLocation(this));
-                    eat(grass);
-                }
-                // If the rabbit finds a new hole, assign it. No reason to run for the old hole that's far away.
-                if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
-                    assignHole(world);
-                }
-            }
-
-            // All nighttime calculations
-            if (world.isNight()) {
-                if (burrow == null){
-                    digBurrow(world);
-                } else if (world.getLocation(burrow).equals(world.getLocation(this))) {
-                    enterHole(world);
-                } else if (burrow == null && world.containsNonBlocking(world.getLocation(this))) {
-                    if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
-                        wandering(world);
+                // All nighttime calculations
+                if (world.isNight()) {
+                    if (burrow == null) {
+                        digBurrow(world);
+                    } else if (world.getLocation(burrow).equals(world.getLocation(this))) {
+                        enterHole(world);
+                    } else if (burrow == null && world.containsNonBlocking(world.getLocation(this))) {
+                        if (world.getNonBlocking(world.getLocation(this)) instanceof RabbitBurrow) {
+                            wandering(world);
+                        }
                     }
                 }
             }

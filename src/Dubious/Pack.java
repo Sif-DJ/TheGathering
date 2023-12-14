@@ -119,6 +119,11 @@ public class Pack {
         double totalY = 0;
         for (Wolf wolf : list){
             if(wolf.isInBurrow())continue;
+            try{
+                world.getLocation(wolf);
+            }catch (Exception e){
+                continue;
+            }
             totalX += world.getLocation(wolf).getX();
             totalY += world.getLocation(wolf).getY();
         }

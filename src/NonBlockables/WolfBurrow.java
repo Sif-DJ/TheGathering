@@ -20,14 +20,6 @@ public class WolfBurrow extends Burrow<Wolf> {
     public void act(World world){
         super.act(world);
 
-        if(animals.size() >= 2){
-            for(Animal wolf : animals){
-                if(!wolf.isBaby()){
-                    wolf.tryReproduce(world);
-                }
-            }
-        }
-
         if(timeUnOccupied > 50){
             while(!animals.isEmpty()){
                 ((Wolf)animals.get(0)).getPack().unAssignBurrow();

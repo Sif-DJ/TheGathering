@@ -76,8 +76,14 @@ public class Bear extends Predator {
             attemptAttack(world);
         }catch (Exception e){
             System.out.println(e);
-            return;
         }
+    }
+
+    @Override
+    public void age(World world) throws DeathException {
+        super.age(world);
+        if(age > 3)
+            isBaby = false;
     }
 
     /**

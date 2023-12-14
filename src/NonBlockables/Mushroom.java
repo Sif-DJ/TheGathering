@@ -1,6 +1,5 @@
 package NonBlockables;
 
-import Animals.Animal;
 import Dubious.DeathException;
 import Dubious.Organism;
 import itumulator.executable.*;

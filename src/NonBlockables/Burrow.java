@@ -60,7 +60,7 @@ public abstract class Burrow<T extends Animal> implements NonBlocking, Actor {
     }
 
     /**
-     * Makes an animal get out of the burrow without apearing on the map.
+     * Makes an animal get out of the burrow without appearing on the map.
      * @param animal The animal that is forced to exit.
      */
     public void forceExit(Animal animal){this.animals.remove(animal);}

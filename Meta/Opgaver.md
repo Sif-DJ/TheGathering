@@ -135,11 +135,11 @@ dyr af samme art.
 >>>- Ræve!
 >>
 >>> #### Adfærd:
->>>- [ ] Sover om natten, jager om dagen.
+>>>- [x] Sover om dagen, jager om natten.
 >>>- [ ] Finder kaninhuller og står oven på dem for at angribe kaniner nede i dem.
 >>>- [ ] Graver deres egne huller som de kan sove i.
 >>>- [ ] Ræve gemmer kanin lig og ligger dem ved sin egen hule.
->>>- [ ] Jager kun kaniner.
+>>>- [x] Jager kun kaniner.
 > 
 >>### Rigtige krav:
 >>- [ ] **K4-1.** Vælg et valgfrit dyr og implementer dets karakteristika og adfærd i økosystemet.

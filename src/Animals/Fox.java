@@ -7,6 +7,8 @@ import itumulator.world.World;
 import NonBlockables.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Set;
 
 public class Fox extends Predator {
     //variable
@@ -41,8 +43,12 @@ public class Fox extends Predator {
             return;
         }
 
-        if(!isInBurrow())
-            doMove(world);
+        // This animal has two movement step per tick.
+        for(int i = 0; i < 2; i++){
+            if(!isInBurrow()) {
+                doMove(world);
+            }
+        }
         if(burrow == null && world.isDay()){
             digBurrow(world);
         }
@@ -50,9 +56,17 @@ public class Fox extends Predator {
 
     @Override
     public void doMove(World world) {
+        if(world.getCurrentLocation() == null) return;
         try{
+            // Check if it is standing on a foxburrow
             if(world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
                 assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
+
+            // Check if it can place its carcass
+            double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
+            if(isCarrying() && length < 2 && length >= 1){
+                placeCarcass(world);
+            }
         }catch(Exception e){
             // Keep going
         }
@@ -62,20 +76,36 @@ public class Fox extends Predator {
                 headTowards(world, world.getLocation(burrow));
                 if(world.getLocation(burrow).equals(world.getLocation(this))){
                     enterHole(world);
-                    return;
                 }
             }catch(Exception e){
                 wandering(world);
             }
+            return;
         }
 
         if(!isHunting()){
-            wandering(world);
+            try {
+                if(isBaby && getLengthBetweenTiles(world.getCurrentLocation(), world.getLocation(burrow)) >= 3){
+                    headTowards(world,world.getLocation(burrow));
+                }else{
+                    wandering(world);
+                }
+            }catch (Exception e){
+                wandering(world);
+            }
+
         }else{
             if(targetPrey == null)return;
             headTowards(world, world.getLocation(targetPrey));
             attemptAttack(world);
         }
+    }
+
+    @Override
+    public void age(World world) throws DeathException {
+        super.age(world);
+        if(age > 2)
+            isBaby = false;
     }
 
     /**
@@ -86,6 +116,8 @@ public class Fox extends Predator {
     public void assignBurrow(FoxBurrow burrow){
         this.burrow = burrow;
     }
+
+
 
     /**
      * Makes this fox enter the burrow
@@ -120,7 +152,7 @@ public class Fox extends Predator {
      * @param rabbit The rabbit that has been killed.
      */
     public void carryCarcass(Rabbit rabbit){
-        carcass = new Carcass(rabbit.isInfected,rabbit.getEnergy());
+        carcass = new Carcass(rabbit.isInfected, rabbit.getEnergy());
 
     }
 
@@ -130,6 +162,19 @@ public class Fox extends Predator {
      */
     public void placeCarcass(World world){
         if(carcass == null) return;
+        try{
+            Object nonBlocking = world.getNonBlocking(world.getCurrentLocation());
+            if(nonBlocking instanceof Burrow || nonBlocking instanceof BerryBush)
+                return;
+            if(nonBlocking instanceof Carcass){
+                ((Carcass)nonBlocking).addEnergy(carcass.getEnergy());
+                carcass = null;
+                return;
+            }
+            world.delete(nonBlocking);
+        }catch(Exception e){
+            // There was no nonblocking element
+        }
         world.setTile(world.getCurrentLocation(), carcass);
         carcass = null;
     }
@@ -148,7 +193,32 @@ public class Fox extends Predator {
      */
     @Override
     public void tryReproduce(World world) {
+        Set<Object> objs = world.getEntities().keySet();
+        double foxCounter = 0.0;
+        for(Object obj : objs){
+            if(obj instanceof Fox) foxCounter += 1.0;
+        }
+        if(3.0 / foxCounter < r.nextDouble() * 2.0) return;
+        if(isInBurrow() && burrow != null){
+            Random r = new Random();
+            ArrayList<Animal> rabbits = burrow.getAnimals();
+            rabbits.remove(this);
+            if(!rabbits.isEmpty()){
+                reproduce(world, rabbits.get(r.nextInt(rabbits.size())));
+            }
+        }
+    }
 
+    @Override
+    public void reproduce(World world, Animal animal) {
+        if(energy < 90 || isBaby || animal.getEnergy() < 90 || animal.isBaby) return;
+        Fox fox = (Fox) this.createNewSelf();
+        world.add(fox);
+        fox.assignBurrow(burrow);
+        this.burrow.addToList(this);
+        burrow.enter(fox);
+        energy -= 90;
+        animal.addEnergy(-90);
     }
 
     /**
@@ -168,18 +238,25 @@ public class Fox extends Predator {
      */
     @Override
     public void diggyHole(World world, Location l) {
-
+        world.setTile(l, new FoxBurrow());
+        assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
     }
 
     @Override
     public void chooseNextTarget(World world) {
-        ArrayList<Location> listOfBurrows = new ArrayList<>();
+        ArrayList<RabbitBurrow> burrows = new ArrayList<>();
         for(Object obj : world.getEntities().keySet()){
+            try{
+                if(world.getLocation(obj) == null)
+                    continue;
+            }catch(Exception e){
+                continue;
+            }
             if(obj instanceof RabbitBurrow)
-                listOfBurrows.add(world.getLocation(obj));
+                burrows.add((RabbitBurrow)obj);
         }
-        if(listOfBurrows.isEmpty())return;
-        targetPrey = world.getLocation(getClosestLocation(world, listOfBurrows));
+        if(burrows.isEmpty())return;
+        targetPrey = burrows.get(r.nextInt(burrows.size()));
     }
 
     /**

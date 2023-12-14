@@ -24,7 +24,7 @@ public class BerryBush extends Food {
     }
     /**
      * Provides info on how this object should be displayed in game world.
-     * @return DisplayInformation that is relavent for the BerryBush currently.
+     * @return DisplayInformation that is relevant for the BerryBush currently.
      */
     @Override
     public DisplayInformation getInformation() {

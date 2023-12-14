@@ -23,7 +23,7 @@ public abstract class Animal extends Organism {
      */
     public Animal(boolean isInfected){
         this.isInfected = isInfected;
-    };
+    }
 
     /**
      * When an animal is going to die, this function needs to be called. It places all necessary objects when it dies,
@@ -43,7 +43,7 @@ public abstract class Animal extends Organism {
         }
         world.remove(this);
         if (world.containsNonBlocking(l)) {
-            if (world.getNonBlocking(l) instanceof Burrow) {
+            if (world.getNonBlocking(l) instanceof Burrow || world.getNonBlocking(l) instanceof BerryBush) {
                 super.die(world);
             }
             if (world.getNonBlocking(l) instanceof Carcass) {

@@ -40,11 +40,12 @@ public class Grass extends Food {
         try{
             if (energy <= 0){
                 die(world);// We don't know why by this only sometime throws an Exception with the message "No such object in the world"
+                return;
             }
         }catch(DeathException e){
             return;
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Grass did something wierd");
             return;
         }
 

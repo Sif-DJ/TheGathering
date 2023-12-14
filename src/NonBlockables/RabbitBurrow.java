@@ -27,7 +27,7 @@ public class RabbitBurrow extends Burrow<Rabbit> {
         }
     }
     /**
-     * The funktion to exit the RabbitBurrow.
+     * The function to exit the RabbitBurrow.
      * @param world providing details of the position on which the actor is currently located and much more.
      */
     @Override

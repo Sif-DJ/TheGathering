@@ -6,8 +6,6 @@ import NonBlockables.WolfBurrow;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.Set;
 
 public class Wolf extends Predator {
@@ -64,7 +62,13 @@ public class Wolf extends Predator {
             return;
         }
 
-        if(!isInBurrow())doMove(world);
+        // This animal has two movement step per tick.
+        for(int i = 0; i < 2; i++){
+            if(!isInBurrow()) {
+                doMove(world);
+            }
+        }
+
         if(burrow == null && world.isNight()){
             digBurrow(world);
         }
@@ -77,30 +81,37 @@ public class Wolf extends Predator {
      */
     @Override
     public void doMove(World world) {
-        if(!isHunting()){
-            Location packL = pack.getAverageLocation(world);
-            if(getyLengthBetweenTiles(packL,world.getLocation(this)) > 3){
-                headTowards(world, packL);
-            }else if(world.isNight() && burrow != null){
-                try{
-                    headTowards(world, world.getLocation(burrow));
-                    if(world.getLocation(this).equals(world.getLocation(burrow)))
-                        enterHole(world);
-                }catch(Exception e){
-                    wandering(world);
-                }
-            }else{
-                wandering(world);
-            }
+        if(world.getCurrentLocation() == null) return;
+        if(world.isNight() && burrow != null){
+            headTowards(world, world.getLocation(burrow));
+            if(world.getLocation(this).equals(world.getLocation(burrow)))
+                enterHole(world);
+            return;
         }
-        else{
+
+        if(isHunting()){
             try{
                 headTowards(world, world.getLocation(targetPrey));
                 attemptAttack(world);
-            }catch (Exception e){
+                return;
+            }catch (Exception e) {
                 System.out.println(e);
             }
         }
+
+        Location packL = pack.getAverageLocation(world);
+        if(getyLengthBetweenTiles(packL,world.getLocation(this)) > 3){
+            headTowards(world, packL);
+        }else{
+            wandering(world);
+        }
+    }
+
+    @Override
+    public void age(World world) throws DeathException {
+        super.age(world);
+        if(age > 3)
+            isBaby = false;
     }
 
     /**
@@ -115,8 +126,8 @@ public class Wolf extends Predator {
         for(Object obj : objs){
             if(obj instanceof Wolf) wolfCounter += 1.0;
         }
-        if(3.0 / wolfCounter < r.nextDouble() * 2.0) return;
-
+        if(2.0 / wolfCounter < r.nextDouble() * 2.0) return;
+        if(pack.getPack().size() >= 5) return;
         for(Animal wolf : burrow.getAnimals()){
             if(wolf.equals(this) || wolf.isBaby())continue;
             reproduce(world, wolf);
@@ -130,8 +141,8 @@ public class Wolf extends Predator {
      */
     @Override
     public void reproduce(World world, Animal wolf){
-        if(this.getEnergy() < 40 || wolf.getEnergy() < 40)return;
-        this.addEnergy(-40); wolf.addEnergy(-40);
+        if(this.getEnergy() < 100 || wolf.getEnergy() < 100)return;
+        this.addEnergy(-100); wolf.addEnergy(-100);
         Wolf baby = (Wolf)this.createNewSelf();
         this.pack.add(baby);
         this.burrow.addToList(baby);
@@ -201,7 +212,6 @@ public class Wolf extends Predator {
         }
         burrow.enter(this);
         world.remove(this);
-        world.setCurrentLocation(world.getLocation(burrow));
     }
 
     /**
@@ -221,6 +231,7 @@ public class Wolf extends Predator {
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.cyan,
                 "wolf"
-                        +(isInfected ? "-fungi" : ""));
+                        +(isInfected ? "-fungi" : "")
+                        +(isBaby ? "-small" : ""));
     }
 }

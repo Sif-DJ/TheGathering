@@ -48,12 +48,9 @@ public class Carcass extends Food {
             }
             if (energy<=0){
                 die(world);
-                return;
             }
         }catch (DeathException e){
             System.out.println(e);
-
-            return;
         }
     }
     /**

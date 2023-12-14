@@ -49,7 +49,7 @@ public class Main {
         }
 
         int size = Integer.parseInt(input[0]); // Get the integer from the first line of the input.
-        int delay = 200; // Delay between simulations.
+        int delay = 250; // Delay between simulations.
         int display_size = 800; // Size of the display.
 
         // Setup objects
@@ -153,6 +153,7 @@ public class Main {
      */
     public static void setDisplay(Program p) {
         p.setDisplayInformation(RabbitBurrow.class, new DisplayInformation(Color.orange, "hole-small", false));
+        p.setDisplayInformation(FoxBurrow.class, new DisplayInformation(Color.orange, "hole-small", false));
         p.setDisplayInformation(WolfBurrow.class, new DisplayInformation(Color.orange, "hole", false));
     }
 
