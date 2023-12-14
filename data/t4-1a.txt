@@ -1,4 +1,2 @@
-10
-grass 6
-rabbit 4-7
-fox 2-3
+5
+fox 2
