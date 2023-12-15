@@ -144,7 +144,7 @@ public abstract class Animal extends Organism {
     public void move(World world, List<Location> list) {
         Location l = list.get(r.nextInt(list.size()));
         world.move(this, l);
-        energy -= 2;
+        energy -= 1;
     }
 
     /**
