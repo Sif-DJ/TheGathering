@@ -69,7 +69,7 @@ public class Main {
                     isInfected = true;
                     type = line[1];
                     // Remove the first entry from the line list
-                    String[] arr = new String[line.length];
+                    String[] arr = new String[line.length-1];
                     for(int j = 1; j < line.length; j++){
                         arr[j-1] = line[j];
                     }
