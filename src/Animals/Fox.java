@@ -56,7 +56,10 @@ public class Fox extends Predator {
             digBurrow(world);
         }
     }
-
+    /**
+     * Defines how a Fox moves.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void doMove(World world) {
         if(world.getCurrentLocation() == null) return;
@@ -130,7 +133,11 @@ public class Fox extends Predator {
             }
         }
     }
-
+    /**
+     * Ages the Fox by one.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void age(World world) throws DeathException {
         super.age(world);
@@ -164,6 +171,11 @@ public class Fox extends Predator {
         world.setCurrentLocation(world.getLocation(burrow));
     }
 
+    /**
+     * Returns an arraylist of carcasses around this foxs burrow.
+     * @param world Providing details of the position on which the actor is currently located and much more.
+     * @return The carcasses around this fox burrow.
+     */
     public ArrayList<Carcass> carcassAtBurrow(World world){
         ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(burrow),2));
         ArrayList<Carcass> locs = new ArrayList<>(); // Create empty list for additions
@@ -257,7 +269,11 @@ public class Fox extends Predator {
             }
         }
     }
-
+    /**
+     * Creates a new fox, if both parents are of acceptable quality.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @param animal the  animal to reproduce with.
+     */
     @Override
     public void reproduce(World world, Animal animal) {
         if(energy < 90 || isBaby || animal.getEnergy() < 90 || animal.isBaby) return;
@@ -290,7 +306,10 @@ public class Fox extends Predator {
         world.setTile(l, new FoxBurrow());
         assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
     }
-
+    /**
+     * Finds the next object to eat, where it will either find a carcass to eat from or a RabbitBurrow to hunt in.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void chooseNextTarget(World world) {
         ArrayList<RabbitBurrow> burrows = new ArrayList<>();
@@ -310,7 +329,7 @@ public class Fox extends Predator {
     }
 
     /**
-     *
+     * Either pounces on rabbit in a rabbitburrow or eats from a food source.
      */
     @Override
     public void attack() {

@@ -78,7 +78,11 @@ public class Bear extends Predator {
             System.out.println(e);
         }
     }
-
+    /**
+     * Ages the Bear by one.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     * @throws DeathException Throws an exception that stops parts of the program that could break, because the entity stopped existing.
+     */
     @Override
     public void age(World world) throws DeathException {
         super.age(world);
