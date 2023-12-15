@@ -115,7 +115,7 @@ public abstract class Animal extends Organism {
      * @return boolean
      */
     public boolean isHungry() {
-        return (energy < maxEnergy / 2.0);
+        return (energy < (maxEnergy * 3.0) /4.0);
     }
 
 

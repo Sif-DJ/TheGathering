@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class Fox extends Predator {
-    //variable
+    //variables
     Carcass carcass;
     FoxBurrow burrow;
     private final ArrayList<Animal> fleeFrom = new ArrayList<>();
@@ -60,19 +60,37 @@ public class Fox extends Predator {
     @Override
     public void doMove(World world) {
         if(world.getCurrentLocation() == null) return;
+        ArrayList<Location> f = searchForAnimals(world, fleeFrom);
+        if (!(f == null) && !f.isEmpty()) {
+            Location closest = getClosestLocation(world, f);
+            if (burrow != null) {
+                flee(world, closest, burrow);
+            } else {
+                flee(world, closest);
+            }
+            if (world.containsNonBlocking(world.getLocation(this))) {
+                if (world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow) {
+                    assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
+                    enterHole(world);
+                }
+            }
+            return;
+        }
+
         try{
-            // Check if it is standing on a foxburrow
+            // Check if it is standing on a foxBurrow
             if(world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
                 assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
 
         }catch(Exception e){
             // Keep going
         }
-        if(isCarrying()){
+        if(isCarrying() && burrow != null){
             headTowards(world, world.getLocation(burrow));
             // Check if it can place its carcass
             double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
             if(length < 2 && length >= 1){
+                System.out.println(getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow)));
                 placeCarcass(world);
             }
             return;
@@ -92,8 +110,11 @@ public class Fox extends Predator {
 
         if(!isHunting()){
             try {
+                ArrayList<Carcass> list = carcassAtBurrow(world);
                 if(isBaby && getLengthBetweenTiles(world.getCurrentLocation(), world.getLocation(burrow)) >= 3){
                     headTowards(world,world.getLocation(burrow));
+                }else if(isBaby && !list.isEmpty()){
+                    chooseNextPrey(list.get(r.nextInt(list.size())));
                 }else{
                     wandering(world);
                 }
@@ -142,6 +163,22 @@ public class Fox extends Predator {
         world.remove(this);
         world.setCurrentLocation(world.getLocation(burrow));
     }
+
+    public ArrayList<Carcass> carcassAtBurrow(World world){
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(burrow),2));
+        ArrayList<Carcass> locs = new ArrayList<>(); // Create empty list for additions
+        for(Location l : list){
+            // Does this contain a NonBlocking object? No? Move to next location then.
+            if(!world.containsNonBlocking(l)) continue;
+            // Checks if the NonBlocking object is a Carcass. If yes, add it to the list.
+            if (world.getNonBlocking(l) instanceof Carcass) {
+                locs.add((Carcass) world.getNonBlocking(l));
+            }
+        }
+        return locs;
+    }
+
+
 
     /**
      * This makes the fox take a random rabbit from the burrow provided and carry the carcass of that rabbit.
@@ -193,7 +230,7 @@ public class Fox extends Predator {
 
     /**
      * If this fox is running around with a carcass, then true.
-     * @return boolean of true when have, false when it doesn't have.
+     * @return boolean of true when it has a carcass, false when it doesn't have a carcass.
      */
     public boolean isCarrying(){
         return (carcass != null);

@@ -135,7 +135,7 @@ public class Rabbit extends Animal{
         for(Object obj : objs){
             if(obj instanceof Rabbit) rabbitCounter += 1.0;
         }
-        if(4.0 / rabbitCounter < r.nextDouble() * 2.0) return;
+        if(3.0 / rabbitCounter < r.nextDouble() * 2.0) return;
         if(isInBurrow() && burrow != null){
             Random r = new Random();
             ArrayList<Animal> rabbits = burrow.getAnimals();
