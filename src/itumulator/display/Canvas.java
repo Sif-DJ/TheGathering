@@ -31,7 +31,9 @@ public class Canvas extends JPanel {
     private final static Color COLOR_NON_PAINTABLE = Color.GRAY; // used as as the color for elements not associated with a color
     private final static int MS_PER_FRAME = 4; 
     private final static int SLOW_DOWN_FRAMES = 6; // used to reduce the queued amount of images (for render)
-    private final static int IMAGE_CACHE_SIZE = 100; // to avoid memory overflow, correct this one
+    private final static int IMAGE_CACHE_SIZE = 60; // to avoid memory overflow, correct this one
+    private final static int RENDER_PERMITS = 2; // to control how long the simulator awaits next simulate step
+    
     private World world; 
     private Graphics graphics;
     private int size;
@@ -42,25 +44,12 @@ public class Canvas extends JPanel {
     List<Image> queue; // queue of images to render
     private boolean lastView; // used to clear queue of images
     private ExecutorService executor;
+    private Semaphore renderPermits;
+    private int renderCount;
+    private int lastDelay;
     
     public Canvas(World world, int size, boolean startIso) {
         super();
-        setLayout(new BorderLayout());
-        Dimension d = new Dimension(size, size);
-        setPreferredSize(d);
-        setMaximumSize(d);
-        setMinimumSize(d);
-        setSize(d);
-
-        this.world = world;
-        this.size = size;
-        this.af = new AnimationFactory(world);
-        new Random();
-        colorMap = new java.util.HashMap<>();
-        queue = new LinkedList<>();
-        BufferedImage img = ImageResourceCache.Instance().getImage("base");
-        isoBackgroundImage = ImageUtility.getScaledImage(img, IsomorphicCoordinateFactory.Instance().getDisplaySize(), IsomorphicCoordinateFactory.Instance().getDisplaySize());
-        setIsomorphic(startIso);
 
         // 1 main thread
         // 1 simulator thread
@@ -70,6 +59,24 @@ public class Canvas extends JPanel {
         // rest for rendering
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         executor = Executors.newFixedThreadPool(availableProcessors > 5 ? availableProcessors - 5 : 3);
+
+        setLayout(new BorderLayout());
+        Dimension d = new Dimension(size, size);
+        setPreferredSize(d);
+        setMaximumSize(d);
+        setMinimumSize(d);
+        setSize(d);
+
+        this.world = world;
+        this.size = size;
+        this.renderPermits = new Semaphore(RENDER_PERMITS);
+        this.af = new AnimationFactory(world);
+        new Random();
+        colorMap = new java.util.HashMap<>();
+        queue = new LinkedList<>();
+        BufferedImage img = ImageResourceCache.Instance().getImage("base");
+        isoBackgroundImage = ImageUtility.getScaledImage(img, IsomorphicCoordinateFactory.Instance().getDisplaySize(), IsomorphicCoordinateFactory.Instance().getDisplaySize());
+        setIsomorphic(startIso);
     }
 
     /**
@@ -77,6 +84,18 @@ public class Canvas extends JPanel {
      */
     public boolean isIsomorphic() {
         return isomorphic;
+    }
+
+    /**
+     * Acquire a new render permit (total permits acccording to RENDER_PERMITS)
+     */
+    public void acquireRenderPermit(){
+        try {
+            if(isomorphic) renderPermits.acquire();
+        } catch (Exception e){{
+            // error might occur when pausing when trying to acquire permit.
+        }}
+        
     }
 
     /**
@@ -89,6 +108,10 @@ public class Canvas extends JPanel {
         if(lastView != isomorphic) {
             lastView = isomorphic;
             queue.clear();
+            int available = renderPermits.availablePermits();
+            int missing = RENDER_PERMITS - available;
+            renderPermits.release( missing > 0 ? missing : 0);
+            paintImage();
         }
         // and request an update.
         if (isomorphic){
@@ -106,6 +129,9 @@ public class Canvas extends JPanel {
         af.setDisplayInformation(cl, di);
     }
 
+    /**
+     * Paints the proper image depending on whether we are showing grid or isomorphic view (with a delay of 0)
+     */
     public void paintImage(){
         this.paintImage(0);
     }
@@ -115,7 +141,7 @@ public class Canvas extends JPanel {
      * @param delay
      */
     public void paintImage(int delay) {
-
+        this.lastDelay = delay;
         if (isomorphic){
             try {
                 // Queue all images for parallel execution
@@ -129,37 +155,45 @@ public class Canvas extends JPanel {
                     graphics.setColor(new Color(150, 210, 131));
                     graphics.fillPolygon(IsomorphicUtility.getIsoPolygon((IsomorphicCoordinateFactory.Instance().getDisplaySize()/2), IsomorphicCoordinateFactory.Instance().getDisplaySize()/2, IsomorphicCoordinateFactory.Instance().getDisplaySize()/2, IsomorphicCoordinateFactory.Instance().getDisplaySize()/4));
                     graphics.drawImage(future.get(), 0, 0,null);
-                    
                     this.queue.add(img);
                     repaint(); // bad practice, but appears to help rendering time on windows machines
-
                 }
+                System.gc();
             } catch (Exception e) {
                 // This can happen because we start tasks and
                 // futures from within the simulator thread
                 // and it can't stacktrace and locate
                 // the exception error
                 if (e.getMessage() != null){
-                    System.out.println("Canvas thread error: " + e.getMessage() );
+                    if(e instanceof NullPointerException && e.getMessage().contains("img")){
+                        // image not loaded yet...
+                    } else {   
+                        System.out.println("Canvas thread error: " + e.getMessage() );
+                    }
+                    
                 }
             }
         } else {
             /** For the non isomorphic view we simply use the colors to paint each square */
-            Image img = createImage(size, size);
-            this.queue.add(img);
-            graphics = img.getGraphics();
+            try { 
+                Image img = createImage(size, size);
+                this.queue.add(img);
+                graphics = img.getGraphics();
 
-            graphics.setColor(COLOR_EMPTY);
-            graphics.fillRect(0, 0, size, size);
-            int tiles = world.getSize();
-            for (int y = tiles-1; y >= 0; y--) {
-                for (int x = 0; x < tiles; x++) {
-                    Location l = new Location(x, y);
-                    Object o = world.getTile(l);
-                    drawGridElement(l, o);
+                graphics.setColor(COLOR_EMPTY);
+                graphics.fillRect(0, 0, size, size);
+                int tiles = world.getSize();
+                for (int y = tiles-1; y >= 0; y--) {
+                    for (int x = 0; x < tiles; x++) {
+                        Location l = new Location(x, y);
+                        Object o = world.getTile(l);
+                        drawGridElement(l, o);
+                    }
                 }
+                repaint();
+            } catch (Exception e){
+                // error might occur due to too fast image switching
             }
-            repaint();
         }
     }
 
@@ -207,10 +241,19 @@ public class Canvas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         if(!queue.isEmpty()){
-            reduceImgQueue(IMAGE_CACHE_SIZE);
+            reduceImgQueue(IMAGE_CACHE_SIZE); // in case of issues, maintain reduction of image queue
             Image img = queue.get(0);
             if(queue.size() > 1) queue.remove(0);
             g.drawImage(img, (this.getWidth()/2)-(size/2), (this.getHeight()/2)-(size/2), null);
+            
+            if(isomorphic){
+                renderCount++;
+                if(renderCount >= (lastDelay == 0 ? 0 : lastDelay / MS_PER_FRAME)){
+                    renderCount = 0;
+                    if(renderPermits.availablePermits() < RENDER_PERMITS) renderPermits.release();
+                }
+            }
+            
         }
             
     }

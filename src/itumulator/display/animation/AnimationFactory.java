@@ -61,6 +61,9 @@ public class AnimationFactory {
         ePrime = world.getEntities();
         isDayPrime = world.isDay();
         
+        if(e == null) return new ArrayList<>();
+        
+
         List<Animation> animations = new ArrayList<>();
 
         for (Entry<Object, Location> kvp : e.entrySet()) {
@@ -70,7 +73,8 @@ public class AnimationFactory {
             
             // if the object has been deleted, do hide animation
             if (!ePrime.containsKey(k)){
-                animations.add(new HideAnimation(oi, l, length));
+                // and that it hasn't already been hidden:
+                if(e.get(k) != null) animations.add(new HideAnimation(oi, l, length));
                 continue;
             } 
 
@@ -81,7 +85,6 @@ public class AnimationFactory {
                 animations.add(new AppearAnimation(oi, lPrime, length));
                 continue;
             }
-            
             if (lPrime == null){
                 // if it remains hidden, don't do anything
                 if (l == null){
@@ -102,13 +105,13 @@ public class AnimationFactory {
             animations.add(new MoveAnimation(oi, l, length, lPrime));
         }
 
-        // if the element is completely new, also do an appear animation
+        // if the element is completely new, also do an appear animation (if it isn't hidden of course)
         for (Entry<Object, Location> kvp : ePrime.entrySet()){
             Object k = kvp.getKey();
             Location l = kvp.getValue();
             ObjectInformation oi = getObjectInformation(k);
             if (!e.containsKey(k)){
-                animations.add(new AppearAnimation(oi, l, length));
+                if(l != null) animations.add(new AppearAnimation(oi, l, length));
             }
         }
 
@@ -138,7 +141,7 @@ public class AnimationFactory {
         }
 
         // update e to e'
-        e = ePrime;
+        if(ePrime != null) e = ePrime;
         isDay = isDayPrime;
         ePrime = null;
         return sets;

@@ -5,7 +5,7 @@ import itumulator.display.utility.IsomorphicCoordinateFactory;
 import itumulator.world.Location;
 
 /**
- * An animation that makes an object dissapear (used on 'remove' within {@link World}).
+ * An animation that makes an object dissapear (used on 'remove' within {@link itumulator.world.World}).
  */
 public class HideAnimation extends Animation {
     int step;    
@@ -17,6 +17,6 @@ public class HideAnimation extends Animation {
 
     @Override
     protected AnimationFrame getFrame(int index) {
-        return new AnimationFrame(oi, IsomorphicCoordinateFactory.Instance().getIsoLocation(location), index * step);
+        return new AnimationFrame(oi, IsomorphicCoordinateFactory.Instance().getIsoLocation(location), 255 - step*index);
     }
 }

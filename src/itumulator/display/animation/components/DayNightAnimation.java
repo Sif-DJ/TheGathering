@@ -31,10 +31,12 @@ public class DayNightAnimation extends Animation {
     @Override
     protected AnimationFrame getFrame(int index) {
         if (animationLength / 2 == index){
-            if (isDay != isDayPrime){
+            
+        }
+
+        if (isDay != isDayPrime){
                 setNewImage(isDayPrime);
             }
-        }
         
         int dayPixelWidth = (IsomorphicCoordinateFactory.Instance().getDisplaySize()-(img.getWidth()/2))/World.getDayDuration();
 

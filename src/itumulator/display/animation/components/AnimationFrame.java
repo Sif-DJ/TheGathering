@@ -20,6 +20,7 @@ public class AnimationFrame{
     private ObjectInformation oi;
     private Point2DInt pixelPoint;
     private AlphaComposite alphaComp;
+    private float opfloat;
     private BufferedImage img;
 
     public AnimationFrame(BufferedImage img, Point2DInt pixelPoint){
@@ -34,7 +35,7 @@ public class AnimationFrame{
     public AnimationFrame(ObjectInformation oi, Point2DInt pixelPoint, int opacity){
         this.oi = oi;
         this.pixelPoint = pixelPoint;
-        float opfloat = opacity > 0 ? (float)((opacity * 1.0)/255) : 0;
+        opfloat = opacity > 0 ? (float)((opacity * 1.0)/255) : 0f;
         alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opfloat);
     }
 
@@ -91,7 +92,8 @@ public class AnimationFrame{
                 } else {
                     BufferedImage scaledImg = IsomorphicCoordinateFactory.Instance().getScaledImage(oi.getImage());
                     // Draw shadow oval
-                    ((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, SHADOW_OPACITY));
+                    float shadow = SHADOW_OPACITY * opfloat - 0.1f;
+                    ((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, shadow > 0 ? shadow : 0));
                     g.setColor(Color.BLACK);
                     g.fillOval(
                     pixelPoint.getX()-(int)(tileHeight/2),
@@ -119,5 +121,6 @@ public class AnimationFrame{
             }
         }
         ((Graphics2D)g).setComposite(AlphaComposite.SrcOver);
+        img = null;
     }
 }

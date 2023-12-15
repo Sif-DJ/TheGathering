@@ -30,6 +30,7 @@ public class AnimationSet implements Callable<BufferedImage>{
         for (AnimationFrame animationFrame : frames) {
             animationFrame.draw(graphics);
         }
+        frames = null;
         return image;
     }
     
