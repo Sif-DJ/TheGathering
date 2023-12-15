@@ -57,6 +57,8 @@ public class Pack {
             }
             if(obj instanceof Rabbit)
                 edibleTargets.add((Rabbit)obj);
+            if(obj instanceof Fox)
+                edibleTargets.add((Fox)obj);
             if(obj instanceof Bear && list.size() >= 3)
                 edibleTargets.add((Bear)obj);
             if(obj instanceof Wolf && !((Wolf)obj).getPack().equals(this))

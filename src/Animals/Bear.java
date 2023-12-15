@@ -120,6 +120,8 @@ public class Bear extends Predator {
             }
             if(obj instanceof Rabbit)
                 edibleTargets.add((Rabbit)obj);
+            if(obj instanceof Fox)
+                edibleTargets.add((Fox)obj);
             if(obj instanceof Bear && !obj.equals(this))
                 edibleTargets.add((Bear)obj);
             if(obj instanceof Wolf)

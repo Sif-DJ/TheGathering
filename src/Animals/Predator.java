@@ -101,6 +101,7 @@ public abstract class Predator extends Animal {
      */
     public void chooseNextPrey(Object edible){
         targetPrey = edible;
+        System.out.println(this + " has found and is hunting " + targetPrey);
     }
 
     /**

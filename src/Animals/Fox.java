@@ -1,6 +1,7 @@
 package Animals;
 
 import Dubious.DeathException;
+import Dubious.Pack;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -14,7 +15,7 @@ public class Fox extends Predator {
     //variable
     Carcass carcass;
     FoxBurrow burrow;
-
+    private final ArrayList<Animal> fleeFrom = new ArrayList<>();
 
     /**
      * The Fox constructor
@@ -28,6 +29,8 @@ public class Fox extends Predator {
         this.ageMax = 20;
         this.power = 3;
         this.health = 10;
+        fleeFrom.add(new Bear(false));
+        fleeFrom.add(new Wolf(false ,new Pack()));
     }
 
     /**
@@ -62,16 +65,20 @@ public class Fox extends Predator {
             if(world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
                 assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
 
-            // Check if it can place its carcass
-            double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
-            if(isCarrying() && length < 2 && length >= 1){
-                placeCarcass(world);
-            }
         }catch(Exception e){
             // Keep going
         }
+        if(isCarrying()){
+            headTowards(world, world.getLocation(burrow));
+            // Check if it can place its carcass
+            double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
+            if(length < 2 && length >= 1){
+                placeCarcass(world);
+            }
+            return;
+        }
 
-        if(world.isDay() && burrow != null){
+        if(!isHunting() && world.isDay() && burrow != null){
             try{
                 headTowards(world, world.getLocation(burrow));
                 if(world.getLocation(burrow).equals(world.getLocation(this))){
@@ -97,7 +104,9 @@ public class Fox extends Predator {
         }else{
             if(targetPrey == null)return;
             headTowards(world, world.getLocation(targetPrey));
-            attemptAttack(world);
+            if(!isCarrying()){
+                attemptAttack(world);
+            }
         }
     }
 
@@ -110,7 +119,7 @@ public class Fox extends Predator {
 
     /**
      * Sets this foxes burrow to be equal to the parameter burrow.
-     * Mainly used by the pack to assign it to all wolfs in the pack.
+     * Mainly used by the pack to assign it to all wolves in the pack.
      * @param burrow of the WolfBurrow type.
      */
     public void assignBurrow(FoxBurrow burrow){
@@ -146,6 +155,7 @@ public class Fox extends Predator {
         burrow.forceExit(caughtRabbit);
         carryCarcass(caughtRabbit);
         caughtRabbit.health = 0;
+        System.out.println(this + " has has pounced on " + caughtRabbit);
     }
     /**
      * Creates a Carcass on the fox that it can then place where ever.
@@ -176,6 +186,8 @@ public class Fox extends Predator {
             // There was no nonblocking element
         }
         world.setTile(world.getCurrentLocation(), carcass);
+        System.out.println(this + " has placed " + carcass);
+        chooseNextPrey(carcass);
         carcass = null;
     }
 
@@ -257,6 +269,7 @@ public class Fox extends Predator {
         }
         if(burrows.isEmpty())return;
         targetPrey = burrows.get(r.nextInt(burrows.size()));
+        System.out.println(this + " has found and is hunting " + targetPrey);
     }
 
     /**
