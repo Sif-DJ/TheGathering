@@ -46,6 +46,7 @@ public class Wolf extends Predator {
     @Override
     public void die(World world) throws DeathException{
         pack.remove(this);
+        burrow.unAssign(this);
         super.die(world);
     }
 

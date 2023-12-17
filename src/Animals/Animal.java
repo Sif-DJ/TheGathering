@@ -118,7 +118,6 @@ public abstract class Animal extends Organism {
         return (energy < (maxEnergy * 3.0) /4.0);
     }
 
-
     /**
      * Default wandering for animals.
      * @param world providing details of the position on which the actor is currently located and much more.
