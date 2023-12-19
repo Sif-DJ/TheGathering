@@ -129,7 +129,7 @@ public abstract class Animal extends Organism {
         }catch(Exception e){
             return;
         }
-        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        Set<Location> neighbours = world.getEmptySurroundingTiles(world.getLocation(this));
         List<Location> list = new ArrayList<>(neighbours);
         if (list.isEmpty()) return;
         move(world, list);
@@ -157,7 +157,7 @@ public abstract class Animal extends Organism {
         int currentxLength = getxLengthBetweenTiles(l, locationToReach);
         int currentyLength = getyLengthBetweenTiles(l, locationToReach);
         // Iterate through all surrounding empty tiles to determine possible move locations
-        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles(world.getLocation(this)));
         Iterator<Location> it = list.iterator();
         int tilexLength;
         int tileyLength;
@@ -184,7 +184,7 @@ public abstract class Animal extends Organism {
         int currentyLength = getyLengthBetweenTiles(l, moveAwayForm);
         // Iterate through all surrounding empty tiles to determine possible move
         // locations that are away form the location
-        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+        ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles(world.getLocation(this)));
         Iterator<Location> it = list.iterator();
         int tilexLength;
         int tileyLength;

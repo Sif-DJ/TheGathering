@@ -33,7 +33,7 @@ public class RabbitBurrow extends Burrow<Rabbit> {
     @Override
     public void exit(World world){
         if(animals.isEmpty())return;
-        Location[] surroundingTiles = world.getSurroundingTiles(world.getCurrentLocation()).toArray(new Location[0]);
+        Location[] surroundingTiles = world.getSurroundingTiles(world.getLocation(this)).toArray(new Location[0]);
         for(Location l : surroundingTiles)
             if(world.getTile(l) instanceof Predator)
                 return;

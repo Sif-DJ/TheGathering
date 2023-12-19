@@ -36,6 +36,14 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
     }
 
     /**
+     * Gets the maxEnergy of the organism.
+     * @return returns the maxEnergy as an Integer.
+     */
+    public int getMaxEnergy(){
+        return maxEnergy;
+    }
+
+    /**
      * Adds an amount of energy to the organism.
      * @param energy as an Integer value.
      */
@@ -53,7 +61,7 @@ public abstract class Organism implements Actor, DynamicDisplayInformationProvid
      */
     public <T extends Food> ArrayList<Location> searchForFood(World world, ArrayList<T> food,int searchRadius) {
         if (food.isEmpty()) return null; // Did someone input no food types to find, then stop prematurely.
-        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(searchRadius)); // Get a list of surrounding locals
+        ArrayList<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(this),searchRadius)); // Get a list of surrounding locals
         ArrayList<Location> locs = new ArrayList<>(); // Create empty list for additions
 
         // Loop of all locals

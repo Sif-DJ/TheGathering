@@ -62,7 +62,7 @@ public class Grass extends Food {
      * @param world providing details of the position on which the actor is currently located and much more.
      */
     public void spread(World world){
-        List<Location> list = new ArrayList<>(world.getSurroundingTiles());
+        List<Location> list = new ArrayList<>(world.getSurroundingTiles(world.getLocation(this)));
         Iterator<Location> it = list.iterator();
         while (it.hasNext()) {
             Location tile = it.next();
