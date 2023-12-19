@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 /**
  * The main class, that sets up the world, and runs all the simulations.
  */
-public class Main {
+public class Verden {
 
     /**
      * Main function to run the program.

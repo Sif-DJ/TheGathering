@@ -77,7 +77,16 @@ class RabbitTest extends testSuper {
         assertEquals(1,rabbitBurrowAmount());
     }
 
-
+    @Test
+    void multipleRabbitInBurrowTest(){
+        Location l = new Location(r.nextInt(worldSize), r.nextInt(worldSize));
+        Rabbit r = new Rabbit(false);
+        world.setTile(l, r);
+        r.digBurrow(world);
+        r.enterHole(world);
+        Rabbit ra = new Rabbit(false);
+        world.setTile(l, r);
+    }
 
 
 
