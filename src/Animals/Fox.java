@@ -80,14 +80,12 @@ public class Fox extends Predator {
             return;
         }
 
-        try{
+        if (world.containsNonBlocking(world.getLocation(this))) {
             // Check if it is standing on a foxBurrow
-            if(world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
+            if (world.getNonBlocking(world.getLocation(this)) instanceof FoxBurrow)
                 assignBurrow((FoxBurrow) world.getNonBlocking(world.getLocation(this)));
-
-        }catch(Exception e){
-            // Keep going
         }
+
         if(isCarrying() && burrow != null){
             try{
                 headTowards(world, world.getLocation(burrow));
