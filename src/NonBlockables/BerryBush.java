@@ -19,9 +19,18 @@ public class BerryBush extends Food {
      */
     @Override
     public void act(World world) {
-        if(world.getCurrentTime() % 20 == 0) this.energy += 25;
+        if(world.getCurrentTime() % 20 == 0) grow();
         if(energy > maxEnergy)energy = maxEnergy;
     }
+
+    /**
+     * Adds a fixed amount of energy to this berry bush
+     */
+    public void grow(){
+        this.energy += 25;
+    }
+
+
     /**
      * Provides info on how this object should be displayed in game world.
      * @return DisplayInformation that is relevant for the BerryBush currently.

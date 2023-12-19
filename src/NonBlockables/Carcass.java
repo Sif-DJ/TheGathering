@@ -31,7 +31,7 @@ public class Carcass extends Food {
     public void act(World world){
         if(world.getCurrentLocation() == null) return;
         if(world.getCurrentTime() % 20 == 0){
-            rotTimer-=1;
+            rot();
             if(mushroom != null)
                 mushroom.addEnergy(20);
         }
@@ -53,6 +53,15 @@ public class Carcass extends Food {
             System.out.println(e);
         }
     }
+
+    public void rot(){
+        this.rotTimer -= 1;
+    }
+
+    public int getRotTimer(){
+        return rotTimer;
+    }
+
     /**
      * Provides info on how this object should be displayed in game world.
      * @return DisplayInformation with its name and if it is small or not.

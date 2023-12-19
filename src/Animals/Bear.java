@@ -25,6 +25,7 @@ public class Bear extends Predator {
         this.ageMax = 50;
         this.health = 30;
         this.power = 8;
+        this.foodSearchRadius = 4;
     }
 
     /**
@@ -36,7 +37,7 @@ public class Bear extends Predator {
     public void act(World world){
         if(territoryCenter == null){
             territoryCenter = world.getLocation(this);
-            territoryTiles = new ArrayList<>(world.getSurroundingTiles(territoryCenter,3));
+            territoryTiles = new ArrayList<>(world.getSurroundingTiles(territoryCenter,2));
         }
         try{
             super.act(world);
@@ -46,10 +47,14 @@ public class Bear extends Predator {
         }
 
         if(isHunting()) {
+            if(targetPrey instanceof BerryBush && ((BerryBush)targetPrey).getEnergy() < 25){
+                chooseNextPrey(null);
+                wandering(world);
+                return;
+            }
             doMove(world);
             return;
         }
-
 
         for(int i = 0; i < territoryTiles.size();i++){
             if(world.getLocation(this).equals(territoryTiles.get(i))){
@@ -61,7 +66,6 @@ public class Bear extends Predator {
             }
         }
 
-
         wandering(world);
     }
 
@@ -71,11 +75,9 @@ public class Bear extends Predator {
      */
     @Override
     public void doMove(World world){
-        try{
+        if(targetPrey != null) {
             headTowards(world, world.getLocation(targetPrey));
             attemptAttack(world);
-        }catch (Exception e){
-            System.out.println(e);
         }
     }
     /**
@@ -109,8 +111,11 @@ public class Bear extends Predator {
         Location l = getClosestLocation(world , searchForFood(world, foods, foodSearchRadius));
         if(l != null){
             targetPrey = world.getNonBlocking(l);
-            System.out.println(this + " found a " + targetPrey);
-            return;
+            if(((BerryBush)targetPrey).getEnergy() >= 25){
+                System.out.println(this + " found a " + targetPrey);
+                return;
+            }
+            targetPrey = null;
         }
 
         ArrayList<Animal> edibleTargets = new ArrayList<>();
@@ -167,6 +172,13 @@ public class Bear extends Predator {
     public Animal createNewSelf() {
         return new Bear(false);
     }
+
+    /**
+     * Gets the current territoryCenter of the bear.
+     * @return returns the territoryCenter as an Location.
+     */
+    public Location getTerritoryCenter(){return territoryCenter;}
+
 
     /**
      * Provides info on how this object should be displayed in game world.

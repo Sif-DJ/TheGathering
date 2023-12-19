@@ -129,4 +129,10 @@ public abstract class Predator extends Animal {
         return (targetPrey != null);
     }
 
+    /**
+     * Gets the current targeted prey.
+     * @return Object
+     */
+    public Object getTargetPrey(){return targetPrey;}
+
 }

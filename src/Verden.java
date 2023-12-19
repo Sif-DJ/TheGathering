@@ -215,9 +215,7 @@ public class Verden {
         } else if (entity instanceof Grass) {
             return new Grass();
         } else if (entity instanceof Wolf) {
-            Wolf wolf = new Wolf(isInfected, pack);
-            pack.add(wolf);
-            return wolf;
+            return new Wolf(isInfected, pack);
         } else if (entity instanceof Bear) {
             return new Bear(isInfected);
         } else if (entity instanceof BerryBush) {

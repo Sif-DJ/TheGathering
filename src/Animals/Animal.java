@@ -153,7 +153,7 @@ public abstract class Animal extends Organism {
      * @return an arraylist of possible locations to move to
      */
     public ArrayList<Location> determineNextMovement(World world, Location locationToReach) {
-        Location l = world.getCurrentLocation();
+        Location l = world.getLocation(this);
         int currentxLength = getxLengthBetweenTiles(l, locationToReach);
         int currentyLength = getyLengthBetweenTiles(l, locationToReach);
         // Iterate through all surrounding empty tiles to determine possible move locations
@@ -179,7 +179,7 @@ public abstract class Animal extends Organism {
      * @return an arraylist of possible locations to move to
      */
     public ArrayList<Location> determineNextMovementAway(World world, Location moveAwayForm){
-        Location l = world.getCurrentLocation();
+        Location l = world.getLocation(this);
         int currentxLength = getxLengthBetweenTiles(l, moveAwayForm);
         int currentyLength = getyLengthBetweenTiles(l, moveAwayForm);
         // Iterate through all surrounding empty tiles to determine possible move
@@ -329,7 +329,7 @@ public abstract class Animal extends Organism {
         Location closestLocation = null;
         Iterator<Location> it = locations.iterator();
         double currentLength = 1;
-        Location l = world.getCurrentLocation();
+        Location l = world.getLocation(this);
         while (it.hasNext()) {
             Location location = it.next();
             double newLength = getLengthBetweenTiles(location, l);

@@ -62,7 +62,7 @@ public class Fox extends Predator {
      */
     @Override
     public void doMove(World world) {
-        if(world.getCurrentLocation() == null) return;
+        if(world.getLocation(this) == null) return;
         ArrayList<Location> f = searchForAnimals(world, fleeFrom);
         if (!(f == null) && !f.isEmpty()) {
             Location closest = getClosestLocation(world, f);

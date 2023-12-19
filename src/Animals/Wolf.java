@@ -23,6 +23,7 @@ public class Wolf extends Predator {
         this.energy = maxEnergy;
         this.age = 0;
         this.pack = pack;
+        this.pack.add(this);
         this.ageMax = 25;
         this.power = 5;
         this.health = 15;
@@ -46,7 +47,8 @@ public class Wolf extends Predator {
     @Override
     public void die(World world) throws DeathException{
         pack.remove(this);
-        burrow.unAssign(this);
+        if(burrow != null)
+            burrow.unAssign(this);
         super.die(world);
     }
 
@@ -82,7 +84,7 @@ public class Wolf extends Predator {
      */
     @Override
     public void doMove(World world) {
-        if(world.getCurrentLocation() == null) return;
+        if(world.getLocation(this) == null) return;
         if(world.isNight() && burrow != null){
             headTowards(world, world.getLocation(burrow));
             if(world.getLocation(this).equals(world.getLocation(burrow)))
@@ -149,9 +151,9 @@ public class Wolf extends Predator {
         if(this.getEnergy() < 100 || wolf.getEnergy() < 100)return;
         this.addEnergy(-100); wolf.addEnergy(-100);
         Wolf baby = (Wolf)this.createNewSelf();
-        this.pack.add(baby);
         this.burrow.addToList(baby);
         this.burrow.enter(baby);
+        world.add(baby);
     }
 
     /**
@@ -199,6 +201,14 @@ public class Wolf extends Predator {
      */
     public void assignBurrow(WolfBurrow burrow){
         this.burrow = burrow;
+    }
+
+    /**
+     * Gets the burrow of this wolf.
+     * @return WolfBurrow
+     */
+    public WolfBurrow getBurrow(){
+        return burrow;
     }
 
     /**

@@ -26,7 +26,7 @@
 
 >## Tema 1: Herbivore og Planter
 >> ### Græs
->>- [] **K1-1a.** Græs kan blive plantet når input filerne beskriver dette.
+>>- [x] **K1-1a.** Græs kan blive plantet når input filerne beskriver dette.
 Græs skal blot tilfældigt placeres.
 >>- [x] **K1-1b.** Græs kan nedbrydes og forsvinde.
 >>- [x] **K1-1c.** Græs kan sprede sig.
@@ -34,22 +34,22 @@ Græs skal blot tilfældigt placeres.
 (Her kan interfacet NonBlocking udnyttes).
 >
 >>### Kaniner
->>- [] **K1-2a.** Kaniner kan placeres på kortet når input filerne beskriver dette.
+>>- [x] **K1-2a.** Kaniner kan placeres på kortet når input filerne beskriver dette.
 Kaniner skal blot tilfældigt placeres.
 >>- [x] **k1-2b.** Kaniner kan dø, hvilket resulterer I at de fjernes fra verdenen.
 >>- [x] **K1-2c.** Kaniner lever af græs som de spiser i løbet af dagen,
 uden mad dør en kanin.
 >>- [x] **k1-2d.** Kaniners alder bestemmer hvor meget energi de har.
->>- [] **K1-2e.** Kaniner kan reproducere.
->>- [] **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
+>>- [x] **K1-2e.** Kaniner kan reproducere.
+>>- [x] **k1-2f.** Kaniner kan grave huller, eller dele eksisterende huller
 med andre kaniner. Kaniner kan kun være knyttet til et hul.
->>- [] **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.
+>>- [x] **K1-2g.** Kaniner søger mod deres huller når det bliver aften, hvor de sover.
 >
 >>### Kaninhuller
->>- [] **K1-3a.** Huller kan enten blive indsat når input filerne beskriver dette,
+>>- [x] **K1-3a.** Huller kan enten blive indsat når input filerne beskriver dette,
 eller graves af kaniner. Huller skal blot blive tillfældigt placeret
 når de indgår i en input fil.
->>- [] **K1-3b.** Dyr kan stå på et kaninhul uden der sker noget.
+>>- [x] **K1-3b.** Dyr kan stå på et kaninhul uden der sker noget.
 >
 >>### Frivillige krav
 >>- [ ] **KF1-1.** Huller består altid minimum af en indgang,
@@ -58,53 +58,53 @@ Kaniner kan kun grave nye udgange mens de er i deres huller.
 
 > ## Tema 2: Prædatorer, flokdyr, og territorier
 >> ### Ulve Basis
->>- [] **K2-1a.** Ulve kan placeres på kortet når input filerne beskriver dette.
->>- [] **K2-1b.** Ulve kan dø, hvilket resulterer I at de fjernes fra verdenen.
->>- [] **K2-1c.** Ulve jager andre dyr og spiser dem for at opnå energi.
+>>- [x] **K2-1a.** Ulve kan placeres på kortet når input filerne beskriver dette.
+>>- [x] **K2-1b.** Ulve kan dø, hvilket resulterer I at de fjernes fra verdenen.
+>>- [x] **K2-1c.** Ulve jager andre dyr og spiser dem for at opnå energi.
 >
 >> ### Pack tactics
->>- [] **K2-2a.** Ulve er et flokdyr. De søger konstant mod andre ulve i flokken, og derigennem
+>>- [x] **K2-2a.** Ulve er et flokdyr. De søger konstant mod andre ulve i flokken, og derigennem
 ’jager’ sammen. Når inputfilen beskriver (på en enkelt linje) at der skal placeres flere
 ulve, bør disse automatisk være i samme flok.
->>- [] **K2-3a.** Ulve og deres flok, tilhører en ulvehule, det er også her de formerer sig. Ulve
+>>- [x] **K2-3a.** Ulve og deres flok, tilhører en ulvehule, det er også her de formerer sig. Ulve
 ’bygger’ selv deres huler. Ulve kan ikke lide andre ulveflokke og deres huler. De prøver
 således at undgå andre grupper. Møder en ulv en ulv fra en anden flok, kæmper de
 mod hinanden.
 >
 >> ### Bunny fear
->>- [] **K2-4a.** Kaniner frygter ulve og forsøger så vidt muligt at løbe fra dem.
->>- [] **K2-5c.** Kaniner frygter bjørne og forsøger så vidt muligt at løbe fra dem.
+>>- [x] **K2-4a.** Kaniner frygter ulve og forsøger så vidt muligt at løbe fra dem.
+>>- [x] **K2-5c.** Kaniner frygter bjørne og forsøger så vidt muligt at løbe fra dem.
 >
 >> ### Beware, Bear
->>- [] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
->>- [] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
->>- [] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
+>>- [x] **K2-5a.** Bjørne kan placeres på kortet når input filerne beskriver dette.
+>>- [x] **K2-5b.** Bjørne jager, ligesom ulve, og spiser også alt.
+>>- [x] **K2-6a.** Bjørnen er meget territoriel, og har som udgangspunkt ikke et bestemt sted den
 ’bor’. Den knytter sig derimod til et bestemt område og bevæger sig sjældent ud herfra.
 Dette territories centrum bestemmes ud fra bjørnens startplacering på kortet.
->>- [] **K2-7a.** Dertil spiser bjørne også bær fra buske (såsom blåbær og hindbær) når de gror
+>>- [x] **K2-7a.** Dertil spiser bjørne også bær fra buske (såsom blåbær og hindbær) når de gror
 i området. Bær er en god ekstra form for næring for bjørnen (om end det ikke giver
 samme mængde energi som når de spiser kød), men som det er med buske går der tid
 før bær gror tilbage. Bær skal indsættes på kortet når inputfilerne beskriver dette.
->>- [] **K2-8a.** Bjørnen er naturligvis vores øverste rovdyr i denne lille fødekæde, men det
+>>- [x] **K2-8a.** Bjørnen er naturligvis vores øverste rovdyr i denne lille fødekæde, men det
 hænder at en stor nok gruppe ulve kan angribe (og dræbe) en bjørn. Dette vil i praksis
 være hvis flere ulve af samme flok er i nærheden af en bjørn.
 
 >## Tema 3:
 >>### Carcasssssss
->>- [ ] **K3-1a.** Opret ådsler, som placeres på kortet når input filerne beskriver dette.
->>- [] **K3-1b.** Når dyr dør nu, skal de efterlade et ådsel. Ådsler kan spises ligesom dyr kunne
+>>- [x] **K3-1a.** Opret ådsler, som placeres på kortet når input filerne beskriver dette.
+>>- [x] **K3-1b.** Når dyr dør nu, skal de efterlade et ådsel. Ådsler kan spises ligesom dyr kunne
 tidligere, dog afhænger mængden af ’kød’ af hvor stort dyret der døde er. Således
 spises dyr ikke direkte længere når det slås ihjel, i stedet spises ådslet. Alle dyr som er
 kødædende spiser ådsler.
->>- [] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
+>>- [ ] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
 op (altså forsvinder det)! Det forsvinder naturligvis også hvis det hele er spist.
 >
 >>### Mushrooms (Cordyceps)
->>- [] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
+>>- [ ] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
 svampe I et ådsel. Dette kan ikke ses på selve kortet, men svampen lever I selve ådslet.
 Når ådslet er nedbrudt (og forsvinder), og hvis svampen er stor nok, kan den ses som
 en svamp placeret på kortet, der hvor ådslet lå.
->>- [] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
+>>- [ ] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
 nærheden. Er dette ikke tilfældet, vil svampen også dø efter lidt tid. Desto større ådslet 
 er, desto længere vil svampen leve efter ådslet er væk. Da svampen kan udsende
 sporer, kan den række lidt længere end kun de omkringliggende pladser
@@ -142,7 +142,7 @@ dyr af samme art.
 >>>- [] Jager kun kaniner.
 > 
 >>### Rigtige krav:
->>- [] **K4-1.** Vælg et valgfrit dyr og implementer dets karakteristika og adfærd i økosystemet.
+>>- [x] **K4-1.** Vælg et valgfrit dyr og implementer dets karakteristika og adfærd i økosystemet.
 Dyret skal have mindst et unikt adfærd.
 >>- [] **K4-2.** Dyret skal kunne interagere med eksisterende elementer i økosystemet, herunder ådsler, planter og andre dyr.
 >>- [] **K4-3.** Simuler dyrets livscyklus, herunder fødsel, vækst, reproduktion og død.

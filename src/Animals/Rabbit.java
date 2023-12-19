@@ -71,7 +71,7 @@ public class Rabbit extends Animal{
 
         // This animal has two movement step per tick.
         for(int i = 0; i < 2; i++) {
-            if (world.getCurrentLocation() == null) return;
+            if (world.getLocation(this) == null) return;
             if (!isInBurrow()) {
                 ArrayList<Location> f = searchForAnimals(world, fleeFrom);
                 if (!(f == null) && !f.isEmpty()) {
@@ -244,6 +244,11 @@ public class Rabbit extends Animal{
         if(isBaby && age > 2)
             isBaby = false;
     }
+    /**
+     * Gets the burrow of the Rabbit.
+     * @return returns the burrow as an RabbitBurrow.
+     */
+    public RabbitBurrow getBurrow(){return burrow;}
 
     /**
      * Provides info on how this object should be displayed in game world.
