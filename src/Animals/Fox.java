@@ -89,7 +89,12 @@ public class Fox extends Predator {
             // Keep going
         }
         if(isCarrying() && burrow != null){
-            headTowards(world, world.getLocation(burrow));
+            try{
+                headTowards(world, world.getLocation(burrow));
+            }catch(Exception e){
+                return;
+            }
+
             // Check if it can place its carcass
             double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
             if(length < 2 && length >= 1){
