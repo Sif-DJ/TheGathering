@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Fox extends Predator {
     //variables
-    Carcass carcass;
+    Carcass carcass = null;
     FoxBurrow burrow;
     private final ArrayList<Animal> fleeFrom = new ArrayList<>();
 
@@ -94,21 +94,20 @@ public class Fox extends Predator {
             }
 
             // Check if it can place its carcass
-            double length = getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow));
+            double length = getLengthBetweenTiles(world.getCurrentLocation(), world.getLocation(burrow));
             if(length < 2 && length >= 1){
-                System.out.println(getLengthBetweenTiles(world.getLocation(this), world.getLocation(burrow)));
                 placeCarcass(world);
             }
             return;
         }
 
-        if(!isHunting() && world.isDay() && burrow != null){
-            try{
+        if(!isHunting() && world.isDay()){
+            if(burrow != null){
                 headTowards(world, world.getLocation(burrow));
                 if(world.getLocation(burrow).equals(world.getLocation(this))){
                     enterHole(world);
                 }
-            }catch(Exception e){
+            }else{
                 wandering(world);
             }
             return;
@@ -200,7 +199,9 @@ public class Fox extends Predator {
      * @param burrow The Rabbit burrow that the fox is hunting in;
      */
     public void pounce(RabbitBurrow burrow) throws DeathException{
+        System.out.println(burrow.getAnimals().size());
         if(burrow.getAnimals().isEmpty()) return;
+        System.out.println("burrow not empty");
         ArrayList<Rabbit> rabbits = new ArrayList<>();
         for(Animal a : burrow.getAnimals()){rabbits.add((Rabbit)a);}
         Rabbit caughtRabbit = rabbits.get(r.nextInt(rabbits.size()));
@@ -224,21 +225,27 @@ public class Fox extends Predator {
      */
     public void placeCarcass(World world){
         if(carcass == null) return;
-        try{
+        try {
             Object nonBlocking = world.getNonBlocking(world.getCurrentLocation());
-            if(nonBlocking instanceof Burrow || nonBlocking instanceof BerryBush)
+            if (nonBlocking instanceof Burrow || nonBlocking instanceof BerryBush)
                 return;
-            if(nonBlocking instanceof Carcass){
-                ((Carcass)nonBlocking).addEnergy(carcass.getEnergy());
+            if (nonBlocking instanceof Carcass) {
+                ((Carcass) nonBlocking).addEnergy(carcass.getEnergy());
+                ((Carcass) nonBlocking).rotTimer = 3;
+                if(carcass.isInfected){
+                    ((Carcass) nonBlocking).setIsInfected();
+                }
                 carcass = null;
                 return;
             }
             world.delete(nonBlocking);
-        }catch(Exception e){
-            // There was no nonblocking element
+        }catch (Exception e){
+
         }
+
         world.setTile(world.getCurrentLocation(), carcass);
         System.out.println(this + " has placed " + carcass);
+        System.out.println(getLengthBetweenTiles(world.getLocation(carcass),world.getLocation(burrow)));
         chooseNextPrey(carcass);
         carcass = null;
     }
@@ -326,7 +333,10 @@ public class Fox extends Predator {
             if(obj instanceof RabbitBurrow)
                 burrows.add((RabbitBurrow)obj);
         }
-        if(burrows.isEmpty())return;
+        if(burrows.isEmpty()){
+            targetPrey = getAnyCarcass(world);
+            return;
+        }
         targetPrey = burrows.get(r.nextInt(burrows.size()));
         System.out.println(this + " has found and is hunting " + targetPrey);
     }
@@ -350,6 +360,12 @@ public class Fox extends Predator {
         if(burrow == null)return false;
         return burrow.isInBurrow(this);
     }
+
+    /**
+     * Gets the burrow of the fox.
+     * @return returns the burrow as an FoxBurrow.
+     */
+    public FoxBurrow getBurrow(){return burrow;}
 
     /**
      * Provides info on how this object should be displayed in game world.

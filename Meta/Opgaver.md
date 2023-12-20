@@ -96,15 +96,15 @@ være hvis flere ulve af samme flok er i nærheden af en bjørn.
 tidligere, dog afhænger mængden af ’kød’ af hvor stort dyret der døde er. Således
 spises dyr ikke direkte længere når det slås ihjel, i stedet spises ådslet. Alle dyr som er
 kødædende spiser ådsler.
->>- [ ] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
+>>- [x] **K3-1c.** Ådsler bliver dårligere med tiden og nedbrydes helt – selvom det ikke er spist 
 op (altså forsvinder det)! Det forsvinder naturligvis også hvis det hele er spist.
 >
 >>### Mushrooms (Cordyceps)
->>- [ ] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
+>>- [x] **K3-2a.** Udover at ådsler nedbrydes, så hjælper svampene til. Således kan der opstå
 svampe I et ådsel. Dette kan ikke ses på selve kortet, men svampen lever I selve ådslet.
 Når ådslet er nedbrudt (og forsvinder), og hvis svampen er stor nok, kan den ses som
 en svamp placeret på kortet, der hvor ådslet lå.
->>- [ ] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
+>>- [x] **K3-2b.** Svampe kan kun overleve, hvis der er andre ådsler den kan sprede sig til i
 nærheden. Er dette ikke tilfældet, vil svampen også dø efter lidt tid. Desto større ådslet 
 er, desto længere vil svampen leve efter ådslet er væk. Da svampen kan udsende
 sporer, kan den række lidt længere end kun de omkringliggende pladser
@@ -135,16 +135,16 @@ dyr af samme art.
 >>>- Ræve!
 >>
 >>> #### Adfærd:
->>>- [] Sover om dagen, jager om natten.
->>>- [] Finder kaninhuller og står oven på dem for at angribe kaniner nede i dem.
->>>- [] Graver deres egne huller som de kan sove i.
->>>- [] Ræve gemmer kanin lig og ligger dem ved sit eget hul.
->>>- [] Jager kun kaniner.
+>>>- [x] Sover om dagen, jager om natten.
+>>>- [x] Finder kaninhuller og står oven på dem for at angribe kaniner nede i dem.
+>>>- [x] Graver deres egne huller som de kan sove i.
+>>>- [x] Ræve gemmer kanin lig og ligger dem ved sit eget hul.
+>>>- [x] Jager kun kaniner.
 > 
 >>### Rigtige krav:
 >>- [x] **K4-1.** Vælg et valgfrit dyr og implementer dets karakteristika og adfærd i økosystemet.
 Dyret skal have mindst et unikt adfærd.
->>- [] **K4-2.** Dyret skal kunne interagere med eksisterende elementer i økosystemet, herunder ådsler, planter og andre dyr.
->>- [] **K4-3.** Simuler dyrets livscyklus, herunder fødsel, vækst, reproduktion og død.
->>- [] **K4-4.** Implementer dyrets fødekæde og prædator-bytte forhold.
->>- [] **K4-5.** Dyrets tilstedeværelse og adfærd skal kunne påvirke økosystemets balance og dynamik.
+>>- [x] **K4-2.** Dyret skal kunne interagere med eksisterende elementer i økosystemet, herunder ådsler, planter og andre dyr.
+>>- [x] **K4-3.** Simuler dyrets livscyklus, herunder fødsel, vækst, reproduktion og død.
+>>- [x] **K4-4.** Implementer dyrets fødekæde og prædator-bytte forhold.
+>>- [x] **K4-5.** Dyrets tilstedeværelse og adfærd skal kunne påvirke økosystemets balance og dynamik.

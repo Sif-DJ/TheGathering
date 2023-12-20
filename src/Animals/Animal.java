@@ -49,6 +49,7 @@ public abstract class Animal extends Organism {
             if (world.getNonBlocking(l) instanceof Carcass) {
                 Carcass carcass = (Carcass) world.getNonBlocking(l);
                 carcass.addEnergy(this.energy + 10);
+                carcass.rotTimer = 3;
                 if(isInfected){
                     carcass.setIsInfected();
                 }

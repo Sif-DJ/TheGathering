@@ -1,7 +1,8 @@
-package NonBlockables;
+package test.NonBlockables;
 
 import Animals.*;
 import Dubious.*;
+import NonBlockables.Carcass;
 import itumulator.world.Location;
 import org.junit.jupiter.api.Test;
 import test.testSuper;
@@ -49,17 +50,14 @@ class CarcassTest extends testSuper {
     @Test
     void carcassRotTest(){
         Carcass carcass = new Carcass(false, 0);
+        world.setTile(new Location(4,4),carcass);
+        assertEquals(1,getCarcassAmount());
         assertEquals(3, carcass.getRotTimer());
-        carcass.rot();
-        carcass.rot();
-        carcass.rot();
-        assertEquals(0, carcass.getRotTimer());
-        try{
-            carcass.die(world);
-        }catch(DeathException e){
-            // The carcass is dead
+        for(int i = 0;i<60;i++){
+            p.simulate();
         }
-        // Insert more here
+        assertEquals(0, carcass.getRotTimer());
+        assertEquals(0,getCarcassAmount());
     }
 
     int getCarcassAmount(){

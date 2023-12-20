@@ -29,7 +29,7 @@ public class Carcass extends Food {
      */
     @Override
     public void act(World world){
-        if(world.getCurrentLocation() == null) return;
+        if(world.getLocation(this) == null) return;
         if(world.getCurrentTime() % 20 == 0){
             rot();
             if(mushroom != null)

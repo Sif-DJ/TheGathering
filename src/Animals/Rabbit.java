@@ -71,8 +71,13 @@ public class Rabbit extends Animal{
 
         // This animal has two movement step per tick.
         for(int i = 0; i < 2; i++) {
-            if (world.getLocation(this) == null) return;
             if (!isInBurrow()) {
+                try {
+                    if (world.getLocation(this) == null) return;
+                }catch (Exception e){
+                    return;
+                }
+
                 ArrayList<Location> f = searchForAnimals(world, fleeFrom);
                 if (!(f == null) && !f.isEmpty()) {
                     Location closest = getClosestLocation(world, f);

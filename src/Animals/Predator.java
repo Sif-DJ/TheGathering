@@ -3,6 +3,7 @@ package Animals;
 import Dubious.DeathException;
 import NonBlockables.Carcass;
 import NonBlockables.Food;
+import NonBlockables.RabbitBurrow;
 import itumulator.world.Location;
 import itumulator.world.World;
 import java.util.ArrayList;
@@ -66,14 +67,9 @@ public abstract class Predator extends Animal {
      */
     public void attemptAttack(World world){
         if(!isHunting())return;
-        Location[] surroundingTiles = world.getSurroundingTiles(world.getLocation(this)).toArray(new Location[0]);
+        Location[] surroundingTiles = world.getSurroundingTiles(world.getCurrentLocation()).toArray(new Location[0]);
         for(Location l : surroundingTiles){
-            try{
-                if(world.getTile(l).equals(targetPrey))attack();
-            }catch(Exception e){
-                return;
-            }
-
+            if(l.equals(world.getLocation(targetPrey))) attack();
         }
     }
 

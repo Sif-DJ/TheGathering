@@ -84,7 +84,7 @@ public class Wolf extends Predator {
      */
     @Override
     public void doMove(World world) {
-        if(world.getLocation(this) == null) return;
+        if(world.getCurrentLocation() == null) return;
         if(world.isNight() && burrow != null){
             headTowards(world, world.getLocation(burrow));
             if(world.getLocation(this).equals(world.getLocation(burrow)))
